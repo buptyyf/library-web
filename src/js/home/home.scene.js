@@ -1,75 +1,30 @@
 import React, {Component} from "react"
 import { Link } from "react-router"
-import {Navbar, Nav, NavItem, Carousel, Image} from "react-bootstrap"
-import Search from "./components/search/search.component"
+import {Navbar, Nav, NavItem, Carousel, Image, } from "react-bootstrap"
+import "./home.style.less"
 
-export default class App extends Component {
-    shouldComponentUpdate() {
-        console.log("!!!!!!!!!!!!!!!")
-        return true
-    }
-    render() {
-        return (
-            <div>
-                <div>
-                    <Search />
-                </div>
-                <Navbar>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a href="#">React-Bootstrap</a>
-                        </Navbar.Brand>
-                    </Navbar.Header>
-                    <Nav>
-                        <NavItem eventKey={1}><Link to="/">首页</Link></NavItem>
-                        <NavItem eventKey={2}><Link to="/myResources">我的资源</Link></NavItem>
-                        <NavItem eventKey={3}><Link to="/classifiedBrowsing">分类浏览</Link></NavItem>
-                        <NavItem eventKey={4}><Link to="/departmentBrowsing">科室浏览</Link></NavItem>
-                        <NavItem eventKey={5}><Link to="/resourcesStatistics">资源统计</Link></NavItem>
-                    </Nav>
-                </Navbar>
-                <h1 className="col-md-6 col-md-offset-6">yyf React Router Tutorial</h1>
-                {this.props.children}
-            </div>
-        )
-    }
-}
 
 export class Home extends Component {
-    componentWillMount() {
-        console.log("Home componentWillMount")
-    }
-    componentDidMount() {
-        // let a = setInterval(() => {
-        //     this.setState({time: new Date().getSeconds()})
-        // }, 1000)
-        console.log("Home componentDidMount", console)
-    }
-    componentWillUnmount() {
-        console.log("Home componentWillUnmount")
-    }
-    componentWillReceiveProps() {
-        console.log("Home componentWillReceiveProps")
-    }
-    componentWillUpdate() {
-        console.log("Home componentWillUpdate")
-    }
-    componentDidUpdate() {
-        console.log("Home componentDidUpdate")
-    }
     constructor(props) {
         super(props);
     }
     render() {
         return (
             <div className="row">
-                <div className="left col-lg-2">
-                    最近阅读
+                <div className="left col-md-3">
+                    <div className="left-topic">
+                        <p className="left-topic1"><a href="">下载排行</a></p>
+                        <p className="left-topic2">11111</p>
+                    </div>
+                    <div className="left-mid">
+                        <p className="left-mid1"><a href="">评分排行</a></p>
+                        <p className="left-mid2">11111</p>
+                    </div>  
                 </div>
-                <div className="mid col-lg-8">
+                <div className="mid col-md-6">
                     <Carousel>
                         <Carousel.Item>
-                            <Image width={900} height={500} alt="900x500" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1484587536333&di=5600ca6b28ff37501463ba59fc020649&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120405%2F10016-12040500420865.jpg"/>
+                                <Image width={900} height={500} alt="900x500" responsive src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1484587536333&di=5600ca6b28ff37501463ba59fc020649&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120405%2F10016-12040500420865.jpg"/>
                             <Carousel.Caption>
                                 <h3>First slide label</h3>
                                 <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
@@ -91,8 +46,18 @@ export class Home extends Component {
                         </Carousel.Item>
                     </Carousel>
                 </div>
-                <div className="right col-lg-2">
-                    。。。
+                <div className="right col-md-3">
+                    <div className="right-topic">
+                        <p className="right-topic1">资源库海量资源</p>
+                    </div>
+                    <div className="right-mid">
+                        <div className="right-mid-top">
+                            用户名和头像
+                        </div>
+                        <div className="right-mid-mid">
+                            上传下载量
+                        </div>
+                    </div>
                 </div>
             </div>
         )

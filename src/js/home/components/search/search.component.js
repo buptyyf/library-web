@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import {Form, FormGroup, FormControl, Col, Button, ControlLabel, Checkbox } from "react-bootstrap";
 
+import "./search.style.less"
+
 export default class Search extends Component {
     // <Form horizontal>
     //     <FormGroup controlId="formHorizontalEmail">
@@ -25,14 +27,43 @@ export default class Search extends Component {
     }
     render(){
         return(
-            <div className="row">
-                <div className="col-lg-8 col-md-offset-2">
+            <div className="row search">
+                <div className="col-md-3 col-md-offset-1 row">
+                    <FormGroup controlId="formControlsSelect" bsClass="col-md-6 row">
+                        适用对象：
+                        <FormControl componentClass="select" placeholder="适用对象">
+                            <option value="select">大一</option>
+                            <option value="other">大二</option>
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup controlId="formControlsSelect" className="col-md-6 row">
+                        <span>学科：</span>
+                        <FormControl componentClass="select" placeholder="学科">
+                            <option value="select">高数</option>
+                            <option value="other">线代</option>
+                        </FormControl>
+                    </FormGroup>
+                </div>
+                <div className="col-md-5">
                     <div className="input-group">
                         <input type="text" className="form-control" ref="searchValue" />
                         <span className="input-group-btn">
-                            <button className="btn btn-default" type="button" onClick={this.handleClick.bind(this)}>search!</button>
+                            <button className="btn btn-default" type="button" onClick={this.handleClick.bind(this)}>搜索资源</button>
                         </span>
                     </div>
+                    <FormGroup>
+                        <Checkbox inline>
+                        ppt
+                        </Checkbox>
+                        {' '}
+                        <Checkbox inline>
+                        word
+                        </Checkbox>
+                        {' '}
+                        <Checkbox inline>
+                        excel
+                        </Checkbox>
+                    </FormGroup>
                 </div>
             </div>
         );
