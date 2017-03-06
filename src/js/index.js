@@ -12,35 +12,45 @@ import UserScene from "./user/user.scene"
 import MyAccount from "./user/components/myAccount/myAccount.component"
 import ChangeInfo from "./user/components/changeInfo/changeInfo.component"
 import ChangePassword from "./user/components/changePassword/changePassword.component"
+import "./home/home.style.less"
+import $ from "jquery"
 
 class App extends Component {
+    componentDidMount() {
+        //let nodes = document.getElementsByClassName("link");
+        $(".link").on("click", function(e) {
+            $(".link").removeClass("active");
+            $(this).addClass("active");
+        })
+
+    }
     render() {
-        console.log(this.props.children)
+        //console.log(this.props.children)
         return (
             <div>
-                <div>
-                    <Search />
+                <Search />
+                <div className="col-sm-12 navbar-container">
+                    <Navbar>
+                        <Navbar.Header>
+                            <Navbar.Brand>
+                                <a href="#">教学管理系统</a>
+                            </Navbar.Brand>
+                        </Navbar.Header>
+                        <ul className="nav navbar-nav">
+                            <li className="active link"><Link to="/">首页</Link></li>
+                            <li className="link"><Link to="/myResources">我的资源</Link></li>
+                            <li className="link"><Link to="/classifiedBrowsing">分类浏览</Link></li>
+                            <li className="link"><Link to="/departmentBrowsing">科室浏览</Link></li>
+                            <li className="link"><Link to="/resourcesStatistics">资源浏览</Link></li>
+				        </ul>
+                        <Nav pullRight>
+                            <NavItem eventKey={1}>
+                                <Link to="/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
+                                <Link> 退出</Link>
+                            </NavItem>
+                        </Nav>
+                    </Navbar>
                 </div>
-                <Navbar>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a href="#">React-Bootstrap</a>
-                        </Navbar.Brand>
-                    </Navbar.Header>
-                    <Nav>
-                        <NavItem eventKey={1}><Link to="/">首页</Link></NavItem>
-                        <NavItem eventKey={2}><Link to="/myResources">我的资源</Link></NavItem>
-                        <NavItem eventKey={3}><Link to="/classifiedBrowsing">分类浏览</Link></NavItem>
-                        <NavItem eventKey={4}><Link to="/departmentBrowsing">科室浏览</Link></NavItem>
-                        <NavItem eventKey={5}><Link to="/resourcesStatistics">资源统计</Link></NavItem>
-                    </Nav>
-                    <Nav pullRight>
-                        <NavItem eventKey={1}>
-                            <Link to="/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
-                            <Link> 退出</Link>
-                        </NavItem>
-                    </Nav>
-                </Navbar>
                 {this.props.children}
             </div>
         )

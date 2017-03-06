@@ -11,7 +11,21 @@ export default class ChangePassword extends React.Component {
     render() {
         return (
             <div>
-                修改密码
+                <div className="old-password">
+                    旧密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input name="" type="password"/> 
+                </div>
+                <div className="new-password">
+                    新密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input name="" type="password"/> 
+                </div>
+                <div className="confirm-password">
+                    新密码确认  <input name="" type="password"/> 
+                </div>
+                <div className="submit1">
+                    <input name="" type="submit"/> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <input name="" type="reset" value="重置"/>
+                </div>
+
             </div>
         );
     }

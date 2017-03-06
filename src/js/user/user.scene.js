@@ -13,11 +13,11 @@ export default class UserScene extends React.Component {
 
     render() {
         return (
-        <div className="row col-md-12">
-            <div className="col-md-2">
+        <div className="row col-sm-12">
+            <div className="col-sm-2">
                 <UserResourcesMenu />
             </div>
-            <div className="right col-md-10">
+            <div className="right col-sm-10">
                 {this.props.children}
             </div>
         </div> 

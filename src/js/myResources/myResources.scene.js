@@ -14,14 +14,14 @@ export default class MyResources extends React.Component {
 
     render() {
         return (
-        <div className="row col-md-12">
-            <div className="col-md-2">
+        <div className="row col-sm-12">
+            <div className="col-sm-2">
                 <UserResourcesMenu />
             </div>
-            <div className="row right col-md-10">
+            <div className="row right col-sm-10">
                 <div className="right-top">
-                    <div className="col-md-6">我的动态</div>
-                    <div className="col-md-6">最近浏览</div>
+                    <div className="col-sm-6">我的动态</div>
+                    <div className="col-sm-6">最近浏览</div>
                 </div>
                 <div className="right-bottom">
                     {this.props.children}

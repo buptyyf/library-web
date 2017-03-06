@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import { Link } from "react-router"
 import {Navbar, Nav, NavItem, Carousel, Image, } from "react-bootstrap"
+import Upload from "../components/upload/upload.component"
 import "./home.style.less"
 
 
@@ -10,18 +11,19 @@ export class Home extends Component {
     }
     render() {
         return (
-            <div className="row">
-                <div className="left col-md-3">
-                    <div className="left-topic">
-                        <p className="left-topic1"><a href="">下载排行</a></p>
-                        <p className="left-topic2">11111</p>
+            <div className="col-sm-12">
+                <div className="home-left col-sm-3">
+                    <div className="download-rank">
+                        <h4>下载排行</h4>
+                        <p className="left-topics">11111</p>
                     </div>
-                    <div className="left-mid">
-                        <p className="left-mid1"><a href="">评分排行</a></p>
-                        <p className="left-mid2">11111</p>
+                    <br/>
+                    <div className="score-rank">
+                        <h4>评分排行</h4>
+                        <p className="left-topics">11111</p>
                     </div>  
                 </div>
-                <div className="mid col-md-6">
+                <div className="mid-pic col-sm-6">
                     <Carousel>
                         <Carousel.Item>
                                 <Image width={900} height={500} alt="900x500" responsive src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1484587536333&di=5600ca6b28ff37501463ba59fc020649&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120405%2F10016-12040500420865.jpg"/>
@@ -46,7 +48,7 @@ export class Home extends Component {
                         </Carousel.Item>
                     </Carousel>
                 </div>
-                <div className="right col-md-3">
+                <div className="home-right col-sm-3">
                     <div className="right-topic">
                         <p className="right-topic1">资源库海量资源</p>
                     </div>
@@ -57,6 +59,7 @@ export class Home extends Component {
                         <div className="right-mid-mid">
                             上传下载量
                         </div>
+                        <Upload />
                     </div>
                 </div>
             </div>

@@ -27,16 +27,16 @@ export default class Search extends Component {
     }
     render(){
         return(
-            <div className="row search">
-                <div className="col-md-3 col-md-offset-1 row">
-                    <FormGroup controlId="formControlsSelect" bsClass="col-md-6 row">
+            <div className="search col-sm-12">
+                <div className="col-sm-3 col-sm-offset-1">
+                    <FormGroup controlId="formControlsSelect" bsClass="col-sm-6">
                         适用对象：
                         <FormControl componentClass="select" placeholder="适用对象">
                             <option value="select">大一</option>
                             <option value="other">大二</option>
                         </FormControl>
                     </FormGroup>
-                    <FormGroup controlId="formControlsSelect" className="col-md-6 row">
+                    <FormGroup controlId="formControlsSelect" className="col-sm-6">
                         <span>学科：</span>
                         <FormControl componentClass="select" placeholder="学科">
                             <option value="select">高数</option>
@@ -44,7 +44,7 @@ export default class Search extends Component {
                         </FormControl>
                     </FormGroup>
                 </div>
-                <div className="col-md-5">
+                <div className="col-sm-5">
                     <div className="input-group">
                         <input type="text" className="form-control" ref="searchValue" />
                         <span className="input-group-btn">
