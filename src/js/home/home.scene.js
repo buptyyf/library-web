@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import { Link } from "react-router"
 import {Navbar, Nav, NavItem, Carousel, Image, } from "react-bootstrap"
-import Upload from "../components/upload/upload.component"
+import UploadButton from "../components/uploadButton/uploadButton.component"
 import "./home.style.less"
 
 
@@ -59,7 +59,9 @@ export class Home extends Component {
                         <div className="right-mid-mid">
                             上传下载量
                         </div>
-                        <Upload />
+                        <div className="col-sm-12">
+                            <UploadButton />
+                        </div>
                     </div>
                 </div>
             </div>

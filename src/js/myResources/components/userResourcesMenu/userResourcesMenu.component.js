@@ -1,7 +1,9 @@
 import "./userResourcesMenu.style.less";
 import {Image} from "react-bootstrap";
 import React, {Component} from "react";
-import {Link, browserHistory} from "react-router"
+import {Link, browserHistory} from "react-router";
+import UploadButton from "../../../components/uploadButton/uploadButton.component";
+import $ from "jquery"
 export default class userResourcesMenu extends React.Component {
     constructor(props) {
         super(props);
@@ -18,22 +20,27 @@ export default class userResourcesMenu extends React.Component {
         words.push('marklar');
         this.setState({words: this.state.words.concat(['yyf'])});
     }
+    componentDidMount() {
+
+    }
     renderBottom() {
         if(browserHistory.getCurrentLocation().pathname.search("user") !== -1) {
             return (
-                <div>
-                    <p className="col-sm-12 contribution text-center"><Link to="/user/myAccount">我的账号</Link></p>
-                    <p className="col-sm-12 collection text-center"><Link to="/user/changeInfo">我的资料</Link></p>
-                    <p className="col-sm-12 download text-center"><Link to="/user/changePassword">修改密码</Link></p>
-                </div>
+                <ul className="nav navbar-nav">
+                    <li className="col-sm-12 text-center active"><Link to="/user/myAccount">我的账号</Link></li>
+                    <li className="col-sm-12 text-center active"><Link to="/user/changeInfo">我的资料</Link></li>
+                    <li className="col-sm-12 text-center active"><Link to="/user/changePassword">修改密码</Link></li>
+                </ul>
             )
         } else {
             return (
-                <div>
-                    <button>上传我的文档</button>
-                    <p className="col-sm-12 contribution text-center"><Link to="/myResources/contribution">我的贡献</Link></p>
-                    <p className="col-sm-12 collection text-center"><Link to="/myResources/collection">我的收藏</Link></p>
-                    <p className="col-sm-12 download text-center"><Link to="/myResources/download">我的下载</Link></p>
+                <div className="col-sm-12">
+                    <UploadButton />
+                    <ul className="nav navbar-nav">
+                        <li className="col-sm-12 text-center"><Link to="/myResources/contribution">我的贡献</Link></li>
+                        <li className="col-sm-12 text-center"><Link to="/myResources/collection">我的收藏</Link></li>
+                        <li className="col-sm-12 text-center"><Link to="/myResources/download">我的下载</Link></li>
+                    </ul>
                 </div>
             )
         }

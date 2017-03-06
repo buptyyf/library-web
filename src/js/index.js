@@ -12,6 +12,7 @@ import UserScene from "./user/user.scene"
 import MyAccount from "./user/components/myAccount/myAccount.component"
 import ChangeInfo from "./user/components/changeInfo/changeInfo.component"
 import ChangePassword from "./user/components/changePassword/changePassword.component"
+import Upload from "./myResources/components/upload/upload.component"
 import "./home/home.style.less"
 import $ from "jquery"
 
@@ -66,6 +67,7 @@ render((
                 <Route path="contribution" component={MyContribution} />
                 <Route path="collection" component={MyCollection} />
                 <Route path="download" component={MyDownload} />
+                <Route path="upload" component={Upload} />
             </Route>
             <Route path="user" component={UserScene}>
                 <IndexRoute component={MyAccount}/>
