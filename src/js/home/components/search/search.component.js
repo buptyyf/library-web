@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import {Form, FormGroup, FormControl, Col, Button, ControlLabel, Checkbox } from "react-bootstrap";
+import {browserHistory} from 'react-router'
 
 import "./search.style.less"
 
@@ -20,10 +21,12 @@ export default class Search extends Component {
     //     this.handleClick = this.handleClick.bind(this);
     // }
     componentDidMount() {
-        //console.log(this.refs.searchValue.value);
+        console.log(this.props);
     }
     handleClick() {
-        console.log(this.refs.searchValue.value);
+        let keywords = this.refs.searchValue.value
+        console.log(keywords);
+        browserHistory.push(`/search/${keywords}`)
     }
     render(){
         return(

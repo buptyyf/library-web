@@ -13,6 +13,9 @@ import MyAccount from "./user/components/myAccount/myAccount.component"
 import ChangeInfo from "./user/components/changeInfo/changeInfo.component"
 import ChangePassword from "./user/components/changePassword/changePassword.component"
 import Upload from "./myResources/components/upload/upload.component"
+import ClassifyBrowse from "./classifyBrowse/classifyBrowse.scene"
+import SearchScene from "./search/search.scene"
+
 import "./home/home.style.less"
 import $ from "jquery"
 
@@ -40,9 +43,12 @@ class App extends Component {
                         <ul className="nav navbar-nav">
                             <li className="active link"><Link to="/">首页</Link></li>
                             <li className="link"><Link to="/myResources">我的资源</Link></li>
-                            <li className="link"><Link to="/classifiedBrowsing">分类浏览</Link></li>
-                            <li className="link"><Link to="/departmentBrowsing">科室浏览</Link></li>
-                            <li className="link"><Link to="/resourcesStatistics">资源浏览</Link></li>
+                            <li className="link"><Link to="/classifyBrowse">分类浏览</Link></li>
+                            <li className="link"><Link to="/departmentBrowse">科室浏览</Link></li>
+                            <li className="link"><Link to="/resourcesStatistics">资源统计</Link></li>
+                            <li className="link"><Link to="/conference">会议</Link></li>
+                            <li className="link"><Link to="/office">办公</Link></li>
+                            <li className="link"><Link to="/selfService">自助系统</Link></li>
 				        </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1}>
@@ -52,7 +58,9 @@ class App extends Component {
                         </Nav>
                     </Navbar>
                 </div>
-                {this.props.children}
+                <div className="col-sm-12">
+                    {this.props.children}
+                </div>
             </div>
         )
     }
@@ -75,6 +83,10 @@ render((
                 <Route path="changePassword" component={ChangePassword} />
                 <Route path="changeInfo" component={ChangeInfo} />
             </Route>
+            <Route path="classifyBrowse" component={ClassifyBrowse}/>
+            <Route path="departmentBrowse" component={ClassifyBrowse}/>
+            <Route path="search/:keywords" component={SearchScene}/>
+            {/*<Route path="resource/:id" component={ResourceDetail}/>*/}
         </Route>
     </Router>
 ), document.getElementById("container"))

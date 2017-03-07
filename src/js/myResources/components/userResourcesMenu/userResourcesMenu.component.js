@@ -4,7 +4,7 @@ import React, {Component} from "react";
 import {Link, browserHistory} from "react-router";
 import UploadButton from "../../../components/uploadButton/uploadButton.component";
 import $ from "jquery"
-export default class userResourcesMenu extends React.Component {
+export default class UserResourcesMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
