@@ -42,7 +42,7 @@ export default class UploadButton extends React.Component {
                     上传文档    
                 </div>   
                 <div className="col-sm-12 form-group">
-                    <a href="javascript：;" className="file"><i className="glyphicon glyphicon-upload" />点击上传文档
+                    <a href="javascript:;" className="file"><i className="glyphicon glyphicon-upload" />点击上传文档
                         <input type="file" name="" id=""/>
                     </a>
                 </div>

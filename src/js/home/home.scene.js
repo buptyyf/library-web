@@ -17,6 +17,7 @@ export class Home extends Component {
                     <div className="download-rank">
                         <h4>下载排行</h4>
                         <p className="left-topics">11111</p>
+                        <Link to="/resource/sample">示例文件</Link>
                     </div>
                     <br/>
                     <div className="score-rank">
