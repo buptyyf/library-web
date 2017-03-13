@@ -47,7 +47,7 @@ export default class UserResourcesMenu extends React.Component {
     }
     render() {
         return (
-        <div className="menu-container">
+        <div>
             <Image className="col-sm-offset-1 col-sm-10 col-sm-offset-1" width={100} width={100} src={"http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg"} rounded />
             <p className="col-sm-12 name text-center">阿斯蒂芬</p>
             {this.renderBottom()}

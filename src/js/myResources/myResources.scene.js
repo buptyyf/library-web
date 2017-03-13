@@ -16,11 +16,11 @@ export default class MyResources extends React.Component {
 
     render() {
         return (
-        <div className="row col-sm-12">
-            <div className="col-sm-2">
+        <div className="col-sm-12">
+            <div className="col-sm-2 well">
                 <UserResourcesMenu />
             </div>
-            <div className="row right col-sm-10">
+            <div className="right col-sm-10">
                 {browserHistory.getCurrentLocation().pathname.search("upload") === -1 ? 
                     <div className="right-top">
                         <div className="col-sm-6">

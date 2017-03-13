@@ -15,6 +15,7 @@ import ChangePassword from "./user/components/changePassword/changePassword.comp
 import Upload from "./myResources/components/upload/upload.component"
 import ClassifyBrowse from "./classifyBrowse/classifyBrowse.scene"
 import SearchScene from "./search/search.scene"
+import ResourcesStatistics from './resourcesStatistics/resourcesStatistics.scene'
 
 import "./home/home.style.less"
 import $ from "jquery"
@@ -86,6 +87,7 @@ render((
             <Route path="classifyBrowse" component={ClassifyBrowse}/>
             <Route path="departmentBrowse" component={ClassifyBrowse}/>
             <Route path="search/:keywords" component={SearchScene}/>
+            <Route path="resourcesStatistics" component={ResourcesStatistics}/>
             {/*<Route path="resource/:id" component={ResourceDetail}/>*/}
         </Route>
     </Router>
