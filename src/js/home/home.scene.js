@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import { Link } from "react-router"
 import {Navbar, Nav, NavItem, Carousel, Image, } from "react-bootstrap"
 import UploadButton from "../components/uploadButton/uploadButton.component"
+import UpDownCollectNum from "../components/upDownCollectNum/upDownCollectNum.component"
 import "./home.style.less"
 
 
@@ -50,16 +51,25 @@ export class Home extends Component {
                 </div>
                 <div className="home-right col-sm-3">
                     <div className="right-topic">
-                        <p className="right-topic1">资源库海量资源</p>
+                        <p className="topic-name">资源库海量资源</p>
+                        <p className="resource-num">2843293859</p>
                     </div>
-                    <div className="right-mid">
+                    <div className="right-mid ">
                         <div className="right-mid-top">
-                            用户名和头像
+                            <div className="user-img"> 
+                                <img src="/assets/img/userimg.jpg" style={{height: 80, width: 80}}/>
+                            </div>
+                            <div className="user-name">
+                                <p>我爱吃西瓜</p>
+                            </div>
                         </div>
-                        <div className="right-mid-mid">
-                            上传下载量
+                        <div className="right-mid-mid ">
+                            <UpDownCollectNum />
                         </div>
-                        <div className="col-sm-12">
+                        <div className="cutoff-line ">
+                        </div>
+                        <div className="col-sm-12 ">
+                            <br/>
                             <UploadButton />
                         </div>
                     </div>
