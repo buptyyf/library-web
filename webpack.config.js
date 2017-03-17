@@ -5,9 +5,33 @@ module.exports = {
         path: __dirname + '/built/js'
     },
     module: {
-        loaders: [
-            {test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react'},
-            {test: /\.less$/, loader: "style-loader!css-loader!less-loader"}
+        rules: [
+            {
+                test: /\.js[x]?$/, 
+                exclude: /node_modules/, 
+                loader: "babel-loader",
+                options: {
+                    "presets": [
+                        ["es2015", { "modules": false }],
+                        "react"
+                    ]
+                }
+            },
+            {
+                test: /\.less$/, 
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader",
+                        // options: {
+                        //     modules: true,
+                        //     localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                        //     sourceMap: true
+                        // }
+                    },
+                    "less-loader"
+                ]
+            }
         ]
     }
 }

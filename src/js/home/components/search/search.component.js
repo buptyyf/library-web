@@ -26,7 +26,9 @@ export default class Search extends Component {
     handleClick() {
         let keywords = this.refs.searchValue.value
         console.log(keywords);
-        browserHistory.push(`/search/${keywords}`)
+        if(keywords !== "") {
+            browserHistory.push(`/search/${keywords}`)
+        }
     }
     render(){
         return(
