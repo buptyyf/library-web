@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Link} from "react-router"
+import {Link, browserHistory} from "react-router"
 import "./upload.style.less"
 import $ from 'jquery'
 
@@ -33,6 +33,7 @@ export default class UploadButton extends React.Component {
 
     handleSubmit() {
         let permission = $('input[type="radio"]:checked').value;
+        browserHistory.push("/myResources/uploadDone")
     }
 
     render() {

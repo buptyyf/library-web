@@ -27,9 +27,11 @@ export default class UserResourcesMenu extends React.Component {
         if(browserHistory.getCurrentLocation().pathname.search("user") !== -1) {
             return (
                 <ul className="nav navbar-nav">
-                    <li className="col-sm-12 text-center active"><Link to="/user/myAccount">我的账号</Link></li>
-                    <li className="col-sm-12 text-center active"><Link to="/user/changeInfo">我的资料</Link></li>
+                    <li className="col-sm-12 text-center active"><i className="glyphicon glyphicon-user" />我的账号</li>
+                    <li className="col-sm-12 text-center active"><Link to="/user/changeInfo">修改资料</Link></li>
                     <li className="col-sm-12 text-center active"><Link to="/user/changePassword">修改密码</Link></li>
+                    <li className="col-sm-12 text-center active"><i className="glyphicon glyphicon-user" />管理员</li>
+                    <li className="col-sm-12 text-center active"><Link to="/user/adminQuery">查询/添加/修改</Link></li>
                 </ul>
             )
         } else {
