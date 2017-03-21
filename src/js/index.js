@@ -12,11 +12,14 @@ import UserScene from "./user/user.scene"
 import MyAccount from "./user/components/myAccount/myAccount.component"
 import ChangeInfo from "./user/components/changeInfo/changeInfo.component"
 import ChangePassword from "./user/components/changePassword/changePassword.component"
+import AdminQuery from './user/components/adminQuery/adminQuery.component'
 import Upload from "./myResources/components/upload/upload.component"
+import UploadDone from "./myResources/components/upload/uploadDone.component"
 import ClassifyBrowse from "./classifyBrowse/classifyBrowse.scene"
 import SearchScene from "./search/search.scene"
 import ResourcesStatistics from './resourcesStatistics/resourcesStatistics.scene'
 import ResourceDetail from './resourceDetail/resourceDetail.scene'
+import Login from "./login/login.scene"
 
 import "./home/home.style.less"
 import $ from "jquery"
@@ -60,38 +63,67 @@ class App extends Component {
                         </Nav>
                     </Navbar>
                 </div>
-                <div className="col-sm-12">
+                {/*<div className="col-sm-12">*/}
                     {this.props.children}
-                </div>
+                {/*</div>*/}
             </div>
         )
     }
 }
 
-render((
-    <Router history={browserHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Home}/>
-            <Route path="myResources" component={MyResources}>
-                <IndexRoute component={MyContribution}/>
-                <Route path="contribution" component={MyContribution} />
-                <Route path="collection" component={MyCollection} />
-                <Route path="download" component={MyDownload} />
-                <Route path="upload" component={Upload} />
+class Root extends React.Component{
+    constructor(props) {
+        super(props);
+        console.log("root")
+        this.state = {
+            loggedIn: false
+        }
+    }
+    requireAuth(nextState, replace) {
+        console.log("hhhhhh", this.state.loggedIn )
+        if (!this.state.loggedIn && browserHistory.getCurrentLocation().pathname.search('login') === -1) {
+            console.log("what?")
+            replace({
+              pathname: '/login',
+              state: { nextPathname: nextState.location.pathname }
+            })
+            // browserHistory.push('/login');
+        }
+    }
+
+    render() {
+        return (
+        <Router history={browserHistory}>
+            <Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>
+                <IndexRoute component={Home} />
+                <Route path="home" component={Home} />                
+                <Route path="login" component={Login} />
+                <Route path="myResources" component={MyResources}>
+                    <IndexRoute component={MyContribution}/>
+                    <Route path="contribution" component={MyContribution} />
+                    <Route path="collection" component={MyCollection} />
+                    <Route path="download" component={MyDownload} />
+                    <Route path="upload" component={Upload} />
+                    <Route path="uploadDone" component={UploadDone} />
+                </Route>
+                <Route path="user" component={UserScene}>
+                    <IndexRoute component={ChangePassword}/>
+                    <Route path="myAccount" component={MyAccount} />
+                    <Route path="changePassword" component={ChangePassword} />
+                    <Route path="changeInfo" component={ChangeInfo} />
+                    <Route path="adminQuery" component={AdminQuery} />
+                </Route>
+                <Route path="classifyBrowse" component={ClassifyBrowse}/>
+                <Route path="departmentBrowse" component={ClassifyBrowse}/>
+                <Route path="search/:keywords" component={SearchScene}/>
+                <Route path="resourcesStatistics" component={ResourcesStatistics}/>
+                <Route path="resource/:id" component={ResourceDetail}/>
             </Route>
-            <Route path="user" component={UserScene}>
-                <IndexRoute component={MyAccount}/>
-                <Route path="myAccount" component={MyAccount} />
-                <Route path="changePassword" component={ChangePassword} />
-                <Route path="changeInfo" component={ChangeInfo} />
-            </Route>
-            <Route path="classifyBrowse" component={ClassifyBrowse}/>
-            <Route path="departmentBrowse" component={ClassifyBrowse}/>
-            <Route path="search/:keywords" component={SearchScene}/>
-            <Route path="resourcesStatistics" component={ResourcesStatistics}/>
-            <Route path="resource/:id" component={ResourceDetail}/>
-        </Route>
-    </Router>
-), document.getElementById("container"))
+        </Router>
+        )
+    }
+}
+
+render(<Root />, document.getElementById("container"))
 
 
