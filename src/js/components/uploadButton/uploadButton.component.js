@@ -14,9 +14,12 @@ export default class UploadButton extends React.Component {
     }
     render() {
         return (
+            <div>
             <button className="btn btn-warning col-sm-12" onClick={this.goToUpload.bind(this)}>
-                <i className="glyphicon glyphicon-cloud-upload upload"></i>上传我的文档
+                <i className="glyphicon glyphicon-cloud-upload upload"></i>
+                <span className="upload-text"> 上传文档</span>
             </button>
+            </div>
         );
     }
 }

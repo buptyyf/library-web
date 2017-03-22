@@ -12,10 +12,18 @@ export default class Login extends Component {
         return(
             <div id="login-page">
                 <div className="form-sign" role="form">
-                    <h2 className="form-sign-heading">欢迎登陆</h2>
-                    <input type="text" className="form-control" name="username" placeholder="Username" required />
-                    <input type="password" className="form-control" name="password" placeholder="Password" required />
-                    <button className="btn btn-md btn-primary btn-block" type="submit" onClick={() => this.handleLogin()}>登陆</button>
+                    <div className="head">
+                        <h3 className="form-sign-heading">欢迎登录资源管理平台！</h3>
+                    </div>
+                    <div className="username">
+                        <input type="text" className="form-control" name="username" placeholder="Username" required />
+                    </div>
+                    <div className="password">
+                        <input type="password" className="form-control" name="password" placeholder="Password" required />
+                    </div>
+                    <div className="summit">
+                        <button className="btn btn-md btn-primary btn-block" type="submit" onClick={() => this.handleLogin()}>登陆</button>
+                    </div>
                 </div>
             </div>
         );
