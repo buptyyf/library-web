@@ -28,7 +28,7 @@ export default class UpDownCollectNum extends React.Component {
                     <p className="number">6</p>
                     <p className="download">下载量</p>
                 </div>
-                <div className="up-down-collect col-sm-4" onClick={this.goToMyCollectionPage.bind(this)}>
+                <div className="up-down-collect-noline col-sm-4" onClick={this.goToMyCollectionPage.bind(this)}>
                     <p className="number">5</p>
                     <p className="collect">收藏量</p>
                 </div>
