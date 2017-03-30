@@ -33,7 +33,7 @@ export default class Search extends Component {
     render(){
         return(
             <div className="search col-sm-12">
-                <div className="col-sm-3 col-sm-offset-1">
+                {/*<div className="col-sm-3 col-sm-offset-1">
                     <FormGroup controlId="formControlsSelect" bsClass="col-sm-6">
                         适用对象：
                         <FormControl componentClass="select" placeholder="适用对象">
@@ -48,8 +48,8 @@ export default class Search extends Component {
                             <option value="other">线代</option>
                         </FormControl>
                     </FormGroup>
-                </div>
-                <div className="col-sm-5">
+                </div>*/}
+                <div className="col-sm-offset-3 col-sm-6">
                     <div className="input-group">
                         <input type="text" className="form-control" ref="searchValue" />
                         <span className="input-group-btn">

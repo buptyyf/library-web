@@ -20,6 +20,7 @@ import SearchScene from "./search/search.scene"
 import ResourcesStatistics from './resourcesStatistics/resourcesStatistics.scene'
 import ResourceDetail from './resourceDetail/resourceDetail.scene'
 import Login from "./login/login.scene"
+import Meeting from './meeting/meeting.scene'
 
 import "./home/home.style.less"
 import $ from "jquery"
@@ -51,14 +52,14 @@ class App extends Component {
                             <li className="link"><Link to="/classifyBrowse">分类浏览</Link></li>
                             <li className="link"><Link to="/departmentBrowse">科室浏览</Link></li>
                             <li className="link"><Link to="/resourcesStatistics">资源统计</Link></li>
-                            <li className="link"><Link to="/conference">会议</Link></li>
+                            <li className="link"><Link to="/meeting">会议</Link></li>
                             <li className="link"><Link to="/office">办公</Link></li>
                             <li className="link"><Link to="/selfService">自助系统</Link></li>
 				        </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1}>
                                 <Link to="/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
-                                <Link> 退出</Link>
+                                <Link to="/login"> 退出</Link>
                             </NavItem>
                         </Nav>
                     </Navbar>
@@ -94,7 +95,8 @@ class Root extends React.Component{
     render() {
         return (
         <Router history={browserHistory}>
-            <Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>
+            {/*<Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>*/}
+            <Route path="/" component={App} >
                 <IndexRoute component={Home} />
                 <Route path="home" component={Home} />                
                 <Route path="login" component={Login} />
@@ -118,6 +120,7 @@ class Root extends React.Component{
                 <Route path="search/:keywords" component={SearchScene}/>
                 <Route path="resourcesStatistics" component={ResourcesStatistics}/>
                 <Route path="resource/:id" component={ResourceDetail}/>
+                <Route path="meeting" component={Meeting}/>
             </Route>
         </Router>
         )
