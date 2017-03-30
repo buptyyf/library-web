@@ -1,5 +1,6 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from "react"
+import {Link} from "react-router"
 
 export default class MyCollection extends React.Component {
     constructor(props) {
@@ -22,11 +23,16 @@ export default class MyCollection extends React.Component {
     //this.handleClick = this.handleClick.bind(this);
     }
 
+    priceFormatter(cell, row){
+        console.log(cell, row)
+        let link = "/resource/" + row.name
+        return <Link to={link}>{cell}</Link>;
+    }
 
     render() {
         return (
             <BootstrapTable data={this.state.infoArr}>
-                <TableHeaderColumn isKey dataField='name'>名称</TableHeaderColumn>
+                <TableHeaderColumn isKey dataField='name' dataSort={ true } dataFormat={this.priceFormatter.bind(this)}>名称</TableHeaderColumn>
                 <TableHeaderColumn dataField='score'>评分</TableHeaderColumn>
                 <TableHeaderColumn dataField='uploadUser'>上传用户</TableHeaderColumn>
                 <TableHeaderColumn dataField='collectTime'>收藏时间</TableHeaderColumn>

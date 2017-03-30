@@ -15,14 +15,31 @@ export class Home extends Component {
             <div className="col-sm-12">
                 <div className="home-left col-sm-3">
                     <div className="download-rank">
-                        <h4>下载排行</h4>
-                        <p className="left-topics">11111</p>
-                        <Link to="/resource/sample">示例文件</Link>
+                        <h4> &nbsp;下载排行</h4>
+                        <p>
+                            <Link to="/resource/sample">网络管理原理与技术.pptx</Link>
+                        </p>
+                        <p>
+                            <Link to="/resource/sample">JAVA程序设计.pdf</Link>
+                        </p>
+                        <p>
+                            <Link to="/resource/sample">数据结构与算法分析.pdf</Link>
+                        </p>
                     </div>
-                    <br/>
+    
+                    <div className="cutoff-line ">
+                    </div>
                     <div className="score-rank">
-                        <h4>评分排行</h4>
-                        <p className="left-topics">11111</p>
+                        <h4 className="score"> &nbsp;评分排行</h4>
+                        <p>
+                            <Link to="/resource/sample">网络管理原理与技术.pptx</Link>
+                        </p>
+                        <p>
+                            <Link to="/resource/sample">数据结构与算法分析.pdf</Link>
+                        </p>
+                        <p>
+                            <Link to="/resource/sample">JAVA程序设计.pdf</Link>
+                        </p>  
                     </div>  
                 </div>
                 <div className="mid-pic col-sm-6">
@@ -53,7 +70,7 @@ export class Home extends Component {
                 <div className="home-right col-sm-3">
                     <div className="right-topic">
                         <p className="topic-name">资源库海量资源</p>
-                        <p className="resource-num">2843293859</p>
+                        <p className="resource-num">28573</p>
                     </div>
                     <div className="right-mid ">
                         <div className="right-mid-top">
@@ -61,7 +78,7 @@ export class Home extends Component {
                                 <img src="/assets/img/userimg.jpg" style={{height: 80, width: 80}}/>
                             </div>
                             <div className="user-name">
-                                <p>我爱吃西瓜</p>
+                                <p>张某某</p>
                             </div>
                         </div>
                         <div className="right-mid-mid ">

@@ -111,7 +111,7 @@ export default class UploadButton extends React.Component {
                             普通文档  任何人可以检索和阅读
                         </label>
                     </div>
-                    <button type="submit" className="btn btn-default" onClick={this.handleSubmit.bind(this)}>Submit</button>
+                    <button type="submit" className="btn btn-default lightblue" onClick={this.handleSubmit.bind(this)}>确认上传</button>
                 </div>
             </div>
         );
