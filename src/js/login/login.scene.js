@@ -7,6 +7,10 @@ export default class Login extends Component {
     handleLogin() {
         console.log("handleLogin")
         browserHistory.push('/home');
+        global.userInfo = {
+            name: "yyf",
+            authorId: 1
+        }
     }
     render(){
         return(

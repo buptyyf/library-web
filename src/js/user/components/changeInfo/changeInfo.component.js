@@ -11,52 +11,60 @@ export default class ChangeInfo extends React.Component {
     render() {
         return (
             <div>
-                
-                <div className="change-info-first col-sm-offset-3">
-                    教工号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" size="20"/> 
-                </div>
-                <div className="change-info col-sm-offset-3">
-                    姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name=""/> 
-                </div>
-                <div className="change-info col-sm-offset-3">
-                    性别&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  
-                    <select className="select">
-                        <option value="">男</option>
-                        <option value="">女</option>
-                    </select>
+                 <div className="change-info-left col-sm-offset-3">
+                     <div className="change-info-text-first">教工号</div>
+                     <div className="change-info-text">姓名</div>
+                     <div className="change-info-text">性别</div>
+                     <div className="change-info-text">生日</div>
+                     <div className="change-info-text">科室</div>
+                     <div className="change-info-text">职务</div>
+                     <div className="change-info-text">职称</div>
+                     <div className="change-info-text">研究方向</div>
+                 </div>
 
-                </div>
-                <div className="change-info col-sm-offset-3 ">
-                    生日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input name="" type="date" className="select"/> 
-                </div>
-                <div className="change-info col-sm-offset-3">
-                    科室 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select className="select">
-                        <option value="">交换中心</option>
-                        <option value="">智能中心</option>
-                        <option value="">网管中心</option>
-                        <option value="">宽带中心</option>
-                    </select>
-                </div>
-                <div className="change-info col-sm-offset-3">
-                    职务&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input name=""/> 
-                </div>
-                <div className="change-info col-sm-offset-3">
-                    职称 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-                    <select className="select">
-                        <option value="">讲师</option>
-                        <option value="">副教授</option>
-                        <option value="">教授</option>
-                    </select> 
-                </div>
-                <div className="change-info col-sm-offset-3">
-                    研究方向  <input name=""/> 
-                </div>
-                <div className="submit col-sm-offset-4 ">
-                   
-                    <button className="btn btn-default lightblue" > 提交 </button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                    <button className="btn btn-default lightblue" > 重置 </button>
+                 <div className="change-info-right"> 
+                    <div className="change-info-first">
+                        <input type="text" className="form-control" required/>
+                    </div>
+                    <div className="change-info ">
+                        <input type="text" className="form-control" required />
+                    </div>
+                    <div className="change-info">  
+                        <select className="select form-control">
+                            <option value="">男</option>
+                            <option value="">女</option>
+                        </select>
+                    </div>
+                    <div className="change-info  ">
+                        <input name="" type="date" className="select form-control"/> 
+                    </div>
+                    <div className="change-info ">
+                        <select className="select form-control">
+                            <option value="">交换中心</option>
+                            <option value="">智能中心</option>
+                            <option value="">网管中心</option>
+                            <option value="">宽带中心</option>
+                        </select>
+                    </div>
+                    <div className="change-info">
+                        <input type="text" className="form-control" required/>
+                    </div>
+                    <div className="change-info">  
+                        <select className="select form-control">
+                            <option value="">讲师</option>
+                            <option value="">副教授</option>
+                            <option value="">教授</option>
+                        </select> 
+                    </div>
+                    <div className="change-info">
+                        <input type="text" className="form-control" required/>
+                    </div>
+
+                    <div className="button">
+                        <button className="btn btn-default info-submit" > 提交 </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <button className="btn btn-default reset" > 重置 </button>
+                    </div>
                 </div>
             </div>
         );

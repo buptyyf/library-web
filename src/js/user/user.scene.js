@@ -8,6 +8,7 @@ export default class UserScene extends React.Component {
             words: ['marklar']
         };
     //this.handleClick = this.handleClick.bind(this);
+        console.log("userInfo:", userInfo)
     }
 
 

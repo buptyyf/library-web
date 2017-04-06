@@ -8,9 +8,9 @@ export default class MeetingScene extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false,
-            clickInfo: ""
+            showModal: false
         };
+        this.clickInfo = ""
         this.cellInfos = [
             {time: '8:00-9:00', info: ""},
             {time: '9:00-10:00', info: ""},
@@ -35,8 +35,10 @@ export default class MeetingScene extends React.Component {
     comfirmModal() {
         this.setState({
             showModal: false,
-            clickInfo:　""
         })
+        let textNode = document.createTextNode('已预订');
+        console.log(this.clickInfo, textNode)
+        this.clickInfo.appendChild(textNode)
     }
     showModal() {
         console.log("showModal!!")
@@ -56,6 +58,11 @@ export default class MeetingScene extends React.Component {
         )
         // document.getElementById("meeting").appendChild(modal)
     }
+    handleCellClick(event) {
+        console.log(event.target, this)
+        this.setState({showModal: true})
+        this.clickInfo = event.target
+    }
     renderCell() {
         let days = ['一','二','三','四','五','六','日'];
         let cols = days.map((day, dayIndex) => {
@@ -64,9 +71,9 @@ export default class MeetingScene extends React.Component {
                 return (
                     <div key={timeIndex} 
                         className="cell_body" 
-                        onClick={() => {this.setState({showModal: true, clickInfo: tempInfo})}} 
+                        onClick={this.handleCellClick.bind(this)} 
                         data-dateTime={tempInfo} >
-                        
+                        <p>{cellInfo.info}</p>
                     </div>
                 )
             })
