@@ -58,7 +58,7 @@ class App extends Component {
                         <Nav pullRight>
                             <NavItem eventKey={1}>
                                 <Link to="/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
-                                <Link> 退出</Link>
+                                <Link to="/login"> 退出</Link>
                             </NavItem>
                         </Nav>
                     </Navbar>
@@ -94,7 +94,7 @@ class Root extends React.Component{
     render() {
         return (
         <Router history={browserHistory}>
-            <Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>
+            <Route path="/" component={App}>
                 <IndexRoute component={Home} />
                 <Route path="home" component={Home} />                
                 <Route path="login" component={Login} />

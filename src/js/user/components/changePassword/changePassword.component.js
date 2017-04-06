@@ -10,24 +10,30 @@ export default class ChangePassword extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="old-password col-sm-offset-4">
-                    旧密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="password"/> 
-                </div>
-                <div className="new-password col-sm-offset-4">
-                    新密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="password"/> 
-                </div>
-                <div className="confirm-password col-sm-offset-4">
-                    新密码确认  <input name="" type="password"/> 
-                </div>
-                <div className="submit col-sm-offset-5 ">
-                   
-                    <button className="btn btn-default lightblue" > 提交 </button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                    <button className="btn btn-default lightblue" > 重置 </button>
-                </div>
-
+          <div >
+            <div className="password-left col-sm-offset-3">
+                <div className="password-text-first ">旧密码</div>
+                <div className="password-text ">新密码</div>
+                <div className="password-text ">新密码确认</div>
             </div>
+
+            <div className="password-right">
+                <div className="password-first ">
+                    <input type="password" className="form-control" name="old-password" required />
+                </div>
+                <div className="change-password ">
+                    <input type="password" className="form-control" name="new-password" required />
+                </div>
+                <div className="change-password ">
+                    <input type="password" className="form-control" name="confirm-password" required />
+                </div>
+                <div className="button ">
+                    <button className="btn btn-default submit"> 提交 </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <button className="btn btn-default reset"> 重置 </button>
+                </div>
+            </div>
+          </div>
         );
     }
 }
