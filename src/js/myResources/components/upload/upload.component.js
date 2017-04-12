@@ -2,49 +2,109 @@ import React, {Component} from "react"
 import {Link, browserHistory} from "react-router"
 import "./upload.style.less"
 import $ from 'jquery'
+import networkAction from "../../../utils/networkAction"
 
-export default class UploadButton extends React.Component {
+export default class Upload extends React.Component {
     constructor(props) {
         super(props);
     //this.handleClick = this.handleClick.bind(this);
+        this.state = {
+            subjects: [],
+            objects: [],
+            authorities: [],
+            title: "",
+            file: {},
+            abstract: false,
+            subject: false,
+            object: false,
+            authority: false
+        }
     }
 
-    componentDidMount() {
-        $(".file").on("change","input[type='file']",function(){
-            var filePath=$(this).val();
-            console.log(filePath)
-            $(".fileerrorTip").html("").hide();
-            var arr=filePath.split('\\');
-            var fileName=arr[arr.length-1];
-            console.log(fileName)            
-            $(".file-name").val(fileName);
-            // if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1){
-            //     $(".fileerrorTip").html("").hide();
-            //     var arr=filePath.split('\\');
-            //     var fileName=arr[arr.length-1];
-            //     $(".file-name").html(fileName);
-            // }else{
-            //     $(".file-name").html("");
-            //     $(".fileerrorTip").html("您未上传文件，或者您上传文件类型有误！").show();
-            //     return false
-            // }
+    componentWillMount() {
+        console.log("componentWillMount api")
+        let result = networkAction.promiseNetwork({url: "TeachingResourceManagement/teachingResource/infoForUpload", method: "POST"});
+        result.then((res) => {
+            let data = res.data;
+            let subjects = data.subjectInfo;
+            let objects = data.applicableObject;
+            let authorities = data.resourceAuthInfo;
+            this.setState({
+                subjects: subjects,
+                objects: objects,
+                authorities: authorities
+            })
         })
     }
+    componentDidMount() {
+        $(".file").on("change","input[type='file']",function(){
+            let filePath = $(this).val();
+            console.log(filePath)
+            $(".fileerrorTip").html("").hide();
+            let arr = filePath.split('\\');
+            console.log("file1:", arr)
+            let fileNameType = arr[arr.length-1];
+            arr = fileNameType.split('.');
+            let fileName = arr[0]
+            if(arr.length >= 1) {
+                arr.pop();
+                fileName = arr.join(".")
+            }
+            $(".file-name").val(fileName);
+        })
+    }
+    checkInput() {
 
-    handleSubmit() {
-        let permission = $('input[type="radio"]:checked').value;
-        browserHistory.push("/myResources/uploadDone")
+    }
+
+    handleSubmit(event) {
+        let file = this.fileInput.files[0];
+        console.log(this.fileInput.files)
+        let authority = $('input[type="radio"]:checked').val();
+        let subject = $('#subject option:selected').val()//.value;
+        let object = $('#object option:selected').val()//.value;
+        let title = $('#inputFile').val();
+        let description = $('#description').val();
+        console.log("file:", Object.keys(file), authority, subject, object, title, description);
+        if(file && authority && subject && object && description) {
+            // $(".authority").addClass("warning")
+            // return false;
+            let result = networkAction.promiseNetwork({
+                url: "TeachingResourceManagement/teachingResource/upload",
+                method: "POST",
+                contentType: "formdata"
+            }, {
+                title: title,
+                description: description,
+                subjectId: subject,
+                appobjId: object,
+                resAuthId: authority,
+                file: file
+            })
+            result.then((res) => {
+                console.log("upload res: ", res)
+                if(res.code == 0) {
+                    browserHistory.push("/myResources/uploadDone")
+                }
+            }).catch(() => {
+                alert("上传失败")
+            })
+        } else {
+            // $(".authority").removeClass("warning")
+        }
+        // browserHistory.push("/myResources/uploadDone")
+        event.preventDefault();
     }
 
     render() {
         return (
-            <div>
+            <form onSubmit={this.handleSubmit.bind(this)} encType="multipart/form-data">
                 <div className="col-sm-12 well">
                     上传文档    
                 </div>   
                 <div className="col-sm-12 form-group">
                     <a href="javascript:;" className="file"><i className="glyphicon glyphicon-upload" />点击上传文档
-                        <input type="file" name="" id=""/>
+                        <input type="file" ref={(input) => { this.fileInput = input; }} />
                     </a>
                 </div>
                 <div className="col-sm-12 well">
@@ -52,68 +112,53 @@ export default class UploadButton extends React.Component {
                 </div>  
                 <div className="col-sm-6">
                     <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">标题：</label>
-                        <input type="text" className="file-name form-control" id="inputFile" placeholder="文档标题" />
+                        <label htmlFor="title">标题：</label>
+                        <input type="text" className="file-name form-control" id="inputFile" placeholder="文档标题" required />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">简介：</label>
-                        <textarea type="textarea" className="form-control" id="exampleInputPassword1" placeholder="文档简介" />
+                        <label htmlFor="abstract">简介：</label>
+                        <textarea type="textarea" className="form-control" id="description" placeholder="文档简介" required />
                     </div>
                     
                     <div className="">
                         学科：
-                        <select id="subject" className="form-control">
-                            <option>全部</option>
-                            <option>高数</option>
-                            <option>线代</option>
-                            <option>概率论</option>
-                            <option>模糊数学</option>
-                            <option>离散数学</option>
+                        <select id="subject" className="form-control" required>
+                            {this.state.subjects.map((subject) => {
+                                return (
+                                    <option value={subject.subjectId} key={subject.subjectId}>{subject.subjectName}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <br />
                     <div className="">
                         适用对象：
-                        <select id="subject" className="form-control">
-                            <option>全部</option>
-                            <option>大一</option>
-                            <option>大二</option>
-                            <option>大三</option>
-                            <option>大四</option>
-                            <option>研究生</option>
+                        <select id="object" className="form-control" required>
+                            {this.state.objects.map((object) => {
+                                return (
+                                    <option value={object.appobjId} key={object.appobjId}>{object.appobjName}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <br />
                 </div>
                 <div className="col-sm-6">
-                    使用权限：
-                    <div className="radio">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" />
-                            私有文档  仅自己可见
-                        </label>
+                    <div className="authority">
+                        使用权限：
+                    {this.state.authorities.map((authority) => {
+                        return (
+                            <label className="col-sm-12" key={authority.resAuthId}>
+                                <input type="radio" name="optionsRadios" value={authority.resAuthId} />
+                                {authority.resAuthName}  {authority.description}
+                            </label>
+                        )
+                    })}
                     </div>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"/>
-                            科室文档  同一科室可以检索和阅读
-                        </label>
-                    </div>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" />
-                            院系文档  同一院系可以检索和阅读
-                        </label>
-                    </div>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios4" value="option4" />
-                            普通文档  任何人可以检索和阅读
-                        </label>
-                    </div>
-                    <button type="submit" className="btn btn-default upload-button" onClick={this.handleSubmit.bind(this)}>确认上传</button>
+                    <input type="submit" value="确认上传" className="btn btn-default upload-button" />
+                        
                 </div>
-            </div>
+            </form>
         );
     }
 }

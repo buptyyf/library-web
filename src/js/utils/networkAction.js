@@ -1,28 +1,69 @@
+import config from "../config.js"
 
 export class NetworkAction{
+    /**
+     * 
+     * @param {
+     *      url: string (not null)
+     *      method: 'GET' | 'POST' (default 'GET')
+     *      contentType: 'urlencoded' | 'formdata' | 'json' (default 'urlencode')
+     * } baseData
+     * 
+     * @param {} paramData 
+     * 
+     * @return { Promise }
+     */
     async promiseNetwork(baseData , paramData = {}) {
         return new Promise(async (resolve, reject) => {
             try {
-                let baseUrl = "http://10.108.132.76:8080/"
-                let params = paramData;
-                const input = this.param(params);
+                let baseUrl = config.baseUrl;
                 const method = (baseData.method || 'GET').toUpperCase();
                 const useBody = method === 'POST' || method === 'PUT';
                 let url = `${baseUrl}` +
                     (baseUrl.endsWith('/') ? '' : '/') +
                     `${baseData.url}`;
+                let contentType = 'application/x-www-form-urlencoded';
+                let input = this.urlencodedParam(paramData);
+                let headers = {
+                    'Content-Type': contentType,
+                };
+                if(baseData.contentType) {
+                    switch (baseData.contentType) {
+                        case 'urlencoded':
+                            contentType = 'application/x-www-form-urlencoded';
+                            input = this.urlencodedParam(paramData);
+                            headers = {
+                                'Content-Type': contentType,
+                            }
+                            break;
+
+                        case 'formdata':
+                            input = this.formdataParam(paramData);
+                            headers = {};
+                            break;
+
+                        case 'json':
+                            contentType = 'application/json';
+                            headers = {
+                                'Content-Type': contentType,
+                            }
+                            input = this.jsonParam(paramData);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                
                 useBody || (url = this.appendQuery(url, input));
+                // let contentType = baseData.contentType || 'application/x-www-form-urlencoded';
                 console.log(url);
                 let res = await fetch(url, {
                     method: baseData.method,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Cookie': '',
-                        'User-Agent': ''
-                    },
+                    headers: headers,
                     body: useBody ? input : null,
-                    //credentials: 'include'
                 })
+                // console.log("input: ", input, res, res.json());
                 if(res.status < 200 || res.status > 299) {
                     throw new Error(res.status + '');
                 }
@@ -39,20 +80,33 @@ export class NetworkAction{
             }
         })
     }
-    param(query, scope = '') {
+    jsonParam(query) {
+        return JSON.stringify(query);
+    }
+    formdataParam(query) {
+        let data = new FormData();
+        Object.keys(query).forEach((name) => {
+            data.append(name, query[name]);
+        })
+        return data;
+    }
+    urlencodedParam(query, scope = '') {
         let key
         let value
         let out = ''
+        console.log("query:", Object.keys(query), "scope:", scope)
         Object.keys(query).forEach((name) => {
             key = scope ? `${scope}[${name}]` : name
             value = query[name]
+            console.log("name:", name, "key:", key, "value:", value)
             if (value === undefined) return
             value === null && (value = '')
             if (typeof value === 'object') {
-                out += this.param(value, key)
+                out += this.urlencodedParam(value, key)
             } else {
                 out += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`
             }
+            console.log("out:",out)
         })
         return scope ? out : out.substr(1)
     }
@@ -61,21 +115,6 @@ export class NetworkAction{
         return query ? (link + '&' + query).replace(/[&?]+/, '?') : link
     }
 
-
-
-    // let result = fetch("http://10.108.132.76:8080/TeachingResourceManagement/teachingResource/departmentBrowsing",
-    //                     {method: "POST", mode: 'cors'})
-    //                 .then(res => {
-    //                     return res.json()
-    //                 })
-    //                 .then((res) => {
-    //         console.log("res2:", res);
-    //         let formatData = this.formatData(res.data.departmentInfo);
-    //         this.setState({
-    //             tree: formatData
-    //         })
-    //         console.log(formatData)
-    //     })
 }
 
 let networkAction = new NetworkAction();
