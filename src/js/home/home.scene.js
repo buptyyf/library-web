@@ -4,26 +4,53 @@ import {Navbar, Nav, NavItem, Carousel, Image, } from "react-bootstrap"
 import UploadButton from "../components/uploadButton/uploadButton.component"
 import UpDownCollectNum from "../components/upDownCollectNum/upDownCollectNum.component"
 import "./home.style.less"
+import networkAction from "../utils/networkAction"
 
+    export class Home extends Component {
+        constructor(props) {
+            super(props);
+        }
 
-export class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
+    componentWillMount(){
+        const result1 = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageRankingInfo`, method: 'POST'})
+        const result2 = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'})
+        result1.then((res) => {
+                    console.log("homepageRankingList-res:", res)
+                    //let formatData = this.formatData(res.data.departmentInfo);
+                    // this.setState({
+                    //     tree: formatData
+                    // })
+        })
+        result2.then((res) => {
+        console.log("homepageRankingList-res:", res)
+        //let formatData = this.formatData(res.data.departmentInfo);
+        // this.setState({
+        //     tree: formatData
+        // })
+        })
+        }
+
     render() {
         return (
             <div className="col-sm-12">
                 <div className="home-left col-sm-3">
                     <div className="download-rank">
                         <h4> &nbsp;下载排行</h4>
-                        <p>
-                            <Link to="/resource/sample">网络管理原理与技术.pptx</Link>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">网络管理原理与技术.pptx <span> (68)</span></Link>
+                             <span className="rank-list-date">2017-03-05 &nbsp;</span> 
                         </p>
-                        <p>
-                            <Link to="/resource/sample">JAVA程序设计.pdf</Link>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">JAVA程序设计.pdf <span> (51)</span></Link>
+                             <span className="rank-list-date">2017-04-02 &nbsp;</span> 
                         </p>
-                        <p>
-                            <Link to="/resource/sample">数据结构与算法分析.pdf</Link>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">数据结构与算法分析.pdf <span> (49)</span></Link>
+                             <span className="rank-list-date">2017-04-06 &nbsp;</span> 
+                        </p>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">IT管理与服务.docx <span> (35)</span></Link>
+                             <span className="rank-list-date">2017-04-06 &nbsp;</span> 
                         </p>
                     </div>
     
@@ -31,15 +58,23 @@ export class Home extends Component {
                     </div>
                     <div className="score-rank">
                         <h4 className="score"> &nbsp;评分排行</h4>
-                        <p>
-                            <Link to="/resource/sample">网络管理原理与技术.pptx</Link>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">网络管理原理与技术.pptx <span> (4.9)</span></Link>
+                            <span className="rank-list-date">2017-03-05 &nbsp;</span> 
                         </p>
-                        <p>
-                            <Link to="/resource/sample">数据结构与算法分析.pdf</Link>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">数据结构与算法分析.pdf <span> (4.8)</span></Link>
+                            <span className="rank-list-date">2017-04-06 &nbsp;</span> 
                         </p>
-                        <p>
-                            <Link to="/resource/sample">JAVA程序设计.pdf</Link>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">IT管理与服务.docx <span> (4.7)</span></Link>
+                             <span className="rank-list-date">2017-04-06 &nbsp;</span> 
+                        </p>
+                        <p className="rank-list">
+                            <Link to="/resource/sample">JAVA程序设计.pdf <span> (4.6)</span></Link>
+                            <span className="rank-list-date">2017-04-02 &nbsp;</span> 
                         </p>  
+                        <br/>
                     </div>  
                 </div>
                 <div className="mid-pic col-sm-6">
@@ -68,9 +103,11 @@ export class Home extends Component {
                     </Carousel>
                 </div>
                 <div className="home-right col-sm-3">
-                    <div className="right-topic">
-                        <p className="topic-name">资源库海量资源</p>
-                        <p className="resource-num">28573</p>
+                    <div className="right-top">
+                        <div className="top-name">
+                            <p className="top-name-title">资源库海量资源</p>
+                        </div>
+                        <div className="resource-num">28573</div>
                     </div>
                     <div className="right-mid ">
                         <div className="right-mid-top">

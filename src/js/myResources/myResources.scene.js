@@ -22,9 +22,9 @@ export default class MyResources extends React.Component {
     showPageContent(page) {
         return (
             <div id={"page"+page} className="content">
-                <p className="content-detail"><Link to="/resource/sample">{this.state.content[3*(page-1)+0]}</Link></p>
-                <p className="content-detail"><Link to="/resource/sample">{this.state.content[3*(page-1)+1]}</Link></p>
-                <p className="content-detail"><Link to="/resource/sample">{this.state.content[3*(page-1)+2]}</Link></p>
+                <p className="content-detail">&nbsp; <Link to="/resource/sample">{this.state.content[3*(page-1)+0]}</Link> <span className="browse-list-date">2017-04-06 &nbsp;</span> </p>
+                <p className="content-detail">&nbsp; <Link to="/resource/sample">{this.state.content[3*(page-1)+1]}</Link> <span className="browse-list-date">2017-04-06 &nbsp;</span> </p>
+                <p className="content-detail">&nbsp; <Link to="/resource/sample">{this.state.content[3*(page-1)+2]}</Link> <span className="browse-list-date">2017-04-06 &nbsp;</span> </p>
             </div>
         )
     }
@@ -44,29 +44,40 @@ export default class MyResources extends React.Component {
 
     }
 
+    
+
     render() {
         return (
         <div className="col-sm-12">
             <div className="col-sm-2 well">
                 <UserResourcesMenu />
             </div>
-            <div className="right col-sm-10">
+            <div className="my-resources-right col-sm-10">
                 {browserHistory.getCurrentLocation().pathname.search("upload") === -1 ? 
-                    <div className="right-top">
-                        <div className="my-upload col-sm-5">
-                            <div>我的上传</div>
+                    <div className="my-resources-right-top">
+                        <div className="col-sm-5">
+                          <div className="my-upload">
+                            <div className="my-upload-top">
+                                <p className="my-upload-title">我的上传</p>
+                            </div>
+                            <br/>
                             <UpDownCollectNum />
+                          </div>
                         </div>
                         <div className="col-sm-7">
-                            <div className="browse-list">最近浏览</div>
+                          <div className="browse-list">
+                            <div className="browse-list-top">
+                                <p className="browse-list-title">最近浏览</p>
+                            </div>
                             <div className="right-top-right">
                                 {this.showPageContent(this.state.page)}
-                                <div className="pointer col-sm-offset-2">
+                                <div className="pointer col-sm-offset-5">
                                     <div className="page click-active" data-page={1} onClick={this.handleClick.bind(this)}> </div>
                                     <div className="page" data-page={2} onClick={this.handleClick.bind(this)}> </div>
                                     <div className="page" data-page={3} onClick={this.handleClick.bind(this)}> </div>
                                 </div>
                             </div>
+                          </div>
                         </div>
                     </div> : null}
                 <div className="right-bottom">
