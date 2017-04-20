@@ -5,75 +5,68 @@ import UploadButton from "../components/uploadButton/uploadButton.component"
 import UpDownCollectNum from "../components/upDownCollectNum/upDownCollectNum.component"
 import "./home.style.less"
 import networkAction from "../utils/networkAction"
+import { date } from "../utils/utilFunctions"
 
-    export class Home extends Component {
-        constructor(props) {
-            super(props);
+export class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            downloadsList: [],
+            commentScoreList: [],
+            resourceNum: 0,
+            userInfo: {}
         }
+    }
 
     componentWillMount(){
-        const result1 = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageRankingInfo`, method: 'POST'})
-        const result2 = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'})
-        result1.then((res) => {
-                    console.log("homepageRankingList-res:", res)
-                    //let formatData = this.formatData(res.data.departmentInfo);
-                    // this.setState({
-                    //     tree: formatData
-                    // })
+        const rankInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageRankingInfo`, method: 'POST'})
+        const userInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'})
+        rankInfo.then((res) => {
+            console.log("homepageRankingList-res:", res)
+            this.setState({
+                downloadsList: res.data.downloadsList,
+                commentScoreList: res.data.commentScoreList,
+                resourceNum: res.data.resourceNum
+            })
+            
         })
-        result2.then((res) => {
-        console.log("homepageRankingList-res:", res)
-        //let formatData = this.formatData(res.data.departmentInfo);
-        // this.setState({
-        //     tree: formatData
-        // })
+        userInfo.then((res) => {
+            console.log("homepageUserInfo-res:", res.data)
+            this.setState({
+                userInfo: res.data
+            })
         })
-        }
+    }
 
     render() {
+        let {uploads, collections, downloads, userName} = this.state.userInfo;
         return (
             <div className="col-sm-12">
                 <div className="home-left col-sm-3">
                     <div className="download-rank">
                         <h4> &nbsp;下载排行</h4>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">网络管理原理与技术.pptx <span> (68)</span></Link>
-                             <span className="rank-list-date">2017-03-05 &nbsp;</span> 
-                        </p>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">JAVA程序设计.pdf <span> (51)</span></Link>
-                             <span className="rank-list-date">2017-04-02 &nbsp;</span> 
-                        </p>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">数据结构与算法分析.pdf <span> (49)</span></Link>
-                             <span className="rank-list-date">2017-04-06 &nbsp;</span> 
-                        </p>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">IT管理与服务.docx <span> (35)</span></Link>
-                             <span className="rank-list-date">2017-04-06 &nbsp;</span> 
-                        </p>
+                        {this.state.downloadsList.map((item, index) => {
+                            return (
+                                <p className="rank-list" key={index}>
+                                    <Link to={`/resource/${item.resId}`}>{item.title} <span> ({item.downloads})</span></Link>
+                                        <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
+                                </p>
+                            );
+                        })}
                     </div>
     
                     <div className="cutoff-line ">
                     </div>
                     <div className="score-rank">
                         <h4 className="score"> &nbsp;评分排行</h4>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">网络管理原理与技术.pptx <span> (4.9)</span></Link>
-                            <span className="rank-list-date">2017-03-05 &nbsp;</span> 
-                        </p>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">数据结构与算法分析.pdf <span> (4.8)</span></Link>
-                            <span className="rank-list-date">2017-04-06 &nbsp;</span> 
-                        </p>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">IT管理与服务.docx <span> (4.7)</span></Link>
-                             <span className="rank-list-date">2017-04-06 &nbsp;</span> 
-                        </p>
-                        <p className="rank-list">
-                            <Link to="/resource/sample">JAVA程序设计.pdf <span> (4.6)</span></Link>
-                            <span className="rank-list-date">2017-04-02 &nbsp;</span> 
-                        </p>  
+                        {this.state.commentScoreList.map((item, index) => {
+                            return (
+                                <p className="rank-list" key={index}>
+                                    <Link to={`/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
+                                    <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
+                                </p>
+                            );
+                        })}
                         <br/>
                     </div>  
                 </div>
@@ -107,7 +100,7 @@ import networkAction from "../utils/networkAction"
                         <div className="top-name">
                             <p className="top-name-title">资源库海量资源</p>
                         </div>
-                        <div className="resource-num">28573</div>
+                        <div className="resource-num">{this.state.resourceNum}</div>
                     </div>
                     <div className="right-mid ">
                         <div className="right-mid-top">
@@ -115,11 +108,11 @@ import networkAction from "../utils/networkAction"
                                 <img src="/assets/img/userimg.jpg" style={{height: 80, width: 80}}/>
                             </div>
                             <div className="user-name">
-                                <p>张某某</p>
+                                <p>{userName}</p>
                             </div>
                         </div>
                         <div className="right-mid-mid ">
-                            <UpDownCollectNum />
+                            <UpDownCollectNum uploadNum={uploads} downloadNum={downloads} collectNum={collections}/>
                         </div>
                         <div className="cutoff-line ">
                         </div>

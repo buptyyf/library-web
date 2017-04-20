@@ -21,7 +21,8 @@ export default class Login extends Component {
         const result = networkAction.promiseNetwork({"url": `TeachingResourceManagement/user/login`, "method": 'POST'},{"userNum": userNum, "password": password})
         result.then((res) => {
             console.log("login-result:", res);
-            console.log("login-result:", res.code);
+            console.log("login-result:", res.data.sessionId);
+            // global.sessionId = res.data.sessionId;
             if(res.code == 0){
                 browserHistory.push('/home');
             }else if(res.code == 1){
