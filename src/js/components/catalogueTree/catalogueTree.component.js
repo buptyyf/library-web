@@ -1,9 +1,9 @@
 import React, {Component} from "react"
-import './departmentTree.style.less'
+import './catalogueTree.style.less'
 import $ from "jquery"
-import networkAction from "../../../utils/networkAction"
+import networkAction from "../../utils/networkAction"
 
-export default class DepartmentTree extends React.Component {
+export default class CatalogueTree extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,12 +33,23 @@ export default class DepartmentTree extends React.Component {
         // })
     }
     componentWillMount() {
-        const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/departmentBrowsing`, method: 'POST'})
-        result.then((res) => {
-            let formatData = this.formatData(res.data.departmentInfo);
-            this.setState({
-                tree: formatData
-            })
+        // const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/departmentBrowsing`, method: 'POST'})
+        // result.then((res) => {
+        //     let formatData = this.formatData(res.data.departmentInfo);
+        //     this.setState({
+        //         tree: formatData
+        //     })
+        // })
+        console.log("CatalogueTree DATA: ", this.props.data)
+        let formatData = this.formatData(this.props.data);
+        this.setState({
+            tree: formatData
+        })
+    }
+    componentWillReceiveProps(nextProps) {
+        let formatData = this.formatData(nextProps.data);
+        this.setState({
+            tree: formatData
         })
     }
     formatData(dataArr) {
@@ -161,4 +172,12 @@ export default class DepartmentTree extends React.Component {
             </div>
         );
     }
+}
+
+CatalogueTree.propsType = {
+    data: React.PropTypes.array
+}
+
+CatalogueTree.defaultProps = {
+    data: []
 }
