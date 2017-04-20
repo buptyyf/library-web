@@ -1,5 +1,5 @@
 import AdminQueryTable from './components/adminQueryTable.component'
-import DepartmentTree from '../../../classifyBrowse/components/departmentTree/departmentTree.component'
+import CatalogueTree from '../../../components/catalogueTree/catalogueTree.component'
 import {browserHistory} from 'react-router'
 
 import "./adminQuery.style.less"
@@ -19,7 +19,7 @@ export default class AdminQuery extends React.Component {
         return (
         <div>
             <div className="col-sm-2">
-                <DepartmentTree />
+                <CatalogueTree />
             </div>
             <div className="col-sm-10 right-area">
                 <AdminQueryTable />

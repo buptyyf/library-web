@@ -1,6 +1,7 @@
 import UserResourcesMenu from '../myResources/components/userResourcesMenu/userResourcesMenu.component'
 import React, {Component} from "react"
 import ReactPDF from 'react-pdf'
+import networkAction from "../utils/networkAction"
 import './resourceDetail.style.less'
 
 export default class ResourceDetail extends React.Component {
@@ -15,7 +16,16 @@ export default class ResourceDetail extends React.Component {
         // console.log(styles)
     //this.handleClick = this.handleClick.bind(this);
     }   
-
+    componentWillMount(){
+        console.log("resId: ", this.props.params.id)
+        const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/getResourceDetails`, method: `POST`}, {resId: this.props.params.id})
+        result.then((res) => {
+            console.log("res content: ", res)
+            this.setState({
+                // file: res.
+            })
+        })
+    }
     onDocumentLoad({ total }) {
         this.setState({ total });
     }

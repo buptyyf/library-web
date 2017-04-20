@@ -1,5 +1,6 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from "react"
+import networkAction from "../../../utils/networkAction"
 
 export default class MyDownload extends React.Component {
     constructor(props) {
@@ -21,7 +22,12 @@ export default class MyDownload extends React.Component {
         };
     //this.handleClick = this.handleClick.bind(this);
     }
-
+    componentWillMount() {
+        const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/userResource/getDownloadList`}, {pageNo: 1});
+        result.then((res) => {
+            console.log("MyUpload: ", res)
+        })
+    }
 
     render() {
         return (

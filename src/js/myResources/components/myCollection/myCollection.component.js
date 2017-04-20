@@ -1,6 +1,7 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from "react"
 import {Link} from "react-router"
+import networkAction from "../../../utils/networkAction"
 
 export default class MyCollection extends React.Component {
     constructor(props) {
@@ -22,7 +23,12 @@ export default class MyCollection extends React.Component {
         };
     //this.handleClick = this.handleClick.bind(this);
     }
-
+    componentWillMount() {
+        const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/userResource/getCollectionList`}, {pageNo: 1});
+        result.then((res) => {
+            console.log("MyCollection: ", res)
+        })
+    }
     priceFormatter(cell, row){
         console.log(cell, row)
         let link = "/resource/" + row.name

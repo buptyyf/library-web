@@ -51,9 +51,20 @@ export default class UserResourcesMenu extends React.Component {
         return (
         <div>
             <Image className="col-sm-offset-1 col-sm-10 col-sm-offset-1" width={100} width={100} src={"http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg"} rounded />
-            <p className="col-sm-12 name text-center">阿斯蒂芬</p>
+            <p className="col-sm-12 name text-center">{this.props.userName}</p>
             {this.renderBottom()}
         </div>
         );
     }
+}
+
+UserResourcesMenu.propTypes = {
+    userName: React.PropTypes.string.isRequired,
+    sex: React.PropTypes.number.isRequired,
+    isAdmin: React.PropTypes.bool
+}
+
+UserResourcesMenu.defaultProps = {
+    userName: "",
+    sex: 0
 }
