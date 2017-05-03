@@ -40,21 +40,41 @@ export default class CatalogueTree extends React.Component {
         //         tree: formatData
         //     })
         // })
-        console.log("CatalogueTree DATA: ", this.props.data)
         let formatData = this.formatData(this.props.data);
         this.setState({
             tree: formatData
         })
     }
     componentWillReceiveProps(nextProps) {
+        console.log("CatalogueTree DATA: ", nextProps.data)
         let formatData = this.formatData(nextProps.data);
         this.setState({
             tree: formatData
         })
     }
+    /**
+     * 把从服务端返回的一维数组改造成目录树所需要的结构，如下所示
+     * [{
+     *      name: '',
+     *      id: '',
+     *      children: [],
+     *  },{
+     *      name: '',
+     *      id: '',
+     *      children: [
+     *          {
+     *              name: '',
+     *              id: '',
+     *              children: '',
+     *          }
+     *      ],
+     *  }...
+     * ]
+     * @param {*} dataArr 
+     */
     formatData(dataArr) {
         console.log("dataArr:", dataArr)
-        let destArr = []
+        let destArr = [];
         dataArr.forEach((cellInfo, index) => {
             if(cellInfo.depId.length === 2)  {
                 destArr.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
@@ -81,11 +101,17 @@ export default class CatalogueTree extends React.Component {
             e.stopPropagation();
         });
     }
+    handleDepartmentChange(event) {
+        let departmentId = event.target.dataset.id;
+        this.props.onChange(departmentId);
+    }
     renderTree(tree, index) {
         if(tree.children && tree.children.length !== 0) {
             return (
                 <li key={index}>
-                    <span><i className="glyphicon glyphicon-folder-open"></i> {tree.name}</span>
+                    <span data-id={tree.id} onClick={this.handleDepartmentChange.bind(this)}>
+                        <i className="glyphicon glyphicon-folder-open"></i> {tree.name}
+                    </span>
                     <ul>
                         {
                             tree.children.map((branch, index) => {
@@ -98,8 +124,9 @@ export default class CatalogueTree extends React.Component {
         } else { // 叶子节点
             return (
                 <li key={index}>
-                    <span>
-                        <i className="glyphicon glyphicon-leaf"></i> <a className="leaf-name" href="">{tree.name}</a>
+                    <span data-id={tree.id} onClick={this.handleDepartmentChange.bind(this)}>
+                        <i className="glyphicon glyphicon-leaf"></i> 
+                        {tree.name}
                     </span>
                 </li>
             )
@@ -107,77 +134,25 @@ export default class CatalogueTree extends React.Component {
     }
     render() {
         return (
-        <div className="tree well">
-            <ul style={{padding: 0}}>
-                {
-                    this.state.tree.map((cell, index) => {
-                        return this.renderTree(cell, index)
-                    })
-                }
-                {/*<li>
-                    <span><i className="glyphicon glyphicon-folder-open"></i> 网研院</span> <a href="">Goes somewhere</a>
-                    <ul>
-                        <li>
-                            <span><i className="glyphicon glyphicon-minus-sign"></i> Child</span> <a href="">Goes somewhere</a>
-                            <ul>
-                                <li>
-                                    <span><i className="glyphicon glyphicon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                        <span><i className="glyphicon glyphicon-minus-sign"></i> Child</span> <a href="">Goes somewhere</a>
-                        <ul>
-                        <li>
-                            <span><i className="glyphicon glyphicon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                        </li>
-                        <li>
-                            <span><i className="glyphicon glyphicon-minus-sign"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                        <ul>
-                            <li>
-                            <span><i className="glyphicon glyphicon-minus-sign"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
-                            <ul>
-                                <li>
-                                <span><i className="glyphicon glyphicon-leaf"></i> Great great Grand Child</span> <a href="">Goes somewhere</a>
-                                </li>
-                                <li>
-                                <span><i className="glyphicon glyphicon-leaf"></i> Great great Grand Child</span> <a href="">Goes somewhere</a>
-                                </li>
-                                </ul>
-                            </li>
-                            <li>
-                            <span><i className="glyphicon glyphicon-leaf"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
-                            </li>
-                            <li>
-                            <span><i className="glyphicon glyphicon-leaf"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
-                            </li>
-                        </ul>
-                        </li>
-                        <li>
-                            <span><i className="glyphicon glyphicon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                        </li>
-                        </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span><i className="glyphicon glyphicon-folder-open"></i> Parent2</span> <a href="">Goes somewhere</a>
-                    <ul>
-                        <li>
-                        <span><i className="glyphicon glyphicon-leaf"></i> Child</span> <a href="">Goes somewhere</a>
-                        </li>
-                    </ul>
-                </li>*/}
-            </ul>
+            <div className="tree well">
+                <ul style={{padding: 0}}>
+                    {
+                        this.state.tree.map((cell, index) => {
+                            return this.renderTree(cell, index)
+                        })
+                    }
+                </ul>
             </div>
         );
     }
 }
 
 CatalogueTree.propsType = {
-    data: React.PropTypes.array
+    data: React.PropTypes.array,
+    onChange: React.PropTypes.func,
 }
 
 CatalogueTree.defaultProps = {
-    data: []
+    data: [],
+    onChange: () => {},
 }

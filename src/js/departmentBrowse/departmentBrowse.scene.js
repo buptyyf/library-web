@@ -1,57 +1,48 @@
-import ClassifySelect from './components/classifySelect/classifySelect.component'
 import ResourcesTable from '../components/resourcesTable/resourcesTable.component'
 import CatalogueTree from '../components/catalogueTree/catalogueTree.component'
 import {browserHistory} from 'react-router'
 import networkAction from '../utils/networkAction'
-import "./classifyBrowse.style.less"
+import "./departmentBrowse.style.less"
 import React, {Component} from "react"
 
-export default class ClassifyBrowse extends React.Component {
+export default class DepartmentBrowse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            subjects: [],
-            resources: [],
-            objects: [],
+            departmentData: [],
+            selectedDepartment: "",
             tableData: [],
-            objectId: null,
-            subjectId: null,
-            resTypeId: null,
             sort: "downloads",
             pageInfo: {
                 curPage: 1,
-                totalPages: 1
+                totalPages: 1,
             }
         };
-    //this.handleClick = this.handleClick.bind(this);
     }
+    
     componentWillMount() {
-        const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/classfiedBrowsingAll`, method: 'POST'})
+        const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/departmentBrowsing`, method: 'POST'})
         result.then((res) => {
-            // console.log("classfiedBrowsingAll: ", res)
+            console.log("departmentBrowsing: ", res)
             this.setState({
-                subjects: res.data.subjectInfo,
-                resources: res.data.resourceType,
-                objects: res.data.applicableObject,
+                departmentData: res.data.departmentInfo
             })
         })
     }
     searchNetwork() {
-        let {sort, objectId, subjectId, resTypeId} = this.state;
+        let {selectedDepartment, sort} = this.state;
+        console.log("?????????????????departmentId: ", selectedDepartment)
         let page = this.state.pageInfo.curPage;
-        // console.info("page: ", page)
         const result = networkAction.promiseNetwork({
-            url: `TeachingResourceManagement/teachingResource/classified`,
+            url: `TeachingResourceManagement/teachingResource/department`,
             method: 'POST'
         }, {
+            departmentId: Number(selectedDepartment),
             sort: sort,
-            page: page,
-            applicableObjectId: objectId,
-            subjectId: subjectId,
-            resourceTypeId: resTypeId
+            page: Number(page)
         })
         result.then((res) => {
-            // console.log("classifyBrowsing: ", res)
+            console.log("departmentBrowsing: ", res)
             let newPageInfo = {
                 curPage: res.data.currentPageNo,
                 totalPages: res.data.totalPage
@@ -62,18 +53,15 @@ export default class ClassifyBrowse extends React.Component {
             })
         })
     }
-    
-    handleSortChange(event) {
-        let {objectId, subjectId, resourceId, pageInfo} = this.state;
+    handleTreeChange(departmentId) {
+        console.log("!!!!!!!!!!!!departmentId: ", departmentId)
         this.setState({
-            sort: event.target.value
+            selectedDepartment: departmentId
         }, this.searchNetwork.bind(this));
     }
-    classifySelectSubmit(subjectId, objectId, resTypeId) {
+    handleSortChange(event) {
         this.setState({
-            subjectId: subjectId,
-            objectId: objectId,
-            resTypeId: resTypeId,
+            sort: event.target.value
         }, this.searchNetwork.bind(this));
     }
     handlePageChange(page) {
@@ -82,17 +70,15 @@ export default class ClassifyBrowse extends React.Component {
         }, this.searchNetwork.bind(this))
     }
     render() {
-        let {tableData, selectedDepartment, subjects, resources, objects, pageInfo} = this.state;
-        console.log("subjects: ", tableData)
+        let {departmentData, selectedDepartment, tableData, pageInfo} = this.state;
+        // console.log("subjects: ", departmentData)
         return (
         <div className="col-sm-12">
             <div className="col-sm-3">
-                <ClassifySelect 
-                    subjects={subjects} 
-                    resources={resources} 
-                    objects={objects} 
-                    submitFunc={this.classifySelectSubmit.bind(this)}
-                    />
+                <CatalogueTree 
+                    data={departmentData} 
+                    onChange={this.handleTreeChange.bind(this)}
+                    /> 
             </div>
             <div className="col-sm-9 right-area">
                 <div>

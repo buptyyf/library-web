@@ -4,21 +4,55 @@ export default class ClassifySelect extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            words: ['marklar']
+            subjectId: "",
+            objectId: "",
+            resourceId: ""
         };
-    //this.handleClick = this.handleClick.bind(this);
     }
-
-
+    componentWillReceiveProps(nextProps) {
+        // console.log("componentWillReceiveProps subjects: ", nextProps.subjects)        
+        if(nextProps.subjects.length > 0 && nextProps.resources.length > 0 && nextProps.objects.length > 0) {
+            this.setState({
+                subjectId: this.state.subjectId ? this.state.subjectId : nextProps.subjects[0].subjectId,
+                objectId: this.state.objectId ? this.state.objectId : nextProps.objects[0].appobjId,
+                resourceId: this.state.resourceId ? this.state.resourceId : nextProps.resources[0].restypeId,
+            })
+        }
+    }
+    subjectChange(event) {
+        this.setState({
+            subjectId: event.target.value
+        })
+    }
+    objectChange(event) {
+        this.setState({
+            objectId: event.target.value
+        })
+    }
+    resourceChange(event) {
+        this.setState({
+            resourceId: event.target.value
+        })
+    }
+    handleSubmit(event) {
+        let {subjectId, objectId, resourceId} = this.state
+        event.preventDefault();
+        console.log("handleSubmit: ", subjectId, objectId, resourceId)
+        this.props.submitFunc(subjectId, objectId, resourceId);
+    }
+    
     render() {
         let {subjects, objects, resources, submitFunc} = this.props
         return (
         <div className="well">
-            <form onSubmit={submitFunc.bind(this)}>
+            <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="">
                     学科：
-                    <select id="subject" className="form-control">
-                        {subjects.map((subject) => {
+                    <select id="subject" 
+                        className="form-control" 
+                        value={this.state.subjectId} 
+                        onChange={this.subjectChange.bind(this)}>
+                        {subjects.map((subject, index) => {
                             return (
                                 <option value={subject.subjectId} key={subject.subjectId}>{subject.subjectName}</option>
                             )
@@ -28,7 +62,10 @@ export default class ClassifySelect extends React.Component {
                 <br />
                 <div className="">
                     适用对象：
-                    <select id="object" className="form-control">
+                    <select id="object" 
+                        className="form-control" 
+                        value={this.state.objectId}
+                        onChange={this.objectChange.bind(this)}>
                         {objects.map((object) => {
                             return (
                                 <option value={object.appobjId} key={object.appobjId}>{object.appobjName}</option>
@@ -39,7 +76,10 @@ export default class ClassifySelect extends React.Component {
                 <br />
                 <div className="">
                     资源类型：
-                    <select id="resource" className="form-control">
+                    <select id="resource" 
+                        className="form-control" 
+                        value={this.state.resourceId}
+                        onChange={this.resourceChange.bind(this)}>
                         {resources.map((resource) => {
                             return (
                                 <option value={resource.restypeId} key={resource.restypeId}>{resource.restypeName}</option>

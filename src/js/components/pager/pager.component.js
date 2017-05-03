@@ -1,18 +1,6 @@
 import React from "react"
 
 export default class Pager extends React.Component {
-    // static defaultProps = {
-    //     curPage: 1,
-    //     totalPages: 1,
-    //     showButtonNum: 5,
-    //     handleClick: () => {}
-    // }
-    // static propTypes = {
-    //     curPage: React.PropTypes.number,
-    //     totalPages: React.PropTypes.number,
-    //     handleClick: React.PropTypes.func,
-    //     showButtonNum: React.PropTypes.number
-    // }
     clickHandler(e) {
         e.stopPropagation();
         this.props.handleClick(e.target.dataset.page);

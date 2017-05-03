@@ -16,6 +16,7 @@ import AdminQuery from './user/components/adminQuery/adminQuery.component'
 import Upload from "./myResources/components/upload/upload.component"
 import UploadDone from "./myResources/components/upload/uploadDone.component"
 import ClassifyBrowse from "./classifyBrowse/classifyBrowse.scene"
+import DepartmentBrowse from "./departmentBrowse/departmentBrowse.scene"
 import SearchScene from "./search/search.scene"
 import ResourcesStatistics from './resourcesStatistics/resourcesStatistics.scene'
 import ResourceDetail from './resourceDetail/resourceDetail.scene'
@@ -116,7 +117,7 @@ class Root extends React.Component{
                     <Route path="adminQuery" component={AdminQuery} />
                 </Route>
                 <Route path="classifyBrowse" component={ClassifyBrowse}/>
-                <Route path="departmentBrowse" component={ClassifyBrowse}/>
+                <Route path="departmentBrowse" component={DepartmentBrowse}/>
                 <Route path="search/:keywords" component={SearchScene}/>
                 <Route path="resourcesStatistics" component={ResourcesStatistics}/>
                 <Route path="resource/:id" component={ResourceDetail}/>
