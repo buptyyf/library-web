@@ -16,7 +16,8 @@ export default class DepartmentBrowse extends React.Component {
             pageInfo: {
                 curPage: 1,
                 totalPages: 1,
-            }
+            },
+            totalResourceNum: 0,
         };
     }
     
@@ -31,7 +32,7 @@ export default class DepartmentBrowse extends React.Component {
     }
     searchNetwork() {
         let {selectedDepartment, sort} = this.state;
-        console.log("?????????????????departmentId: ", selectedDepartment)
+        // console.log("?????????????????departmentId: ", selectedDepartment)
         let page = this.state.pageInfo.curPage;
         const result = networkAction.promiseNetwork({
             url: `TeachingResourceManagement/teachingResource/department`,
@@ -49,7 +50,8 @@ export default class DepartmentBrowse extends React.Component {
             }
             this.setState({
                 tableData: res.data.resourceList,
-                pageInfo: newPageInfo
+                pageInfo: newPageInfo,
+                totalResourceNum: res.data.resultCount
             })
         })
     }
@@ -70,7 +72,7 @@ export default class DepartmentBrowse extends React.Component {
         }, this.searchNetwork.bind(this))
     }
     render() {
-        let {departmentData, selectedDepartment, tableData, pageInfo} = this.state;
+        let {departmentData, selectedDepartment, tableData, pageInfo, totalResourceNum} = this.state;
         // console.log("subjects: ", departmentData)
         return (
         <div className="col-sm-12">
@@ -81,13 +83,18 @@ export default class DepartmentBrowse extends React.Component {
                     /> 
             </div>
             <div className="col-sm-9 right-area">
-                <div>
-                    排序方式：
-                    <select value={this.state.sort} onChange={this.handleSortChange.bind(this)}>
-                        <option value="downloads">下载量</option>
-                        <option value="score">评分</option>
-                        <option value="time">上传时间</option>
-                    </select>
+                <div className="sort-number">
+                    <div className="sort">
+                        排序方式：
+                        <select value={this.state.sort} onChange={this.handleSortChange.bind(this)}>
+                            <option value="downloads">下载量</option>
+                            <option value="score">评分</option>
+                            <option value="time">上传时间</option>
+                        </select>
+                    </div>
+                    <div className="result-number">
+                        共搜索出 {totalResourceNum} 条资源
+                    </div>
                 </div>
                 <ResourcesTable data={tableData} pageInfo={pageInfo} handlePageChange={this.handlePageChange.bind(this)}/>
             </div>

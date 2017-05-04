@@ -10,18 +10,19 @@ export default class ClassifyBrowse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            subjects: [],
-            resources: [],
-            objects: [],
-            tableData: [],
-            objectId: null,
-            subjectId: null,
-            resTypeId: null,
-            sort: "downloads",
-            pageInfo: {
+            subjects: [],   // 从后台返回的所有学科种类
+            resources: [],  // 从后台返回的所有资源类型
+            objects: [],    // 从后台返回的所有适用对象
+            tableData: [],  // 传入table中的数据
+            objectId: null,    // 所选的适用对象id
+            subjectId: null,    // 所选的学科id
+            resTypeId: null,    // 所需资源类型id
+            sort: "downloads",  // 所选择的排序方式
+            pageInfo: {     
                 curPage: 1,
                 totalPages: 1
-            }
+            },
+            totalResourceNum: 0,
         };
     //this.handleClick = this.handleClick.bind(this);
     }
@@ -51,14 +52,15 @@ export default class ClassifyBrowse extends React.Component {
             resourceTypeId: resTypeId
         })
         result.then((res) => {
-            // console.log("classifyBrowsing: ", res)
+            console.log("classifyBrowsing: ", res)
             let newPageInfo = {
                 curPage: res.data.currentPageNo,
                 totalPages: res.data.totalPage
             }
             this.setState({
                 tableData: res.data.resourceList,
-                pageInfo: newPageInfo
+                pageInfo: newPageInfo,
+                totalResourceNum: res.data.resultCount
             })
         })
     }
@@ -82,7 +84,7 @@ export default class ClassifyBrowse extends React.Component {
         }, this.searchNetwork.bind(this))
     }
     render() {
-        let {tableData, selectedDepartment, subjects, resources, objects, pageInfo} = this.state;
+        let {tableData, selectedDepartment, subjects, resources, objects, pageInfo, totalResourceNum} = this.state;
         console.log("subjects: ", tableData)
         return (
         <div className="col-sm-12">
@@ -95,13 +97,18 @@ export default class ClassifyBrowse extends React.Component {
                     />
             </div>
             <div className="col-sm-9 right-area">
-                <div>
-                    排序方式：
-                    <select value={this.state.sort} onChange={this.handleSortChange.bind(this)}>
-                        <option value="downloads">下载量</option>
-                        <option value="score">评分</option>
-                        <option value="time">上传时间</option>
-                    </select>
+                <div className="sort-number">
+                    <div className="sort">
+                        排序方式：
+                        <select value={this.state.sort} onChange={this.handleSortChange.bind(this)}>
+                            <option value="downloads">下载量</option>
+                            <option value="score">评分</option>
+                            <option value="time">上传时间</option>
+                        </select>
+                    </div>
+                    <div className="result-number">
+                        共搜索出 {totalResourceNum} 条资源
+                    </div>
                 </div>
                 <ResourcesTable data={tableData} pageInfo={pageInfo} handlePageChange={this.handlePageChange.bind(this)}/>
             </div>
