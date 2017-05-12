@@ -11,7 +11,9 @@ import MyDownload from "./myResources/components/myDownload/myDownload.component
 import UserScene from "./user/user.scene"
 import MyAccount from "./user/components/myAccount/myAccount.component"
 import ChangeInfo from "./user/components/changeInfo/changeInfo.component"
+import ChangeInfoDone from "./user/components/changeInfo/changeInfoDone.component"
 import ChangePassword from "./user/components/changePassword/changePassword.component"
+import ChangePasswordDone from "./user/components/changePassword/changePasswordDone.component"
 import AdminQuery from './user/components/adminQuery/adminQuery.component'
 import Upload from "./myResources/components/upload/upload.component"
 import UploadDone from "./myResources/components/upload/uploadDone.component"
@@ -113,7 +115,9 @@ class Root extends React.Component{
                     <IndexRoute component={ChangePassword}/>
                     <Route path="myAccount" component={MyAccount} />
                     <Route path="changePassword" component={ChangePassword} />
+                    <Route path="changePasswordDone" component={ChangePasswordDone} />
                     <Route path="changeInfo" component={ChangeInfo} />
+                    <Route path="changeInfoDone" component={ChangeInfoDone} />
                     <Route path="adminQuery" component={AdminQuery} />
                 </Route>
                 <Route path="classifyBrowse" component={ClassifyBrowse}/>

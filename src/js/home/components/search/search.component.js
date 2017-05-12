@@ -6,6 +6,14 @@ import {browserHistory} from 'react-router'
 import "./search.style.less"
 
 export default class Search extends Component {
+
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         keywords: ""
+    //     };
+    // }
+
     // <Form horizontal>
     //     <FormGroup controlId="formHorizontalEmail">
     //       <Col componentclassName={ControlLabel} sm={2}>
@@ -25,11 +33,12 @@ export default class Search extends Component {
     }
     handleClick() {
         let keywords = this.refs.searchValue.value
-        console.log(keywords);
+        console.log("keywords:", keywords);
         if(keywords !== "") {
             browserHistory.push(`/search/${keywords}`)
         }
     }
+
     render(){
         return(
             <div className="search col-sm-12">

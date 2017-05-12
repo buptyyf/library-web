@@ -1,25 +1,93 @@
 import ResourcesTable from '../components/resourcesTable/resourcesTable.component'
+//import Search from '../../home/components/search/search.component'
 import React, {Component} from "react"
-
-// import './search.style'
+import networkAction from '../utils/networkAction'
+import "./search.style.less"
 
 export default class SearchScene extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            words: ['marklar']
+            tableData: [],
+            keywords: "",
+            resourceTypeId: "01",
+            sort: "downloads",
+            pageInfo: {     
+                curPage: 1,
+                totalPages: 1
+            },
+            totalResourceNum: 0
         };
-    //this.handleClick = this.handleClick.bind(this);
     }
     componentWillMount() {
-        console.log(this.props.params)
+        this.setState({
+            keywords: this.props.params.keywords
+        },this.searchNetwork.bind(this));
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            keywords: nextProps.params.keywords
+
+        },this.searchNetwork.bind(this));
+    }
+
+    searchNetwork() {
+        let {sort, resourceTypeId, keywords} = this.state;
+        let page = this.state.pageInfo.curPage;
+        console.log("!!!!!keywords: ", keywords);
+        const result = networkAction.promiseNetwork({
+            url: `TeachingResourceManagement/teachingResource/search`,
+            method: 'POST'
+        }, {
+            sort: sort,
+            page: page,
+            resourceTypeId: resourceTypeId,
+            keywords: keywords
+        })
+        result.then((res) => {
+            console.log("search-result: ", res)
+            let newPageInfo = {
+                curPage: res.data.currentPageNo,
+                totalPages: res.data.totalPage
+            }
+            this.setState({
+                tableData: res.data.resourceList,
+                pageInfo: newPageInfo,
+                totalResourceNum: res.data.resultCount
+            })
+        })
+    }
+
+    handleSortChange(event) {
+        this.setState({
+            sort: event.target.value
+        }, this.searchNetwork.bind(this));
+    }
+    handlePageChange(page) {
+        this.setState({
+            pageInfo: Object.assign({}, this.state.pageInfo, {curPage: page})
+        }, this.searchNetwork.bind(this))
+    }
+
     render() {
+        let {tableData, pageInfo, totalResourceNum} = this.state;
         return (
-        <div>
+        <div className="container">
             <h3>搜索结果：</h3>
-            <h5 style={{textAlign: 'right'}}>共搜索出30条数据</h5>
-            <ResourcesTable />
+            <div className="sort-number">
+                <div className="sort">
+                    排序方式：
+                    <select value={this.state.sort} onChange={this.handleSortChange.bind(this)}>
+                        <option value="downloads">下载量</option>
+                        <option value="score">评分</option>
+                        <option value="time">上传时间</option>
+                    </select>
+                </div>
+                <div className="result-number">
+                    共搜索出 {totalResourceNum} 条资源
+                </div>
+           </div>
+           <ResourcesTable data={tableData} pageInfo={pageInfo} handlePageChange={this.handlePageChange.bind(this)}/>
         </div> 
         );
     }
