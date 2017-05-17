@@ -43,7 +43,6 @@ export default class ResourcesTable extends React.Component {
         let formatData = this.formatData(nextProps.data, nextProps.pageInfo);
         console.log("formatData: ", formatData);
         this.setState({
-            pageInfo: nextProps.pageInfo,
             data: formatData
         })
     }

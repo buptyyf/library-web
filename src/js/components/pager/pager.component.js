@@ -19,7 +19,7 @@ export default class Pager extends React.Component {
     }
     render() {
         let preClass, nextClass;
-        if(this.props.curPage == 1) {
+        if(this.props.curPage <= 1) {
             preClass = 'disabled'
         } else {
             preClass = ''

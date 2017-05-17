@@ -7,39 +7,22 @@ export default class CatalogueTree extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            words: ['marklar'],
             tree: []
         };
-    //this.handleClick = this.handleClick.bind(this);
         // this.originArr = [
-        //     {name: "工学", id: "02"},
-        //     {name: "计科", id: "0201"},
-        //     {name: "软件工程", id: "020101"},
-        //     {name: "编译原理", id: "020102"},
-        //     {name: "材料工程", id: "0202"},
-        //     {name: "材料工程原理", id: "020201"},
-        //     {name: "有机材料", id: "020202"},
-        //     {name: "理学", id: "03"},
+        //     {depName: "工学", depId: "02"},
+        //     {depName: "计科", depId: "0201"},
+        //     {depName: "软件工程", depId: "020101"},
+        //     {depName: "编译原理", depId: "020102"},
+        //     {depName: "材料工程", depId: "0202"},
+        //     {depName: "材料工程原理", depId: "020201"},
+        //     {depName: "有机材料", depId: "020202"},
+        //     {depName: "理学", depId: "03"},
+        //     {depName: "理学1", depId: "0301"},
+        //     {depName: "理学2", depId: "0302"},
         // ]
-        // let destArr = []
-        // this.originArr.forEach((cellInfo, index) => {
-        //     if(cellInfo.id.length === 2)  {
-        //         destArr.push({name: cellInfo.name, id: cellInfo.id, children: []})
-        //     } else if(cellInfo.id.length === 4) {
-        //         destArr[destArr.length-1].children.push({name: cellInfo.name, id: cellInfo.id, children: []})
-        //     } else if(cellInfo.id.length === 6) {
-        //         destArr[destArr.length-1].children[destArr[destArr.length-1].children.length-1].children.push({name: cellInfo.name, id: cellInfo.id, children: []})
-        //     }
-        // })
     }
     componentWillMount() {
-        // const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/departmentBrowsing`, method: 'POST'})
-        // result.then((res) => {
-        //     let formatData = this.formatData(res.data.departmentInfo);
-        //     this.setState({
-        //         tree: formatData
-        //     })
-        // })
         let formatData = this.formatData(this.props.data);
         this.setState({
             tree: formatData
@@ -73,7 +56,7 @@ export default class CatalogueTree extends React.Component {
      * @param {*} dataArr 
      */
     formatData(dataArr) {
-        console.log("dataArr:", dataArr)
+        // console.log("dataArr:", dataArr)
         let destArr = [];
         dataArr.forEach((cellInfo, index) => {
             if(cellInfo.depId.length === 2)  {
@@ -86,23 +69,29 @@ export default class CatalogueTree extends React.Component {
         })
         return destArr;
     }
-    componentDidUpdate() {
-        console.log("li:has(ul)", $('.tree li:has(ul)'))
-        $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
-        $('.tree li.parent_li > span').on('click', function (e) {
-            var children = $(this).parent('li.parent_li').find(' > ul > li');
-            if (children.is(":visible")) {
-                children.hide('fast');
-                $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
-            } else {
-                children.show('fast');
-                $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
-            }
-            e.stopPropagation();
-        });
+    componentDidUpdate(prevProps) {
+        // console.log("componentDidUpdate1!!!!!!!!!!!!!!!!!!!!");
+        // console.log("li:has(ul)", $('.tree li:has(ul)'));
+        if(prevProps.data !== this.props.data) {
+            $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+            $('.tree li.parent_li > span').on('click', function (e) {
+                var children = $(this).parent('li.parent_li').find(' > ul > li');
+                if (children.is(":visible")) {
+                    // console.log("!!!!!isVisible!!!!!");
+                    children.hide('fast');
+                    $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+                } else {
+                    // console.log("???????isNotVisible???????");
+                    children.show('fast');
+                    $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+                }
+                // e.stopPropagation();
+            });
+        }
     }
     handleDepartmentChange(event) {
         let departmentId = event.target.dataset.id;
+        console.log("departmentId: ", departmentId)
         this.props.onChange(departmentId);
     }
     renderTree(tree, index) {

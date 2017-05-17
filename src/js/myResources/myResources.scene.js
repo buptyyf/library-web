@@ -6,7 +6,7 @@ import UpDownCollectNum from '../components/upDownCollectNum/upDownCollectNum.co
 import "./myResources.style.less"
 import { Link } from "react-router"
 import networkAction from "../utils/networkAction"
-import $ from "jquery"
+import { date } from "../utils/utilFunctions"
 
 export default class MyResources extends React.Component {
     constructor(props) {
@@ -22,7 +22,6 @@ export default class MyResources extends React.Component {
     }
 
     componentWillMount() {
-        // const result = networkAction.promiseNetwork({url: ``})
         const userInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`})
         userInfo.then((res) => {
             console.log("homepageUserInfo-res:", res.data)
@@ -30,34 +29,68 @@ export default class MyResources extends React.Component {
                 userInfo: res.data
             })
         })
-        // const recentScan = networkAction.promiseNetwork({url: `TeachingResourceManagement/userResource/getMyResourceList`})
-        // recentScan.then((res) => {
-        //     console.log("recentScan: ", res)
-        //     this.setState({
-        //         contents: res.data
-        //     })
-        // })
+        const recentScan = networkAction.promiseNetwork({url: `TeachingResourceManagement/userResource/getRecentReview`})
+        recentScan.then((res) => {
+            console.log("recentScan: ", res)
+            this.setState({
+                contents: res.data.resourceList
+            })
+        })
     }
-    showPageContent(page) {
+    showButton(number) {
+        for(let i = 1; i <= number; i++) {
+            return 
+        }
+    }
+    showRecentView() {
+        let {page, contents} = this.state;
+        let groupNum = Math.ceil(contents.length / 3);
+        let buttonShowArr = [];
+        for(let i = 1; i <= groupNum; i++) {
+            buttonShowArr.push(i);
+        }
         return (
-            <div id={"page"+page} className="content">
-                {this.state.contents.map((content, index) => {
-                    let curPage = Math.ceil(((index + 1) / 3))
-                    if(curPage === page) {
-                        return (
-                            <p className="content-detail" key={index}>&nbsp; 
-                                <Link to="/resource/sample">{content}</Link> 
-                                <span className="browse-list-date">2017-04-06 &nbsp;</span> 
-                            </p>                        
-                        )
-                    } else {
-                        return null
+            <div className="right-top-right">
+                <div id={"page"+page} className="content">
+                    {contents.map((content, index) => {
+                        let curPage = Math.ceil(((index + 1) / 3));
+                        let time = date(content.date);
+                        console.log("page: ", page, "curPage: ", curPage);
+                        if(curPage == page) {
+                            return (
+                                <p className="content-detail" key={index}>&nbsp; 
+                                    <Link to={`/resource/${content.resId}`}>{content.title}</Link> 
+                                    <span className="browse-list-date">{time}</span> 
+                                </p>                        
+                            )
+                        } else {
+                            return null
+                        }
+                    })}
+                </div>
+                <div className="pointer col-sm-offset-5">
+                    {
+                        buttonShowArr.map((pageNum, index) => {
+                            if(pageNum == page) {
+                                return (
+                                    <div key={pageNum}
+                                        className="page click-active" 
+                                        data-page={pageNum} 
+                                        onClick={this.handleClick.bind(this)} />
+                                )
+                            } else {
+                                return (
+                                    <div key={pageNum}
+                                        className="page" 
+                                        data-page={pageNum} 
+                                        onClick={this.handleClick.bind(this)} />
+                                )
+                            }
+                        })
                     }
-                })}
-                {/*<p className="content-detail">&nbsp; <Link to="/resource/sample">{this.state.content[3*(page-1)+0]}</Link> <span className="browse-list-date">2017-04-06 &nbsp;</span> </p>
-                <p className="content-detail">&nbsp; <Link to="/resource/sample">{this.state.content[3*(page-1)+1]}</Link> <span className="browse-list-date">2017-04-06 &nbsp;</span> </p>
-                <p className="content-detail">&nbsp; <Link to="/resource/sample">{this.state.content[3*(page-1)+2]}</Link> <span className="browse-list-date">2017-04-06 &nbsp;</span> </p>*/}
+                </div>
             </div>
+            
         )
     }
 
@@ -66,17 +99,6 @@ export default class MyResources extends React.Component {
             page: event.target.dataset.page
         })
     }
-
-    componentDidMount() {
-        //let nodes = document.getElementsByClassName("link");
-        $(".page").on("click", function(e) {
-            $(".page").removeClass("click-active");
-            $(this).addClass("click-active");
-        })
-
-    }
-
-    
 
     render() {
         let {uploads, collections, downloads, userName, sex} = this.state.userInfo;
@@ -102,14 +124,7 @@ export default class MyResources extends React.Component {
                             <div className="browse-list-top">
                                 <p className="browse-list-title">最近浏览</p>
                             </div>
-                            <div className="right-top-right">
-                                {this.showPageContent(this.state.page)}
-                                <div className="pointer col-sm-offset-5">
-                                    <div className="page click-active" data-page={1} onClick={this.handleClick.bind(this)}> </div>
-                                    <div className="page" data-page={2} onClick={this.handleClick.bind(this)}> </div>
-                                    <div className="page" data-page={3} onClick={this.handleClick.bind(this)}> </div>
-                                </div>
-                            </div>
+                            {this.showRecentView()}
                           </div>
                         </div>
                     </div> : null}
