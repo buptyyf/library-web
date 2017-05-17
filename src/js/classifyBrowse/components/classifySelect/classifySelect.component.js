@@ -3,10 +3,13 @@ import React, {Component} from "react"
 export default class ClassifySelect extends React.Component {
     constructor(props) {
         super(props);
+        this.firstResType =  [],
+        this.secondResType = {},
         this.state = {
             subjectId: "",
             objectId: "",
-            resourceId: ""
+            firstResTypeId: "",
+            secondResTypeId: "",
         };
     }
     componentWillReceiveProps(nextProps) {
@@ -15,9 +18,23 @@ export default class ClassifySelect extends React.Component {
             this.setState({
                 subjectId: this.state.subjectId ? this.state.subjectId : nextProps.subjects[0].subjectId,
                 objectId: this.state.objectId ? this.state.objectId : nextProps.objects[0].appobjId,
-                resourceId: this.state.resourceId ? this.state.resourceId : nextProps.resources[0].restypeId,
+                firstResTypeId: this.state.firstResTypeId ? this.state.firstResTypeId : nextProps.resources[0].restypeId,
+                secondResTypeId: this.state.secondResTypeId ? this.state.secondResTypeId : "000",
             })
+            let resId = "";
+            nextProps.resources.forEach((res, index) => {
+                if(res.restypeId.length === 2) {
+                    this.firstResType.push({name: res.restypeName, id: res.restypeId });
+                    this.secondResType[res.restypeId] = [];
+                    this.secondResType[res.restypeId].push({name: "全部", id: "000"});
+                    resId = res.restypeId;
+                } else if (res.restypeId.length === 3) {
+                    this.secondResType[resId].push({name: res.restypeName, id: res.restypeId});
+                }
+            })
+            console.log("firstResType: ", this.firstResType, "secondResType: ", this.secondResType)
         }
+
     }
     subjectChange(event) {
         this.setState({
@@ -29,20 +46,36 @@ export default class ClassifySelect extends React.Component {
             objectId: event.target.value
         })
     }
-    resourceChange(event) {
+    firstResTypeChange(event) {
         this.setState({
-            resourceId: event.target.value
+            firstResTypeId: event.target.value
         })
     }
+    secondResTypeChange(event) {
+        this.setState({
+            secondResTypeId: event.target.value
+        })
+    }
+
     handleSubmit(event) {
-        let {subjectId, objectId, resourceId} = this.state
+        let {subjectId, objectId, firstResTypeId, secondResTypeId } = this.state
         event.preventDefault();
-        console.log("handleSubmit: ", subjectId, objectId, resourceId)
-        this.props.submitFunc(subjectId, objectId, resourceId);
+        console.log("handleSubmit: ", subjectId, objectId, firstResTypeId, secondResTypeId )
+        // if(secondResTypeId === "000"){
+        //     this.props.submitFunc(subjectId, objectId, secondResTypeId);
+        // }else{
+        //     this.props.submitFunc(subjectId, objectId, firstResTypeId);
+        // }
+        if(secondResTypeId === "000"){
+            this.props.submitFunc(subjectId, objectId, firstResTypeId);
+        }else{
+            this.props.submitFunc(subjectId, objectId, secondResTypeId);
+        }
     }
     
     render() {
         let {subjects, objects, resources, submitFunc} = this.props
+        console.log("firstResTypeId: ", this.state.firstResTypeId)
         return (
         <div className="well">
             <form onSubmit={this.handleSubmit.bind(this)}>
@@ -75,16 +108,32 @@ export default class ClassifySelect extends React.Component {
                 </div>
                 <br />
                 <div className="">
-                    资源类型：
+                    1资源类型：
                     <select id="resource" 
                         className="form-control" 
-                        value={this.state.resourceId}
-                        onChange={this.resourceChange.bind(this)}>
-                        {resources.map((resource) => {
+                        value={this.state.firstResTypeId}
+                        onChange={this.firstResTypeChange.bind(this)}>
+                        {this.firstResType.map((resource, index) => {
                             return (
-                                <option value={resource.restypeId} key={resource.restypeId}>{resource.restypeName}</option>
+                                <option value={resource.id} key={index}>{resource.name}</option>
                             )
                         })}
+                    </select>
+                </div>
+                <div className="">
+                    2资源类型：
+                    <select id="resource" 
+                        className="form-control" 
+                        value={this.state.secondResTypeId}
+                        onChange={this.secondResTypeChange.bind(this)}>
+                        {this.state.firstResTypeId ? 
+                            this.secondResType[this.state.firstResTypeId].map((resource, index) => {
+                                return (
+                                    <option value={resource.id} key={index}>{resource.name}</option>
+                                )
+                            }) : 
+                            null
+                        }
                     </select>
                 </div>
                 <br />

@@ -112,7 +112,7 @@ class Root extends React.Component{
                     <Route path="uploadDone" component={UploadDone} />
                 </Route>
                 <Route path="user" component={UserScene}>
-                    <IndexRoute component={ChangePassword}/>
+                    <IndexRoute component={ChangeInfo}/>
                     <Route path="myAccount" component={MyAccount} />
                     <Route path="changePassword" component={ChangePassword} />
                     <Route path="changePasswordDone" component={ChangePasswordDone} />
