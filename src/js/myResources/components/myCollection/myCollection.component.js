@@ -29,6 +29,9 @@ export default class MyCollection extends React.Component {
             console.log("MyCollection: ", res)
         })
     }
+    formatData() {
+        
+    }
     priceFormatter(cell, row){
         console.log(cell, row)
         let link = "/resource/" + row.name
@@ -38,7 +41,7 @@ export default class MyCollection extends React.Component {
     render() {
         return (
             <BootstrapTable data={this.state.infoArr}>
-                <TableHeaderColumn isKey dataField='name' dataSort={ true } dataFormat={this.priceFormatter.bind(this)}>名称</TableHeaderColumn>
+                <TableHeaderColumn isKey dataField='name' dataFormat={this.priceFormatter.bind(this)}>名称</TableHeaderColumn>
                 <TableHeaderColumn dataField='score'>评分</TableHeaderColumn>
                 <TableHeaderColumn dataField='uploadUser'>上传用户</TableHeaderColumn>
                 <TableHeaderColumn dataField='collectTime'>收藏时间</TableHeaderColumn>

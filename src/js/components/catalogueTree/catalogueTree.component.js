@@ -91,7 +91,9 @@ export default class CatalogueTree extends React.Component {
     }
     handleDepartmentChange(event) {
         let departmentId = event.target.dataset.id;
-        console.log("departmentId: ", departmentId)
+        console.log("departmentId: ", departmentId);
+        $('span').removeClass("gray");
+        event.target.className = "gray";
         this.props.onChange(departmentId);
     }
     renderTree(tree, index) {

@@ -40,7 +40,7 @@ export default class DepartmentBrowse extends React.Component {
         }, {
             departmentId: Number(selectedDepartment),
             sort: sort,
-            page: Number(page)
+            page: Number(page) > 0 ? Number(page) : 1
         })
         result.then((res) => {
             console.log("departmentBrowsing: ", res)

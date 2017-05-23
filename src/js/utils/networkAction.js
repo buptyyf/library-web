@@ -127,7 +127,7 @@ export class NetworkAction{
             console.log("name:", name, "key:", key, "value:", value)
             if (value === undefined) return
             value === null && (value = '')
-            if (typeof value === 'object') {
+            if (typeof value === 'object' && !Array.isArray(value)) {
                 out += this.urlencodedParam(value, key)
             } else {
                 out += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`

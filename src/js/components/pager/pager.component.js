@@ -3,7 +3,9 @@ import React from "react"
 export default class Pager extends React.Component {
     clickHandler(e) {
         e.stopPropagation();
-        this.props.handleClick(e.target.dataset.page);
+        if(e.target.dataset.page > 0 && e.target.dataset.page <= this.props.totalPages) {
+            this.props.handleClick(e.target.dataset.page);
+        }
     }
     showButton() {
         return(
@@ -24,7 +26,7 @@ export default class Pager extends React.Component {
         } else {
             preClass = ''
         }
-        if(this.props.curPage == this.props.totalPages) {
+        if(this.props.curPage >= this.props.totalPages) {
             nextClass = 'disabled'
         } else {
             nextClass = ''
