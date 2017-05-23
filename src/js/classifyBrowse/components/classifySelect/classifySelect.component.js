@@ -22,6 +22,7 @@ export default class ClassifySelect extends React.Component {
                 secondResTypeId: this.state.secondResTypeId ? this.state.secondResTypeId : "000",
             })
             let resId = "";
+            this.firstResType = [];
             nextProps.resources.forEach((res, index) => {
                 if(res.restypeId.length === 2) {
                     this.firstResType.push({name: res.restypeName, id: res.restypeId });
@@ -108,20 +109,20 @@ export default class ClassifySelect extends React.Component {
                 </div>
                 <br />
                 <div className="">
-                    1资源类型：
+                    资源类型：
                     <select id="resource" 
                         className="form-control" 
                         value={this.state.firstResTypeId}
                         onChange={this.firstResTypeChange.bind(this)}>
                         {this.firstResType.map((resource, index) => {
                             return (
-                                <option value={resource.id} key={index}>{resource.name}</option>
+                                <option value={resource.id} key={index}> {resource.name} </option>
                             )
                         })}
                     </select>
                 </div>
                 <div className="">
-                    2资源类型：
+                   
                     <select id="resource" 
                         className="form-control" 
                         value={this.state.secondResTypeId}

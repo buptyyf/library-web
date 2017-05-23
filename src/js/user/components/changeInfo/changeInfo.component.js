@@ -158,7 +158,7 @@ export default class ChangeInfo extends React.Component {
                    <form onSubmit={this.handleChangeInfoSummit.bind(this)}>                                      
                     <div className="change-info-first">
                         <input type="text" className="form-control"
-                        value={this.state.newInfo.userNum} 
+                        value={this.state.newInfo.userNum} disabled
                         onChange={this.userNumChange.bind(this)}/>
                     </div>
                     <div className="change-info ">

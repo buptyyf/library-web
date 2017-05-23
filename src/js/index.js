@@ -122,7 +122,7 @@ class Root extends React.Component{
                 </Route>
                 <Route path="classifyBrowse" component={ClassifyBrowse}/>
                 <Route path="departmentBrowse" component={DepartmentBrowse}/>
-                <Route path="search/:keywords" component={SearchScene}/>
+                <Route path="search/:keywords/:resIdList" component={SearchScene}/>
                 <Route path="resourcesStatistics" component={ResourcesStatistics}/>
                 <Route path="resource/:id" component={ResourceDetail}/>
                 <Route path="meeting" component={Meeting}/>

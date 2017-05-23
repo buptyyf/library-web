@@ -28,6 +28,7 @@ export default class ResourceDetail extends React.Component {
             viewNum: 0,
             commentContent: "",
             commentScore: 0, //用户提交的评分
+            fileFormat: "",
         };
     }   
     componentWillMount(){
@@ -49,10 +50,31 @@ export default class ResourceDetail extends React.Component {
                 score: res.data.resourceInfo.commentscore,
                 viewNum: res.data.resourceInfo.pageviews,
                 resId: res.data.resourceInfo.resId,
-                contributor: res.data.resourceInfo.contributorName
+                contributor: res.data.resourceInfo.contributorName,
+                fileFormat:  res.data.fileFormat
             })
         })
     }
+
+    filePreview(){
+        if(this.state.fileFormat == "pdf"){
+            return(
+                <ReactPDF 
+                    file={this.state.file}
+                    onDocumentLoad={this.onDocumentLoad.bind(this)}
+                    onPageLoad={this.onPageLoad.bind(this)}
+                    pageIndex={this.state.pageIndex}
+                    error={"此文件无法预览"}/>
+            )
+        }else if(this.state.fileFormat == "video"){
+            return(
+                <video src={this.state.file}  controls="controls">
+                </video>
+            )
+        }
+
+    }
+
     onDocumentLoad({ total }) {
         this.setState({ total });
     }
@@ -90,6 +112,7 @@ export default class ResourceDetail extends React.Component {
                         <p className="rank-list" key={index}>
                             <Link to={`/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
                         </p>
+                        
                     })}
                 </div>
             )
@@ -225,13 +248,9 @@ export default class ResourceDetail extends React.Component {
                 </div>
                 <div className="well">
                     <div className="pdf-container">
-                        <ReactPDF 
-                            file={file}
-                            onDocumentLoad={this.onDocumentLoad.bind(this)}
-                            onPageLoad={this.onPageLoad.bind(this)}
-                            pageIndex={pageIndex}
-                            error={"此文件无法预览"}/>
+                        {this.filePreview()}
                     </div>
+                    {this.state.fileFormat == "pdf" ? 
                     <div className="page-button">
                         <button
                             className="btn btn-default"
@@ -255,8 +274,8 @@ export default class ResourceDetail extends React.Component {
                         <form method="POST" action={downloadApi}>
                             <input type="text" name="resourceId" value={resId} style={{display: "none"}}/>
                             <input type="submit" value="下载" className="btn btn-default" />
-                        </form>
-                    </div>
+                        </form> 
+                    </div> : null}
                 </div>
                 <form className="form-group" onSubmit={this.submitComment.bind(this)}>
                     <label htmlFor="exampleInputPassword1">你的评价：</label>

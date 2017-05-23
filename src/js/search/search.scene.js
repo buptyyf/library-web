@@ -10,7 +10,8 @@ export default class SearchScene extends React.Component {
         this.state = {
             tableData: [],
             keywords: "",
-            resourceTypeId: "01",
+            resIdList: [],
+            //resourceTypeId: "01",
             sort: "downloads",
             pageInfo: {     
                 curPage: 1,
@@ -20,19 +21,23 @@ export default class SearchScene extends React.Component {
         };
     }
     componentWillMount() {
+        console.log("resIdList: ",this.props.params.resIdList.split(","))
+        
         this.setState({
-            keywords: this.props.params.keywords
+            keywords: this.props.params.keywords,
+            resIdList: this.props.params.resIdList,
         },this.searchNetwork.bind(this));
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
-            keywords: nextProps.params.keywords
+            keywords: nextProps.params.keywords,
+            resIdList: nextProps.params.resIdList,
 
         },this.searchNetwork.bind(this));
     }
 
     searchNetwork() {
-        let {sort, resourceTypeId, keywords} = this.state;
+        let {sort, resIdList, keywords} = this.state;
         let page = this.state.pageInfo.curPage;
         console.log("!!!!!keywords: ", keywords);
         const result = networkAction.promiseNetwork({
@@ -41,7 +46,7 @@ export default class SearchScene extends React.Component {
         }, {
             sort: sort,
             page: page,
-            resourceTypeId: resourceTypeId,
+            resourceTypeId: resIdList,
             keywords: keywords
         })
         result.then((res) => {
