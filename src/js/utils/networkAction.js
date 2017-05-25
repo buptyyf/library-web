@@ -24,44 +24,41 @@ export class NetworkAction{
                     (baseUrl.endsWith('/') ? '' : '/') +
                     `${baseData.url}`;
                 let contentType = 'application/x-www-form-urlencoded';
-                if(NetworkAction.sessionId) {
-                    paramData["sessionId"] = NetworkAction.sessionId;
-                }
+                // if(NetworkAction.sessionId) {
+                //     paramData["sessionId"] = NetworkAction.sessionId;
+                // }
                 let input = this.urlencodedParam(paramData);
                 let cookie = "";
                 if(NetworkAction.sessionId) {
-                    cookie = encodeURIComponent("sessionId") + "=" + encodeURIComponent(NetworkAction.sessionId);
+                    cookie = encodeURIComponent("sessionId") + "=" + encodeURIComponent(NetworkAction.sessionId) + ";" + encodeURIComponent("UserInfo") + "=";
                     console.log("cookie: ", cookie);
                 }
                 let headers = {
                     'Content-Type': contentType,
-                    // 'Access-Control-Allow-Origin': 'http://localhost:8080',
-                    // "Access-Control-Allow-Credentials": "true"
+                    'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Credentials": "true",
+                    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+                    'Access-Control-Allow-Headers': 'access-control-allow-origin, Origin,Accept, X-Requested-With, Content-Type, access-control-allow-methods, Access-Control-Request-Headers, access-control-allow-credentials',
                     "Cookie": cookie
                 };
                 if(baseData.contentType) {
                     switch (baseData.contentType) {
                         case 'urlencoded':
-                            contentType = 'application/x-www-form-urlencoded';
                             input = this.urlencodedParam(paramData);
-                            headers = {
-                                'Content-Type': contentType,
-                                // 'Access-Control-Allow-Origin': '*'
-                            }
+                            headers = Object.assign({}, headers, {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            });
                             break;
 
                         case 'formdata':
                             input = this.formdataParam(paramData);
-                            headers = {
-                                // 'Access-Control-Allow-Origin': '*'
-                            };
+                            headers = Object.assign({}, headers, {});
                             break;
 
                         case 'json':
-                            contentType = 'application/json';
-                            headers = {
-                                'Content-Type': contentType,
-                            }
+                            headers = Object.assign(headers, {
+                                'Content-Type': 'application/json',
+                            });
                             input = this.jsonParam(paramData);
                             break;
 
@@ -77,8 +74,8 @@ export class NetworkAction{
                     method: method,
                     headers: headers,
                     body: useBody ? input : null,
-                    // credentials: 'include',
-                    // mode: 'no-cors'
+                    credentials: 'include',
+                    mode: 'cors'
                 })
                 // console.log("input: ", input, res, res.json());
                 if(res.status < 200 || res.status > 299) {

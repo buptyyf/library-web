@@ -12,6 +12,39 @@ export function date(shijianchuo) { //时间戳到秒即共13位
     return y+'-'+add0(m)+'-'+add0(d);
     // return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 }
+/**
+ * 把形如'1495705983239'（13位）这种的形式的时间戳表示转换为周几，并输出小时数
+ * 输出一个数组[周几, 小时] 周的返回0-6，0表示周日
+ * 比如输入参数为"1495705983239"
+ * 输出为[4, 10]，表示周四早十点
+ */
+export function dateToWeek(shijianchuo) {
+    let myDate = new Date(+shijianchuo);
+    return [myDate.getDay(), myDate.getHours()];
+}
+/**
+ * @param {*} week 表示本周还是下周,0表示本周，1表示下周
+ * @param {*} day 周几 0-6
+ * @param {*} hours 时间
+ * 
+ * return 13位时间戳
+ */
+export function weekToDate(week, day, hours) {
+    let nowDate = new Date();
+    let nowTime = nowDate.getTime();
+    let oneDayLong = 24*60*60*1000;
+    let aimTime = nowTime - (nowDate.getDay() - day) * oneDayLong + week * 7 * oneDayLong;
+    aimTime = new Date(aimTime);
+    let year = aimTime.getFullYear(), month = aimTime.getMonth(), date = aimTime.getDate();
+    aimTime = new Date();
+    aimTime.setFullYear(year, month, date);
+    aimTime.setHours(hours);
+    aimTime.setMinutes(0);
+    aimTime.setSeconds(0);
+    aimTime.setMilliseconds(0);
+    return aimTime.getTime();
+}
+
 export function roughDate(shijianchuo) {
     let minute = 1000 * 60;
     let hour = minute * 60;

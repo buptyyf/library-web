@@ -14,7 +14,7 @@ export default class UserScene extends React.Component {
 
     render() {
         return (
-        <div className="row col-sm-12">
+        <div className="col-sm-12">
             <div className="col-sm-2 well">
                 <UserResourcesMenu />
             </div>

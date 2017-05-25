@@ -21,17 +21,17 @@ export default class SearchScene extends React.Component {
         };
     }
     componentWillMount() {
-        console.log("resIdList: ",this.props.params.resIdList.split(","))
+        console.log("resIdList: ",this.props.params.resIdList)
         
         this.setState({
             keywords: this.props.params.keywords,
-            resIdList: this.props.params.resIdList,
+            resIdList: this.props.params.resIdList.split(","),
         },this.searchNetwork.bind(this));
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
             keywords: nextProps.params.keywords,
-            resIdList: nextProps.params.resIdList,
+            resIdList: nextProps.params.resIdList.split(","),
 
         },this.searchNetwork.bind(this));
     }
