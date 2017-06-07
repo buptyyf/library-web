@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {Link, browserHistory} from "react-router"
+import {Modal, Button} from "react-bootstrap"
 import "./upload.style.less"
 import $ from 'jquery'
 import networkAction from "../../../utils/networkAction"
@@ -17,7 +18,8 @@ export default class Upload extends React.Component {
             abstract: false,
             subject: false,
             object: false,
-            authority: false
+            authority: false,
+            uploadState: 0,
         }
     }
 
@@ -81,9 +83,15 @@ export default class Upload extends React.Component {
                 resAuthId: authority,
                 file: file
             })
+            this.setState({
+                uploadState: 1,
+            })
             result.then((res) => {
                 console.log("upload res: ", res)
                 if(res.code == 0) {
+                    this.setState({
+                        uploadState: 0,
+                    })
                     browserHistory.push("/myResources/uploadDone")
                 }
             }).catch(() => {
@@ -94,6 +102,16 @@ export default class Upload extends React.Component {
         }
         // browserHistory.push("/myResources/uploadDone")
         event.preventDefault();
+    }
+    renderWait(){
+        if(this.state.uploadState == 1){
+           return(
+               <div className="wait">
+                    <span className="glyphicon glyphicon-refresh"></span>
+                    &nbsp;正在上传，请稍候！
+               </div>
+           )
+        }else return null;
     }
 
     render() {
@@ -155,7 +173,8 @@ export default class Upload extends React.Component {
                         )
                     })}
                     </div>
-                    <input type="submit" value="确认上传" className="btn btn-default upload-button" />
+                    <input type="submit" value="确认上传" className="btn btn-default upload-button" disabled = {this.state.uploadState} /> 
+                    {this.renderWait()}
                         
                 </div>
             </form>

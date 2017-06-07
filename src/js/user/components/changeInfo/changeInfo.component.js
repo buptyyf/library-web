@@ -167,7 +167,7 @@ export default class ChangeInfo extends React.Component {
                             onChange={this.userNameChange.bind(this)} />
                     </div>
                     <div className="change-info">  
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                                 value={this.state.newInfo.sex} 
                                 onChange={this.sexChange.bind(this)}>
                             <option value="0">男</option>
@@ -175,12 +175,12 @@ export default class ChangeInfo extends React.Component {
                         </select>
                     </div>
                     <div className="change-info  ">
-                        <input name="" type="date" className="select form-control"
+                        <input name="" type="date" className="changeInfo-select form-control"
                                value={this.state.newInfo.birthDate} 
                                onChange={this.birthDateChange.bind(this)}/> 
                     </div>
                     <div className="change-info ">
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                                 value={this.state.newInfo.depId} 
                                 onChange={this.depIdChange.bind(this)}>
                             {departmentInfo.map((department, index) => {
@@ -202,7 +202,7 @@ export default class ChangeInfo extends React.Component {
                         </select>
                     </div>
                     <div className="change-info">  
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                                 value={this.state.newInfo.protitleId} 
                                 onChange={this.protitleIdChange.bind(this)}>
                             {protitle.map((protitle, index) => {

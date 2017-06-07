@@ -45,7 +45,7 @@ export default class SearchScene extends React.Component {
             method: 'POST'
         }, {
             sort: sort,
-            page: page,
+            page: Number(page) > 0 ? Number(page) : 1,
             resourceTypeId: resIdList,
             keywords: keywords
         })

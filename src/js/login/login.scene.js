@@ -7,10 +7,14 @@ import networkAction from "../utils/networkAction"
 export default class Login extends Component {
     constructor(props) {  //只有在constructor中可以直接为this.state分配值，其他情况要是用setState()方法更新state值，如this.setState({loginState:0})
         super(props);
+        this.userId = "",
         this.state = {
             loginState: 0, // 0表示未登录，1表示用户名或密码错误，2表示该用户不存在
             content: ["用户名或密码错误，请重新输入！","该用户不存在，请重新输入！"]
         }
+    }
+    componentWillMount() {
+        // 发送清除cookie的请求
     }
     handleLogin(event) {
         event.preventDefault();
@@ -23,6 +27,8 @@ export default class Login extends Component {
             console.log("login-result:", res);
             //console.log("login-result:", res.data.sessionId);
             // global.sessionId = res.data.sessionId;
+            this.userId = res.data.userId;
+            console.log("this.userId:", this.userId);
             if(res.code == 0){
                 browserHistory.push('/home');
             }else if(res.code == 1){
@@ -30,13 +36,31 @@ export default class Login extends Component {
             }else{
                 this.setState({loginState: 2});
             }
-         })
-        event.preventDefault();
-        // global.userInfo = {
+            //this.globalUserInfo()
+            global.userInfo = {
+               userId: this.userId,
         //     name: "yyf",
         //     authorId: 1
-        // }
+            }
+            console.log("global.userInfo.userId:", global.userInfo.userId);
+            })
+        // event.preventDefault();
+        //  global.userInfo = {
+        //        userId: this.userId,
+        // //     name: "yyf",
+        // //     authorId: 1
+        //  }
+        //  console.log("login-userId:", global.userInfo.userId);
     }  
+    // globalUserInfo(){
+    //     //event.preventDefault();
+    //     global.userInfo = {
+    //            userId: this.userId,
+    //     //     name: "yyf",
+    //     //     authorId: 1
+    //     }
+    //     console.log("global.userInfo.userId:", global.userInfo.userId);
+    // }
 
     renderWrong(){
         if(this.state.loginState == 1){

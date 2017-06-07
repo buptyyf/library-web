@@ -34,7 +34,7 @@ export class NetworkAction{
                     console.log("cookie: ", cookie);
                 }
                 let headers = {
-                    'Content-Type': contentType,
+                    //'Content-Type': contentType,
                     'Access-Control-Allow-Origin': '*',
                     "Access-Control-Allow-Credentials": "true",
                     'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
@@ -64,7 +64,12 @@ export class NetworkAction{
 
                         default:
                             break;
-                    }
+                    }  
+                }else {
+                    input = this.urlencodedParam(paramData);
+                    headers = Object.assign({}, headers, {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    });
                 }
                 
                 useBody || (url = this.appendQuery(url, input));
