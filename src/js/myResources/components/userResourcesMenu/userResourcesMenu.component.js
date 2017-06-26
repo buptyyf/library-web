@@ -69,18 +69,18 @@ export default class UserResourcesMenu extends React.Component {
                 return(
                     <ul className="nav navbar-nav">
                         <li className="col-sm-12 text-center active"><i className="glyphicon glyphicon-user" />我的账号</li>
-                        <li className="col-sm-12 text-center active"><Link to="/user/changeInfo">修改资料</Link></li>
-                        <li className="col-sm-12 text-center active"><Link to="/user/changePassword">修改密码</Link></li>
+                        <li className="col-sm-12 text-center active"><Link to="/TeachingResourceManagement/user/changeInfo">修改资料</Link></li>
+                        <li className="col-sm-12 text-center active"><Link to="/TeachingResourceManagement/user/changePassword">修改密码</Link></li>
                         <li className="col-sm-12 text-center active"><i className="glyphicon glyphicon-user" />管理员</li>
-                        <li className="col-sm-12 text-center active"><Link to="/user/adminQuery">查询/添加/修改</Link></li>
+                        <li className="col-sm-12 text-center active"><Link to="/TeachingResourceManagement/user/adminQuery">查询/添加/修改</Link></li>
                     </ul>
                 )
             }else{
                 return(
                     <ul className="nav navbar-nav">
                         <li className="col-sm-12 text-center active"><i className="glyphicon glyphicon-user" />我的账号</li>
-                        <li className="col-sm-12 text-center active"><Link to="/user/changeInfo">修改资料</Link></li>
-                        <li className="col-sm-12 text-center active"><Link to="/user/changePassword">修改密码</Link></li>
+                        <li className="col-sm-12 text-center active"><Link to="/TeachingResourceManagement/user/changeInfo">修改资料</Link></li>
+                        <li className="col-sm-12 text-center active"><Link to="/TeachingResourceManagement/user/changePassword">修改密码</Link></li>
                     </ul>
                 )
             }
@@ -100,9 +100,9 @@ export default class UserResourcesMenu extends React.Component {
                 <div className="col-sm-12">
                     <UploadButton />
                     <ul className="nav navbar-nav">
-                        <li className="col-sm-12 text-center"><Link to="/myResources/contribution">我的贡献</Link></li>
-                        <li className="col-sm-12 text-center"><Link to="/myResources/collection">我的收藏</Link></li>
-                        <li className="col-sm-12 text-center"><Link to="/myResources/download">我的下载</Link></li>
+                        <li className="col-sm-12 text-center"><Link to="/TeachingResourceManagement/myResources/contribution">我的贡献</Link></li>
+                        <li className="col-sm-12 text-center"><Link to="/TeachingResourceManagement/myResources/collection">我的收藏</Link></li>
+                        <li className="col-sm-12 text-center"><Link to="/TeachingResourceManagement/myResources/download">我的下载</Link></li>
                     </ul>
                 </div>
             )

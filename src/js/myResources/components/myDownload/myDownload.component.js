@@ -65,7 +65,7 @@ export default class MyDownload extends React.Component {
     }
     nameFormatter(cell, row){
         console.log(cell, row)
-        let link = "/resource/" + row.resId
+        let link = "/TeachingResourceManagement/resource/" + row.resId
         return <Link to={link}>{cell}</Link>;
     }
     render() {

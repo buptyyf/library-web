@@ -124,7 +124,9 @@ export default class MeetingScene extends React.Component {
         })
     }
     handleReserveCancel() {
-        
+        this.setState({
+            clickInfo: Object.assign({}, this.state.clickInfo, {comment: "" })
+        })
     }
     // comfirmModal() {
     //     this.setState({
@@ -175,11 +177,11 @@ export default class MeetingScene extends React.Component {
         )
     }
 
-    handleSummit(event){
-        event.preventDefault();
-        //this.formatArr();
-        this.getReservationInfo();
-    }
+    // handleSummit(event){
+    //     event.preventDefault();
+    //     //this.formatArr();
+    //     this.getReservationInfo();
+    // }
     handleReserveSummit(event){
         event.preventDefault();
         let {weekId, roomId} = this.state;
@@ -195,7 +197,8 @@ export default class MeetingScene extends React.Component {
         reserveResult.then((res) => {
              console.log("!!!!!!!reserveResult:",res);
              this.setState({
-                showReserveModal: false,   
+                showReserveModal: false,  
+                clickInfo: Object.assign({}, this.state.clickInfo, {comment: "" })
             },this.getReservationInfo.bind(this))
         })
     }
@@ -253,12 +256,14 @@ export default class MeetingScene extends React.Component {
     handleWeekChange(event) {
         this.setState({
             weekId: event.target.value
-        });
+        },this.getReservationInfo.bind(this));
+        
     }
     handleRoomChange(event) {
         this.setState({
             roomId: event.target.value
-        });
+        },this.getReservationInfo.bind(this));
+        
     }
 
 
@@ -275,7 +280,8 @@ export default class MeetingScene extends React.Component {
                 //let date = weekToDay(weekId, day);
                 return (
                     <div key={timeIndex} 
-                        className="cell_body" 
+                        
+                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === global.userInfo.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
                         onClick={this.handleCellClick.bind(this)} 
                         data-day={day} data-time={time} >
                         <div className="one-cell" data-day={day} data-time={time}>{cellInfo.userName}</div>
@@ -320,7 +326,7 @@ export default class MeetingScene extends React.Component {
                         <h2>会议室预定</h2>
                     </div>
                     <div className="select ">
-                    <form onSubmit={this.handleSummit.bind(this)}>
+                    <form >
                         <div className="select-week-room">
                             <div className="select-text">本周/下周：</div>
                             <div className="select-frame">
@@ -342,9 +348,7 @@ export default class MeetingScene extends React.Component {
                                 </select>
                             </div>
                         </div>
-                        <div className="button">
-                            <input type="submit" value="查找" className="btn btn-default upload-button" />
-                        </div>
+                        
                     </form>
                     </div>
                 </div>

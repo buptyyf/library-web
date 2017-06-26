@@ -92,7 +92,7 @@ export default class Upload extends React.Component {
                     this.setState({
                         uploadState: 0,
                     })
-                    browserHistory.push("/myResources/uploadDone")
+                    browserHistory.push("/TeachingResourceManagement/myResources/uploadDone")
                 }
             }).catch(() => {
                 alert("上传失败")

@@ -10,7 +10,7 @@ export default class UploadButton extends React.Component {
 
 
     goToUpload() {
-        browserHistory.push("/myResources/upload")
+        browserHistory.push("/TeachingResourceManagement/myResources/upload")
     }
     render() {
         return (

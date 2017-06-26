@@ -241,7 +241,7 @@ export default class AdminQueryTable extends React.Component {
                             onChange={this.userNameChange.bind(this)} required/>
                     </div>
                     <div className="change-info">  
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                                 value={gender} 
                                 onChange={this.sexChange.bind(this)} required>
                             <option value="0">男</option>
@@ -249,12 +249,12 @@ export default class AdminQueryTable extends React.Component {
                         </select>
                     </div>
                     <div className="change-info  ">
-                        <input name="" type="date" className="select form-control"
+                        <input name="" type="date" className="changeInfo-select form-control"
                             value={age} 
                             onChange={this.birthDateChange.bind(this)} required/> 
                     </div>
                     <div className="change-info ">
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                                 value={depId} 
                                 onChange={this.depIdChange.bind(this)} required>
                             {this.departmentInfo.map((department, index) => {
@@ -276,7 +276,7 @@ export default class AdminQueryTable extends React.Component {
                         </select>
                     </div>
                     <div className="change-info">  
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                                 value={protitleId} 
                                 onChange={this.protitleIdChange.bind(this)} required>
                             {this.protitle.map((protitle, index) => {
@@ -292,7 +292,7 @@ export default class AdminQueryTable extends React.Component {
                             onChange={this.researchareaChange.bind(this)} required/>
                     </div>
                     <div className="change-info">
-                        <select className="select form-control"
+                        <select className="changeInfo-select form-control"
                             value={userauthId} 
                             onChange={this.authIdChange.bind(this)} required>
                             {this.userAuthInfo.map((userAuth, index) => {

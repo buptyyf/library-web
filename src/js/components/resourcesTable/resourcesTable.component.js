@@ -55,7 +55,7 @@ export default class ResourcesTable extends React.Component {
                 index: (curPage - 1) * 10 + index + 1,
                 resId: item.resId,
                 name: item.title,
-                author: item.contributor,
+                author: item.contributorName,
                 department: item.department,
                 uploadTime: uploadTime,
                 resourceType: item.resType,
@@ -70,7 +70,7 @@ export default class ResourcesTable extends React.Component {
 
     priceFormatter(cell, row){
         //console.log(cell, row)
-        let link = "/resource/" + row.resId
+        let link = "/TeachingResourceManagement/resource/" + row.resId
         return <Link to={link}>{cell}</Link>;
     }
     getNewPageNum(pageNum) {

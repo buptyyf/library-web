@@ -9,7 +9,7 @@ export default class UploadDone extends React.Component {
     //this.handleClick = this.handleClick.bind(this);
     }
     goToUpload() {
-        browserHistory.push("/myResources/upload")
+        browserHistory.push("/TeachingResourceManagement/myResources/upload")
     }
     render() {
         return (

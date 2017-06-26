@@ -50,19 +50,19 @@ class App extends Component {
                             </Navbar.Brand>
                         </Navbar.Header>
                         <ul className="nav navbar-nav">
-                            <li className="active link"><Link to="/">首页</Link></li>
-                            <li className="link"><Link to="/myResources">我的资源</Link></li>
-                            <li className="link"><Link to="/classifyBrowse">分类浏览</Link></li>
-                            <li className="link"><Link to="/departmentBrowse">科室浏览</Link></li>
-                            <li className="link"><Link to="/resourcesStatistics">资源统计</Link></li>
-                            <li className="link"><Link to="/meeting">会议</Link></li>
-                            <li className="link"><Link to="/office">办公</Link></li>
-                            <li className="link"><Link to="/selfService">自助系统</Link></li>
+                            <li className="active link"><Link to="/TeachingResourceManagement/">首页</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/myResources">我的资源</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/departmentBrowse">科室浏览</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/resourcesStatistics">资源统计</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/meeting">会议</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/office">办公</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/selfService">自助系统</Link></li>
 				        </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1}>
-                                <Link to="/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
-                                <Link to="/login"> 退出</Link>
+                                <Link to="/TeachingResourceManagement/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
+                                <Link to="/TeachingResourceManagement/login"> 退出</Link>
                             </NavItem>
                         </Nav>
                     </Navbar>
@@ -88,7 +88,7 @@ class Root extends React.Component{
         if (!this.state.loggedIn && browserHistory.getCurrentLocation().pathname.search('login') === -1) {
             console.log("what?")
             replace({
-              pathname: '/login',
+              pathname: '/TeachingResourceManagement/login',
               state: { nextPathname: nextState.location.pathname }
             })
             // browserHistory.push('/login');
@@ -99,7 +99,7 @@ class Root extends React.Component{
         return (
         <Router history={browserHistory}>
             {/*<Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>*/}
-            <Route path="/" component={App} >
+            <Route path="/TeachingResourceManagement" component={App} >
                 <IndexRoute component={Home} />
                 <Route path="home" component={Home} />                
                 <Route path="login" component={Login} />

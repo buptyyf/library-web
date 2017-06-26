@@ -82,7 +82,7 @@ export default class ChangeInfo extends React.Component {
         result.then((res) => {
             console.log("login-result:", res);
             if(res.code == 0){
-                browserHistory.push('/user/changeInfoDone');
+                browserHistory.push('/TeachingResourceManagement/user/changeInfoDone');
             }else{
                 alert("密码修改失败，请重新修改！");
             }

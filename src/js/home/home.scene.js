@@ -48,7 +48,7 @@ export class Home extends Component {
                         {this.state.downloadsList.map((item, index) => {
                             return (
                                 <p className="rank-list" key={index}>
-                                    <Link to={`/resource/${item.resId}`}>{item.title} <span> ({item.downloads})</span></Link>
+                                    <Link to={`/TeachingResourceManagement/resource/${item.resId}`}>{item.title} <span> ({item.downloads})</span></Link>
                                         <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
                                 </p>
                             );
@@ -62,7 +62,7 @@ export class Home extends Component {
                         {this.state.commentScoreList.map((item, index) => {
                             return (
                                 <p className="rank-list" key={index}>
-                                    <Link to={`/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
+                                    <Link to={`/TeachingResourceManagement/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
                                     <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
                                 </p>
                             );

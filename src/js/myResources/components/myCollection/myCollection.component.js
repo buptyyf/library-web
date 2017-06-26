@@ -34,7 +34,7 @@ export default class MyCollection extends React.Component {
     }
     priceFormatter(cell, row){
         console.log(cell, row)
-        let link = "/resource/" + row.name
+        let link = "/TeachingResourceManagement/resource/" + row.name
         return <Link to={link}>{cell}</Link>;
     }
 

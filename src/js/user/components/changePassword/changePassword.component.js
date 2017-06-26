@@ -34,7 +34,7 @@ export default class ChangePassword extends React.Component {
         result.then((res) => {
             console.log("changePassword-result:", res);
             if(res.code == 0){
-                browserHistory.push('/user/changePasswordDone');
+                browserHistory.push('/TeachingResourceManagement/user/changePasswordDone');
             }else{
                 alert("密码修改失败，请重新修改！")
             }

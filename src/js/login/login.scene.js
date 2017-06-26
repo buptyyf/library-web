@@ -15,6 +15,10 @@ export default class Login extends Component {
     }
     componentWillMount() {
         // 发送清除cookie的请求
+        const result = networkAction.promiseNetwork({"url": `TeachingResourceManagement/user/logout`, "method": 'POST'})
+        result.then((res) => {
+            console.log("logout-result:", res);
+        })
     }
     handleLogin(event) {
         event.preventDefault();
@@ -30,7 +34,7 @@ export default class Login extends Component {
             this.userId = res.data.userId;
             console.log("this.userId:", this.userId);
             if(res.code == 0){
-                browserHistory.push('/home');
+                browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
             }else{

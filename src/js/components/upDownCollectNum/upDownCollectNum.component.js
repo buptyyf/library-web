@@ -9,13 +9,13 @@ export default class UpDownCollectNum extends React.Component {
     }
 
     goToMyUploadPage() {
-        browserHistory.push('/myResources/contribution')
+        browserHistory.push('/TeachingResourceManagement/myResources/contribution')
     }
     goToMyDownloadPage() {
-        browserHistory.push('/myResources/download')
+        browserHistory.push('/TeachingResourceManagement/myResources/download')
     }
     goToMyCollectionPage() {
-        browserHistory.push('/myResources/collection')
+        browserHistory.push('/TeachingResourceManagement/myResources/collection')
     }
     render() {
         let {uploadNum, downloadNum, collectNum} = this.props;

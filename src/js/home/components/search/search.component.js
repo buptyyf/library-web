@@ -102,7 +102,7 @@ export default class Search extends Component {
         console.log("keywords:", keywords);
         console.log("selectedResId:", selectedResId);
         if(keywords !== "") {
-            browserHistory.push(`/search/${keywords}/${selectedResId}`)
+            browserHistory.push(`/TeachingResourceManagement/search/${keywords}/${selectedResId}`)
         }
     }
 

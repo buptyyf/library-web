@@ -66,11 +66,20 @@ export default class ResourceDetail extends React.Component {
                     pageIndex={this.state.pageIndex}
                     error={"此文件无法预览"}/>
             )
-        }else if(this.state.fileFormat == "video"){
+        } else if(this.state.fileFormat == "mp4"){
             return(
                 <video src={this.state.file}  controls="controls">
                 </video>
             )
+        } else if(this.state.fileFormat == "swf") {
+            return (
+                <embed src={this.state.file} allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+            )
+        } else{
+            // return(
+            //     <video src={this.state.file}  controls="controls">
+            //     </video>
+            // )
         }
 
     }
@@ -110,7 +119,7 @@ export default class ResourceDetail extends React.Component {
                 <div>
                     {resources.map((item, index) => {
                         <p className="rank-list" key={index}>
-                            <Link to={`/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
+                            <Link to={`/TeachingResourceManagement/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
                         </p>
                         
                     })}

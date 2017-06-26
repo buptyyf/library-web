@@ -59,7 +59,7 @@ export default class MyResources extends React.Component {
                         if(curPage == page) {
                             return (
                                 <p className="content-detail" key={index}>&nbsp; 
-                                    <Link to={`/resource/${content.resId}`}>{content.title}</Link> 
+                                    <Link to={`/TeachingResourceManagement/resource/${content.resId}`}>{content.title}</Link> 
                                     <span className="browse-list-date">{time}</span> 
                                 </p>                        
                             )
