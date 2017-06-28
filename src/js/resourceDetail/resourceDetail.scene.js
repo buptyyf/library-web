@@ -29,10 +29,26 @@ export default class ResourceDetail extends React.Component {
             commentContent: "",
             commentScore: 0, //用户提交的评分
             fileFormat: "",
+            whetherCollect: false,  //true表示已收藏，false表示未收藏
+            //collectStyle:"",
         };
     }   
     componentWillMount(){
         this.initNetwork();
+        const whetherCollectResult = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/details/whetherCollect`, method: `POST`}, {resId: this.props.params.id})
+        whetherCollectResult.then((res) => {
+            console.log("whetherCollectResult: ", res);
+            if(res.code == 0){
+                this.setState({
+                    whetherCollect: true,
+                })
+            }
+        })
+        // if(this.state.whetherCollect == 1){
+        //     this.setState({
+        //         collectStyle:"", 
+        //     })
+        // }
     }
     initNetwork() {
         console.log("resId: ", this.props.params.id)
@@ -58,6 +74,7 @@ export default class ResourceDetail extends React.Component {
 
     filePreview(){
         if(this.state.fileFormat == "pdf"){
+             console.log("file path: ", this.state.file);
             return(
                 <ReactPDF 
                     file={this.state.file}
@@ -67,11 +84,13 @@ export default class ResourceDetail extends React.Component {
                     error={"此文件无法预览"}/>
             )
         } else if(this.state.fileFormat == "mp4"){
+            console.log("file path: ", this.state.file);
             return(
                 <video src={this.state.file}  controls="controls">
                 </video>
             )
         } else if(this.state.fileFormat == "swf") {
+            console.log("file path: ", this.state.file);
             return (
                 <embed src={this.state.file} allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
             )
@@ -243,17 +262,54 @@ export default class ResourceDetail extends React.Component {
             </div>
         )
     }
+    goToCollect(){
+        if(this.state.whetherCollect){
+            const cancelCollectResult = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/details/cancelCollection`, method: `POST`}, {resId: this.props.params.id})
+            cancelCollectResult.then((res) => {
+                console.log("cancelCollectResult: ", res);
+                let collectState = !this.state.whetherCollect;
+                this.setState({
+                    whetherCollect: collectState
+                })
+            })
+        } else {
+            const addCollectResult = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/details/addCollection`, method: `POST`}, {resId: this.props.params.id})
+            addCollectResult.then((res) => {
+                console.log("addCollectResult: ", res);
+                let collectState = !this.state.whetherCollect;
+                this.setState({
+                    whetherCollect: collectState
+                })
+            })
+        }
+    }
 
     render() {
-        let {title, file, resId, pageIndex, pageNumber, total, date, score, viewNum, downloads, contributor, commentContent } = this.state;
+        let {title, file, resId, pageIndex, pageNumber, total, date, score, viewNum, downloads, contributor, commentContent, whetherCollect } = this.state;
         let downloadApi = config.baseUrl + "/TeachingResourceManagement/teachingResource/download";
         return (
         <div className="container">
             <div className="col-sm-9">
-                <h1>{title}</h1>
-                <div>
-                    <i className="glyphicon glyphicon-user" />
-                    {contributor} 上传于: {date} 评分: {score}分 {viewNum}人浏览 {downloads}人下载
+                <h2>{title}</h2>
+                <div className="resInfo-download-collect">
+                    <div className="res-info">
+                        <i className="glyphicon glyphicon-user" />
+                        {contributor} &nbsp;&nbsp;上传于: {date}&nbsp;&nbsp; 评分: {score}分&nbsp;&nbsp; {viewNum}人浏览&nbsp;&nbsp; {downloads}人下载
+                    </div>
+                    <div className="download-collect">
+                        <div className="download">
+                            <form method="POST" action={downloadApi}>
+                                <input type="text" name="resourceId" value={resId} style={{display: "none"}}/>
+                                {/*<input type="submit"  className="glyphicon glyphicon-download-alt" />*/}
+                                <button type="submit" className="download-collect-button"><i className="glyphicon glyphicon-download-alt download-style" /></button>
+                            </form>
+                        </div>
+                        <div className="collect">
+                            <button className="download-collect-button" onClick={this.goToCollect.bind(this)}>
+                                {whetherCollect ? <i className="glyphicon glyphicon-heart collect-style" />:<i className="glyphicon glyphicon-heart-empty not-collect-style" />}
+                            </button>
+                        </div> 
+                    </div>
                 </div>
                 <div className="well">
                     <div className="pdf-container">
@@ -280,10 +336,6 @@ export default class ResourceDetail extends React.Component {
                             <button className="btn btn-default">下载</button>
                         </a>*/}
                         {/*<button className="btn btn-default" onClick={this.handleDownload.bind(this)}>下载</button>*/}
-                        <form method="POST" action={downloadApi}>
-                            <input type="text" name="resourceId" value={resId} style={{display: "none"}}/>
-                            <input type="submit" value="下载" className="btn btn-default" />
-                        </form> 
                     </div> : null}
                 </div>
                 <form className="form-group" onSubmit={this.submitComment.bind(this)}>
