@@ -81,10 +81,10 @@ export default class Login extends Component {
                 <div id="login-page" >
                     <form className="form-sign" onSubmit={this.handleLogin.bind(this)}>
                         <div className="head">
-                            <h3 className="form-sign-heading">欢迎登录资源管理平台！</h3>
+                            <h3 className="form-sign-heading">欢迎登录智能实训管理平台！</h3>
                         </div>
                         <div className="username">
-                            <input type="text" className="form-control" name="userNum" placeholder="教工号" required />
+                            <input type="text" className="form-control" name="userNum" placeholder="账号" required />
                         </div>
                         <div className="password">
                             <input type="password" className="form-control" name="password" placeholder="密码" required />
