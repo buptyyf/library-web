@@ -29,7 +29,7 @@ export default class ClassifyBrowse extends React.Component {
     componentWillMount() {
         const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/classfiedBrowsingAll`, method: 'POST'})
         result.then((res) => {
-            // console.log("classfiedBrowsingAll: ", res)
+            console.log("classfiedBrowsingAll: ", res)
             this.setState({
                 subjects: res.data.subjectInfo,
                 resources: res.data.resourceType,

@@ -5,18 +5,31 @@ export default class ClassifySelect extends React.Component {
         super(props);
         this.firstResType =  [],
         this.secondResType = {},
+
+        this.firstSubjectType = [],
+        this.secondSubjectType = {},
+        this.thirdSubjectType = {},
+
         this.state = {
             subjectId: "",
             objectId: "",
             firstResTypeId: "",
             secondResTypeId: "",
+            //增加三级分类
+            firstSubjectId: "",
+            secondSubjectId: "",
+            thirdSubjectId: "",
         };
     }
     componentWillReceiveProps(nextProps) {
-        // console.log("componentWillReceiveProps subjects: ", nextProps.subjects)        
+        console.log("componentWillReceiveProps subjects: ", nextProps.subjects)        
         if(nextProps.subjects.length > 0 && nextProps.resources.length > 0 && nextProps.objects.length > 0) {
             this.setState({
-                subjectId: this.state.subjectId ? this.state.subjectId : nextProps.subjects[0].subjectId,
+                firstSubjectId: this.state.firstSubjectId ? this.state.firstSubjectId : nextProps.subjects[0].subjectId,
+                // secondSubjectId: this.state.secondSubjectId ? this.state.secondSubjectId : "0000",
+                thirdSubjectId: this.state.thirdSubjectId ? this.state.thirdSubjectId : "000000",
+
+                // subjectId: this.state.subjectId ? this.state.subjectId : nextProps.subjects[0].subjectId,
                 objectId: this.state.objectId ? this.state.objectId : nextProps.objects[0].appobjId,
                 firstResTypeId: this.state.firstResTypeId ? this.state.firstResTypeId : nextProps.resources[0].restypeId,
                 secondResTypeId: this.state.secondResTypeId ? this.state.secondResTypeId : "000",
@@ -34,6 +47,28 @@ export default class ClassifySelect extends React.Component {
                 }
             })
             console.log("firstResType: ", this.firstResType, "secondResType: ", this.secondResType)
+
+            // 三级目录
+            this.firstSubjectType = [];
+            let preSubjectId = "";
+            let secondPreSubjectId = "";
+            nextProps.subjects.forEach((subject, index) => {
+                // console.log("secondSubjectType:::::", this.secondSubjectType);
+                if(subject.subjectId.length === 2) {
+                    this.firstSubjectType.push({name: subject.subjectName, id: subject.subjectId });
+                    this.secondSubjectType[subject.subjectId] = [];
+                    this.secondSubjectType[subject.subjectId].push({name: "全部", id: "0000"});
+                    preSubjectId = subject.subjectId;
+                } else if (subject.subjectId.length === 4) {
+                    // console.log("preSubjectId: ", preSubjectId)
+                    this.secondSubjectType[preSubjectId].push({name: subject.subjectName, id: subject.subjectId});
+                    this.thirdSubjectType[subject.subjectId] = [];
+                    this.thirdSubjectType[subject.subjectId].push({name: "全部", id: "000000"});
+                    secondPreSubjectId = subject.subjectId;
+                } else if(subject.subjectId.length === 6) {
+                    this.thirdSubjectType[secondPreSubjectId].push({name: subject.subjectName, id: subject.subjectId})
+                }
+            })
         }
 
     }
@@ -57,32 +92,56 @@ export default class ClassifySelect extends React.Component {
             secondResTypeId: event.target.value
         })
     }
+    firstSubjectTypeChange(event) {
+        this.setState({
+            firstSubjectId: event.target.value
+        })
+    }
+    secondSubjectTypeChange(event) {
+        this.setState({
+            secondSubjectId: event.target.value
+        })
+    }
+    thirdSubjectTypeChange(event) {
+        this.setState({
+            thirdSubjectId: event.target.value
+        })
+    }
 
     handleSubmit(event) {
-        let {subjectId, objectId, firstResTypeId, secondResTypeId } = this.state
+        let {objectId, firstResTypeId, secondResTypeId, firstSubjectId, secondSubjectId, thirdSubjectId } = this.state
+        let subjectId = 0, resTypeId = 0;
         event.preventDefault();
-        console.log("handleSubmit: ", subjectId, objectId, firstResTypeId, secondResTypeId )
-        // if(secondResTypeId === "000"){
-        //     this.props.submitFunc(subjectId, objectId, secondResTypeId);
-        // }else{
-        //     this.props.submitFunc(subjectId, objectId, firstResTypeId);
-        // }
+
         if(secondResTypeId === "000"){
-            this.props.submitFunc(subjectId, objectId, firstResTypeId);
+            resTypeId = firstResTypeId;
         }else{
-            this.props.submitFunc(subjectId, objectId, secondResTypeId);
+            resTypeId = secondResTypeId;
         }
+
+        if(secondSubjectId === "") {
+            subjectId = firstSubjectId;
+        } else if(thirdSubjectId === "000000") {
+            subjectId = secondSubjectId;
+        } else {
+            subjectId = thirdSubjectId;
+        }
+        console.log("handleSubmit: ", subjectId, objectId, resTypeId )
+
+        this.props.submitFunc(subjectId, objectId, resTypeId);
     }
     
     render() {
         let {subjects, objects, resources, submitFunc} = this.props
         console.log("firstResTypeId: ", this.state.firstResTypeId)
+        console.log("firstSubjectId: ", this.state.firstSubjectId, " secondSubjectId: ",this.state.secondSubjectId);
+        console.log(this.firstSubjectType, this.secondSubjectType, this.thirdSubjectType);
         return (
         <div className="well">
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="">
                     学科：
-                    <select id="subject" 
+                    {/*<select id="subject" 
                         className="form-control" 
                         value={this.state.subjectId} 
                         onChange={this.subjectChange.bind(this)}>
@@ -91,6 +150,39 @@ export default class ClassifySelect extends React.Component {
                                 <option value={subject.subjectId} key={subject.subjectId}>{subject.subjectName}</option>
                             )
                         })}
+                    </select>*/}
+                    <select id="subject1" 
+                        className="form-control" 
+                        value={this.state.firstSubjectId} 
+                        onChange={this.firstSubjectTypeChange.bind(this)}>
+                        {this.firstSubjectType.map((subject, index) => {
+                            console.log("subject111", subject, subject);
+                            return (
+                                <option value={subject.id} key={subject.id}>{subject.name}</option>
+                            )
+                        })}
+                    </select>
+                    <select id="subject2" 
+                        className="form-control" 
+                        value={this.state.secondSubjectId} 
+                        onChange={this.secondSubjectTypeChange.bind(this)}>
+                        {this.state.firstSubjectId ? this.secondSubjectType[this.state.firstSubjectId].map((subject, index) => {
+                            console.log("subject222", subject);
+                            return (
+                                <option value={subject.id} key={subject.id}>{subject.name}</option>
+                            )
+                        }) : null}
+                    </select>
+                    <select id="subject3" 
+                        className="form-control" 
+                        value={this.state.thirdSubjectId || "全部"} 
+                        onChange={this.thirdSubjectTypeChange.bind(this)}>
+                        {this.state.secondSubjectId ? this.thirdSubjectType[this.state.secondSubjectId].map((subject, index) => {
+                            console.log("subject333", subject);
+                            return (
+                                <option value={subject.id} key={subject.id}>{subject.name}</option>
+                            )
+                        }) : <option value={"全部"}>全部</option>}
                     </select>
                 </div>
                 <br />

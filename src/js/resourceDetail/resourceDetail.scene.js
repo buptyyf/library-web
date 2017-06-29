@@ -86,19 +86,26 @@ export default class ResourceDetail extends React.Component {
         } else if(this.state.fileFormat == "mp4"){
             console.log("file path: ", this.state.file);
             return(
-                <video src={this.state.file}  controls="controls">
+                <video width="500" height="400" src={this.state.file}  controls="controls">
                 </video>
             )
         } else if(this.state.fileFormat == "swf") {
             console.log("file path: ", this.state.file);
             return (
-                <embed src={this.state.file} allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+                <embed src={this.state.file} allowFullScreen="true" quality="high" width="500" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
             )
-        } else{
-            // return(
-            //     <video src={this.state.file}  controls="controls">
-            //     </video>
-            // )
+        } else if(this.state.fileFormat == "mp3"){
+            return(
+                <audio src={this.state.file} controls="controls"></audio>
+            )
+        } else if(this.state.fileFormat == "picture") {
+            return(
+                <img src={this.state.file} width={500}/>
+            )
+        } else {
+            return(
+                <p>暂时不支持该文件无法预览</p>
+            )
         }
 
     }
