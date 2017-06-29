@@ -14,11 +14,8 @@ export default class ResourcesStatistics extends React.Component {
     }
     render() {
         return (
-        <div className="col-sm-12">
-            <div className="well col-sm-3">
-                分类统计
-            </div>
-            <div className="col-sm-9">
+        <div className="container">
+            <div className="col-sm-12">
                 <SimpleChart />
             </div>
         </div>

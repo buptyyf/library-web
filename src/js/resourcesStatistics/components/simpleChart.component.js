@@ -7,13 +7,13 @@ const SimpleChartComponent = React.createClass({
     getOtion: function() {
         const option = {
             title: {
-                text: '堆叠区域图'
+                text: '设备上传数量统计'
             },
             tooltip : {
                 trigger: 'axis'
             },
             legend: {
-                data:['邮件营销','联盟广告','视频广告']
+                data:['传输网','接入网','企业云通信']
             },
             toolbox: {
                 feature: {
@@ -40,21 +40,21 @@ const SimpleChartComponent = React.createClass({
             ],
             series : [
                 {
-                    name:'邮件营销',
+                    name:'传输网',
                     type:'line',
                     stack: '总量',
                     areaStyle: {normal: {}},
                     data:[120, 132, 101, 134, 90, 230, 210]
                 },
                 {
-                    name:'联盟广告',
+                    name:'接入网',
                     type:'line',
                     stack: '总量',
                     areaStyle: {normal: {}},
                     data:[220, 182, 191, 234, 290, 330, 310]
                 },
                 {
-                    name:'视频广告',
+                    name:'企业云通信',
                     type:'line',
                     stack: '总量',
                     areaStyle: {normal: {}},
@@ -65,22 +65,13 @@ const SimpleChartComponent = React.createClass({
         return option;
     },
     render: function() {
-        let code = "<ReactEcharts \n" +
-                    "    option={this.getOtion()} \n" +
-                    "    style={{height: '350px', width: '100%'}}  \n" +
-                    "    className='react_for_echarts' />";
         return (
             <div className='examples'>
                 <div className='parent'>
-                    <label> render a Simple echart With <strong>option and height</strong>: </label>
                     <ReactEcharts
                         option={this.getOtion()} 
                         style={{height: '350px', width: '100%'}} 
                         className='react_for_echarts' />
-                    <label> code below: </label>
-                    <pre>
-                        <code>{code}</code>
-                    </pre>
                 </div>
             </div>
         );

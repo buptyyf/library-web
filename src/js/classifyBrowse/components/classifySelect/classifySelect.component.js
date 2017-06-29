@@ -27,7 +27,7 @@ export default class ClassifySelect extends React.Component {
             this.setState({
                 firstSubjectId: this.state.firstSubjectId ? this.state.firstSubjectId : nextProps.subjects[0].subjectId,
                 // secondSubjectId: this.state.secondSubjectId ? this.state.secondSubjectId : "0000",
-                thirdSubjectId: this.state.thirdSubjectId ? this.state.thirdSubjectId : "000000",
+                // thirdSubjectId: this.state.thirdSubjectId ? this.state.thirdSubjectId : "000000",
 
                 // subjectId: this.state.subjectId ? this.state.subjectId : nextProps.subjects[0].subjectId,
                 objectId: this.state.objectId ? this.state.objectId : nextProps.objects[0].appobjId,
@@ -94,12 +94,15 @@ export default class ClassifySelect extends React.Component {
     }
     firstSubjectTypeChange(event) {
         this.setState({
-            firstSubjectId: event.target.value
+            firstSubjectId: event.target.value,
+            secondSubjectId: "",
+            thirdSubjectId: ""
         })
     }
     secondSubjectTypeChange(event) {
         this.setState({
-            secondSubjectId: event.target.value
+            secondSubjectId: event.target.value,
+            thirdSubjectId: ""
         })
     }
     thirdSubjectTypeChange(event) {
@@ -121,7 +124,7 @@ export default class ClassifySelect extends React.Component {
 
         if(secondSubjectId === "") {
             subjectId = firstSubjectId;
-        } else if(thirdSubjectId === "000000") {
+        } else if(thirdSubjectId === "") {
             subjectId = secondSubjectId;
         } else {
             subjectId = thirdSubjectId;
@@ -140,7 +143,7 @@ export default class ClassifySelect extends React.Component {
         <div className="well">
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="">
-                    学科：
+                    设备类别：
                     {/*<select id="subject" 
                         className="form-control" 
                         value={this.state.subjectId} 
