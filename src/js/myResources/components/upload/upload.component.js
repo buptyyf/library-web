@@ -139,7 +139,7 @@ export default class Upload extends React.Component {
                     </div>
                     
                     <div className="">
-                        学科：
+                        设备类别：
                         <select id="subject" className="form-control" required>
                             {this.state.subjects.map((subject) => {
                                 return (

@@ -41,6 +41,7 @@ export class Home extends Component {
     render() {
         let {uploads, collections, downloads, userName} = this.state.userInfo;
         return (
+        <div>
             <div className="col-sm-12">
                 <div className="home-left col-sm-3">
                     <div className="download-rank">
@@ -123,6 +124,16 @@ export class Home extends Component {
                     </div>
                 </div>
             </div>
+            <div className="col-sm-12  home-footer" >
+                <div className="col-sm-3 col-sm-offset-2 guojiao-link" onClick={() => window.open('http://www.eduyun.cn/')}>
+                    <img src="/assets/img/guojiao.png"/>
+                </div>
+                <div className="col-sm-3 col-sm-offset-2 guozhi-link" onClick={() => window.open('http://zyk.ouchn.edu.cn/portal/index')}>
+                    <img src="/assets/img/guozhi.png"/>
+                </div>
+            </div>
+        </div>
+        
         )
     }
 }
