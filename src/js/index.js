@@ -46,18 +46,16 @@ class App extends Component {
                     <Navbar>
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <a href="#">教学管理系统</a>
+                                <a href="#">教学资源管理系统</a>
                             </Navbar.Brand>
                         </Navbar.Header>
-                        <ul className="nav navbar-nav">
+                        <ul className="nav navbar-nav mynav">
                             <li className="active link"><Link to="/TeachingResourceManagement/">首页</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/myResources">我的资源</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/departmentBrowse">科室浏览</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/resourcesStatistics">资源统计</Link></li>
-                            <li className="link"><Link to="/TeachingResourceManagement/meeting">会议</Link></li>
-                            <li className="link"><Link to="/TeachingResourceManagement/office">办公</Link></li>
-                            <li className="link"><Link to="/TeachingResourceManagement/selfService">自助系统</Link></li>
+                            <li className="link"><Link to="/TeachingResourceManagement/meeting">实训室预定</Link></li>
 				        </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1}>

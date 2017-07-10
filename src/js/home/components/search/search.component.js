@@ -125,14 +125,20 @@ export default class Search extends Component {
                         </FormControl>
                     </FormGroup>
                 </div>*/}
-                <div className="col-sm-offset-3 col-sm-6">
+                <div className="col-sm-3 col-sm-offset-1 left-logo">
+                    <img src="/assets/img/BITClogo.png" />
+                </div>
+                <div className=" col-sm-5">
                     <div className="input-group">
                         <input type="text" className="form-control" ref="searchValue" />
                         <span className="input-group-btn">
                             <button className="btn btn-default" type="button" onClick={this.handleClick.bind(this)}>搜索资源</button>
                         </span>
                     </div>
-                       {this.showResType()}
+                    {this.showResType()}
+                </div>
+                <div className="col-sm-2  right-logo">
+                    <img src="/assets/img/jingeLOGO.png" />
                 </div>
             </div>
         );

@@ -89,7 +89,7 @@ export default class ResourceDetail extends React.Component {
                 <video src={this.state.file}  controls="controls">
                 </video>
             )
-        } else if(this.state.fileFormat == "swf") {
+        } else if( (this.state.fileFormat == "swf") || (this.state.fileFormat == "flv") ) {
             console.log("file path: ", this.state.file);
             return (
                 <embed src={this.state.file} allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>

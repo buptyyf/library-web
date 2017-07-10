@@ -125,7 +125,7 @@ export default class CatalogueTree extends React.Component {
     }
     render() {
         return (
-            <div className="tree well">
+            <div className="tree">
                 <ul style={{padding: 0}}>
                     {
                         this.state.tree.map((cell, index) => {

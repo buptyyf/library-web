@@ -323,7 +323,7 @@ export default class MeetingScene extends React.Component {
             <div className="container col-sm-12">
                 <div className="meeting-top ">
                     <div className="title ">
-                        <h2>会议室预定</h2>
+                        <h2>实训室预定</h2>
                     </div>
                     <div className="select ">
                     <form >
