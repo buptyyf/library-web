@@ -28,12 +28,25 @@ import Meeting from './meeting/meeting.scene'
 import "./home/home.style.less"
 import $ from "jquery"
 
+import networkAction from './utils/networkAction'
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isGuest: !global.userId || global.userId === 'guest'
+        }
+    }
     componentDidMount() {
         //let nodes = document.getElementsByClassName("link");
         $(".link").on("click", function(e) {
             $(".link").removeClass("active");
             $(this).addClass("active");
+        })
+        const rankInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageRankingInfo`, method: 'POST'})
+        rankInfo.then((res) => {
+            this.setState({
+                isGuest: !global.userId || global.userId === 'guest'
+            })
         })
     }
     // goToLogin() { // 以游客身份点击某些链接时，直接跳转到登陆页面
@@ -41,7 +54,7 @@ class App extends Component {
     // }
     render() {
         console.log("index global.userId: ", global.userId)
-        let isGuest = !global.userId || global.userId === 'guest';
+        let { isGuest } = this.state;
         return (
             <div>
                 <Search />
@@ -59,7 +72,9 @@ class App extends Component {
                             </li>
                             <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/departmentBrowse">科室浏览</Link></li>
-                            <li className="link"><Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/user"}>资源统计</Link></li>
+                            <li className="link">
+                                <Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/resourcesStatistics"}>资源统计</Link>
+                            </li>
                             <li className="link"><Link to="/TeachingResourceManagement/meeting">实训室预定</Link></li>
 				        </ul>
                         <Nav pullRight>
