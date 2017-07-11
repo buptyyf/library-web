@@ -10,7 +10,9 @@ export default class Login extends Component {
         this.userId = "",
         this.state = {
             loginState: 0, // 0表示未登录，1表示用户名或密码错误，2表示该用户不存在
-            content: ["用户名或密码错误，请重新输入！","该用户不存在，请重新输入！"]
+            content: ["用户名或密码错误，请重新输入！","该用户不存在，请重新输入！"],
+            userNum: "",
+            password: "",
         }
     }
     componentWillMount() {
@@ -31,9 +33,11 @@ export default class Login extends Component {
             console.log("login-result:", res);
             //console.log("login-result:", res.data.sessionId);
             // global.sessionId = res.data.sessionId;
-            this.userId = res.data.userId;
-            console.log("this.userId:", this.userId);
+            // this.userId = res.data.userId;
+            // console.log("this.userId:", this.userId);
             if(res.code == 0){
+                this.userId = res.data.userId;
+                console.log("this.userId:", this.userId);
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
@@ -45,8 +49,8 @@ export default class Login extends Component {
                userId: this.userId,
         //     name: "yyf",
         //     authorId: 1
-            }
-            console.log("global.userInfo.userId:", global.userInfo.userId);
+           }
+           console.log("global.userInfo.userId:", global.userInfo.userId);
             })
         // event.preventDefault();
         //  global.userInfo = {
@@ -68,35 +72,56 @@ export default class Login extends Component {
 
     renderWrong(){
         if(this.state.loginState == 1){
-           return("用户名或密码错误，请重新输入！")
-        }else if(this.state.loginState == 2){
-           return("该用户不存在，请重新输入！")
+           return "用户名或密码错误，请重新输入！"
         }else return null;
     }
-    
+    userNumChange(event) {
+        this.setState({
+            userNum: event.target.value,
+            loginState: 2
+        })
+    }
+    passwordChange(event) {
+        this.setState({
+            password: event.target.value,
+            loginState: 2
+        })
+    }
 
     render(){
         return(
-            <div >
-                <div id="login-page" >
-                    <form className="form-sign" onSubmit={this.handleLogin.bind(this)}>
-                        <div className="head">
-                            <h3 className="form-sign-heading">欢迎登录智能实训管理平台！</h3>
-                        </div>
-                        <div className="username">
-                            <input type="text" className="form-control" name="userNum" placeholder="账号" required />
-                        </div>
-                        <div className="password">
-                            <input type="password" className="form-control" name="password" placeholder="密码" required />
-                        </div>
-                        <div className="summit">
-                            <input className="btn btn-md btn-primary btn-block" type="submit" value="登录"/>
-                        </div>   
-                    </form>
-                    <div className="login-remind">{this.renderWrong()}</div>
-                    
+            <div id="login-page">
+                 <div className="col-sm-12">
+                    <div  className=" login-left col-sm-4 col-sm-offset-3" >
+                        <form className="form-sign" onSubmit={this.handleLogin.bind(this)}>
+                            <div className="head">
+                                <h3 className="form-sign-heading">欢迎登录智能实训管理平台！</h3>
+                            </div>
+                            <div className="username">
+                                <input type="text" className="form-control" name="userNum" placeholder="账号"
+                                value={this.state.userNum} 
+                                onChange={this.userNumChange.bind(this)} 
+                                required />
+                            </div>
+                            <div className="password">
+                                <input type="password" className="form-control" name="password" placeholder="密码"
+                                value={this.state.password} 
+                                onChange={this.passwordChange.bind(this)} 
+                                required />
+                            </div>
+                            <div className="summit">
+                                <input className="btn btn-md btn-primary btn-block" type="submit" value="登录"/>
+                            </div>   
+                        </form>
+                        <div className="login-remind">{this.renderWrong()}</div> 
+                    </div>
+                    <div className=" login-right col-sm-2 ">
+                        <h4>扫描二维码登录</h4>
+                        <img src="/assets/img/login.jpg" />
+                    </div>
                 </div>
             </div>
+           
         );
     }
 }
