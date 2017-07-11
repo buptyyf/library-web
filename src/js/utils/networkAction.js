@@ -97,6 +97,7 @@ export class NetworkAction{
                     } else {
                         cookie = document.cookie;
                         global.userId = cookie.userId;
+                        console.log('document.cookie: ', cookie);
                     }
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
