@@ -40,7 +40,7 @@ class App extends Component {
     //     if()
     // }
     render() {
-        //console.log(this.props.children)
+        console.log("index global.userId: ", global.userId)
         let isGuest = !global.userId || global.userId === 'guest';
         return (
             <div>

@@ -31,7 +31,7 @@ export class NetworkAction{
                 let cookie = "";
                 if(NetworkAction.sessionId) {
                     cookie = encodeURIComponent("sessionId") + "=" + encodeURIComponent(NetworkAction.sessionId) + ";" + encodeURIComponent("UserInfo") + "=";
-                    console.log("cookie: ", cookie);
+                    // console.log("cookie: ", cookie);
                 }
                 let headers = {
                     //'Content-Type': contentType,
@@ -87,18 +87,9 @@ export class NetworkAction{
                     throw new Error(res.status + '');
                 }
                 if(res) {
-                    let cookie = await res.headers;
-                    // cookie.forEach((name) => {
-                    //     console.log(name, ": ", cookie[name]);
-                    // })
-                    console.log("server cookie: ", cookie, Object.keys(cookie))
-                    if(cookie && cookie.userId && Object.keys(cookie).length != 0) {
-                        global.userId = cookie.userId;
-                    } else {
-                        cookie = document.cookie;
-                        global.userId = cookie.userId;
-                        console.log('document.cookie: ', cookie);
-                    }
+                    cookie = document.cookie;
+                    global.userId = cookie.userId;
+                    console.log('document.cookie: ', cookie, " global.userId: ", global.userId);
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
                         console.log("cookie: ", data.data.sessionId);
