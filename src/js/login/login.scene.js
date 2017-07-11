@@ -36,7 +36,28 @@ export default class Login extends Component {
             // this.userId = res.data.userId;
             // console.log("this.userId:", this.userId);
             if(res.code == 0){
-                this.userId = res.data.userId;
+                // this.userId = res.data.userId;
+                console.log("this.userId:", this.userId);
+                browserHistory.push('/TeachingResourceManagement/home');
+            }else if(res.code == 1){
+                this.setState({loginState: 1});
+            }else{
+                this.setState({loginState: 2});
+            }
+            global.userId = this.userId,
+            console.log("global.userInfo.userId:", global.userInfo.userId);
+        })
+    }  
+    guestLogin() {
+        const result = networkAction.promiseNetwork({"url": `TeachingResourceManagement/user/guestLogin`, "method": 'POST'})
+        result.then((res) => {
+            console.log("guest-login-result:", res);
+            //console.log("login-result:", res.data.sessionId);
+            // global.sessionId = res.data.sessionId;
+            // this.userId = res.data.userId;
+            // console.log("this.userId:", this.userId);
+            if(res.code == 0){
+                // this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
@@ -45,31 +66,12 @@ export default class Login extends Component {
                 this.setState({loginState: 2});
             }
             //this.globalUserInfo()
-            global.userInfo = {
-               userId: this.userId,
-        //     name: "yyf",
-        //     authorId: 1
-           }
-           console.log("global.userInfo.userId:", global.userInfo.userId);
-            })
-        // event.preventDefault();
-        //  global.userInfo = {
-        //        userId: this.userId,
-        // //     name: "yyf",
-        // //     authorId: 1
-        //  }
-        //  console.log("login-userId:", global.userInfo.userId);
-    }  
-    // globalUserInfo(){
-    //     //event.preventDefault();
-    //     global.userInfo = {
-    //            userId: this.userId,
-    //     //     name: "yyf",
-    //     //     authorId: 1
-    //     }
-    //     console.log("global.userInfo.userId:", global.userInfo.userId);
-    // }
-
+            // global.userInfo = {
+            //    userId: this.userId,
+            // }
+            console.log("userId:", global.userId);
+        })
+    }
     renderWrong(){
         if(this.state.loginState == 1){
            return "用户名或密码错误，请重新输入！"
@@ -111,7 +113,8 @@ export default class Login extends Component {
                             </div>
                             <div className="summit">
                                 <input className="btn btn-md btn-primary btn-block" type="submit" value="登录"/>
-                            </div>   
+                                <input className="btn btn-md btn-primary btn-block" type="button" onClick={this.guestLogin.bind(this)} value="访客登录"/>
+                            </div>
                         </form>
                         <div className="login-remind">{this.renderWrong()}</div> 
                     </div>

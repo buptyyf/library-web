@@ -39,7 +39,7 @@ export class NetworkAction{
                     "Access-Control-Allow-Credentials": "true",
                     'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
                     'Access-Control-Allow-Headers': 'access-control-allow-origin, Origin,Accept, X-Requested-With, Content-Type, access-control-allow-methods, Access-Control-Request-Headers, access-control-allow-credentials',
-                    "Cookie": cookie
+                    // "Cookie": cookie
                 };
                 if(baseData.contentType) {
                     switch (baseData.contentType) {
@@ -91,7 +91,9 @@ export class NetworkAction{
                     // cookie.forEach((name) => {
                     //     console.log(name, ": ", cookie[name]);
                     // })
-                    console.log(typeof(cookie), Object.keys(cookie))
+                    console.log("server cookie: ", cookie, Object.keys(cookie))
+                    if(cookie && cookie.userId)
+                        global.userId = cookie.userId;
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
                         console.log("cookie: ", data.data.sessionId);

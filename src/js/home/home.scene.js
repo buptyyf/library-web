@@ -31,10 +31,22 @@ export class Home extends Component {
             
         })
         userInfo.then((res) => {
-            console.log("homepageUserInfo-res:", res.data)
-            this.setState({
-                userInfo: res.data
-            })
+            console.log("homepageUserInfo-res:", res)
+            if(res.code === 0) {
+                this.setState({
+                    userInfo: res.data
+                })
+            } else if(res.code === 1){
+                let guestInfo = {
+                    uploads: 0,
+                    collections: 0,
+                    downloads: 0,
+                    userName: '游客'
+                }
+                this.setState({
+                    userInfo: guestInfo
+                })
+            }
         })
     }
 
@@ -49,8 +61,8 @@ export class Home extends Component {
                         {this.state.downloadsList.map((item, index) => {
                             return (
                                 <p className="rank-list" key={index}>
-                                    <Link to={`/TeachingResourceManagement/resource/${item.resId}`}>{item.title} <span> ({item.downloads})</span></Link>
-                                        <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
+                                    <Link to={`/TeachingResourceManagement/resource/${item.resId}`} className="rank-list-text">{item.title} <span> ({item.downloads})</span></Link>
+                                    <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
                                 </p>
                             );
                         })}
@@ -63,7 +75,7 @@ export class Home extends Component {
                         {this.state.commentScoreList.map((item, index) => {
                             return (
                                 <p className="rank-list" key={index}>
-                                    <Link to={`/TeachingResourceManagement/resource/${item.resId}`}>{item.title} <span> ({item.commentscore})</span></Link>
+                                    <Link to={`/TeachingResourceManagement/resource/${item.resId}`} className="rank-list-text">{item.title} <span> ({item.commentscore})</span></Link>
                                     <span className="rank-list-date">{date(item.date)} &nbsp;</span> 
                                 </p>
                             );

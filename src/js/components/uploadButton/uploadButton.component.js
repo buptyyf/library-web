@@ -10,7 +10,12 @@ export default class UploadButton extends React.Component {
 
 
     goToUpload() {
-        browserHistory.push("/TeachingResourceManagement/myResources/upload")
+        let isGuest = !global.userId || global.userId === 'guest';
+        if(!isGuest) {
+            browserHistory.push("/TeachingResourceManagement/myResources/upload");
+        } else {
+            browserHistory.push("/TeachingResourceManagement/login");
+        }
     }
     render() {
         return (

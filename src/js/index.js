@@ -35,10 +35,13 @@ class App extends Component {
             $(".link").removeClass("active");
             $(this).addClass("active");
         })
-
     }
+    // goToLogin() { // 以游客身份点击某些链接时，直接跳转到登陆页面
+    //     if()
+    // }
     render() {
         //console.log(this.props.children)
+        let isGuest = !global.userId || global.userId === 'guest';
         return (
             <div>
                 <Search />
@@ -51,15 +54,17 @@ class App extends Component {
                         </Navbar.Header>
                         <ul className="nav navbar-nav">
                             <li className="active link"><Link to="/TeachingResourceManagement/">首页</Link></li>
-                            <li className="link"><Link to="/TeachingResourceManagement/myResources">我的资源</Link></li>
+                            <li className="link">
+                                <Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/myResources"}>我的资源</Link>
+                            </li>
                             <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/departmentBrowse">科室浏览</Link></li>
-                            <li className="link"><Link to="/TeachingResourceManagement/resourcesStatistics">资源统计</Link></li>
+                            <li className="link"><Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/user"}>资源统计</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/meeting">实训室预定</Link></li>
 				        </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1}>
-                                <Link to="/TeachingResourceManagement/user"><div className="glyphicon glyphicon-user" />个人中心 </Link>/
+                                <Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/user"}><div className="glyphicon glyphicon-user" />个人中心 </Link>/
                                 <Link to="/TeachingResourceManagement/login"> 退出</Link>
                             </NavItem>
                         </Nav>
