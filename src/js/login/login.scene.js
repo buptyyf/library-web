@@ -36,7 +36,7 @@ export default class Login extends Component {
             // this.userId = res.data.userId;
             // console.log("this.userId:", this.userId);
             if(res.code == 0){
-                // this.userId = res.data.userId;
+                this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
@@ -45,7 +45,7 @@ export default class Login extends Component {
                 this.setState({loginState: 2});
             }
             global.userId = this.userId,
-            console.log("global.userInfo.userId:", global.userInfo.userId);
+            console.log("global.userId:", global.userId);
         })
     }  
     guestLogin() {

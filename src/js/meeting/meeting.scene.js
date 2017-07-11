@@ -235,11 +235,11 @@ export default class MeetingScene extends React.Component {
             })
         }
         else{
-            let userId = global.userInfo.userId;
+            let userId = global.userId;
             console.log("!!!!!!!userId: ", userId);
             let clickUserId = this.state.cellInfos[i][j].userId;
             console.log("!!!!!!!clickUserId: ", clickUserId);
-            if(global.userInfo.userId == this.state.cellInfos[i][j].userId){
+            if(global.userId == this.state.cellInfos[i][j].userId){
                 this.setState({
                     clickInfo: Object.assign({}, this.state.clickInfo, {time: time, cellIndex: cellIndex}),
                     //clickInfo: Object.assign({}, this.state.clickInfo, {cellIndex: cellIndex}),
@@ -281,7 +281,7 @@ export default class MeetingScene extends React.Component {
                 return (
                     <div key={timeIndex} 
                         
-                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === global.userInfo.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
+                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === global.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
                         onClick={this.handleCellClick.bind(this)} 
                         data-day={day} data-time={time} >
                         <div className="one-cell" data-day={day} data-time={time}>{cellInfo.userName}</div>

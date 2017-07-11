@@ -92,8 +92,12 @@ export class NetworkAction{
                     //     console.log(name, ": ", cookie[name]);
                     // })
                     console.log("server cookie: ", cookie, Object.keys(cookie))
-                    if(cookie && cookie.userId)
+                    if(cookie && cookie.userId && Object.keys(cookie).length != 0) {
                         global.userId = cookie.userId;
+                    } else {
+                        cookie = document.cookie;
+                        global.userId = cookie.userId;
+                    }
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
                         console.log("cookie: ", data.data.sessionId);
