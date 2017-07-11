@@ -1,5 +1,5 @@
 import config from "../config.js"
-
+import {CookieUtil} from "./cookieUtil.js"
 export class NetworkAction{
     /**
      * 
@@ -88,7 +88,7 @@ export class NetworkAction{
                 }
                 if(res) {
                     cookie = document.cookie;
-                    global.userId = cookie.userId;
+                    global.userId = CookieUtil.get("userId");
                     console.log('document.cookie: ', cookie, " global.userId: ", global.userId);
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
