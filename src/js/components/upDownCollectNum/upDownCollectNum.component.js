@@ -9,28 +9,26 @@ export default class UpDownCollectNum extends React.Component {
     }
 
     goToMyUploadPage() {
-        let isGuest = !global.userId || global.userId === 'guest';
-        if(isGuest) {
+        if(this.props.isGuest) {
             browserHistory.push('/TeachingResourceManagement/login')
         } else {
             browserHistory.push('/TeachingResourceManagement/myResources/contribution')
         }
     }
     goToMyDownloadPage() {
-        let isGuest = !global.userId || global.userId === 'guest';
-        if(isGuest) {
+        if(this.props.isGuest) {
             browserHistory.push('/TeachingResourceManagement/login')
         } else {
-            browserHistory.push('/TeachingResourceManagement/myResources/download')
+            browserHistory.push('/TeachingResourceManagement/myResources/download')            
         }
     }
     goToMyCollectionPage() {
-        let isGuest = !global.userId || global.userId === 'guest';
-        if(isGuest) {
+        if(this.props.isGuest) {
             browserHistory.push('/TeachingResourceManagement/login')
         } else {
-            browserHistory.push('/TeachingResourceManagement/myResources/collection')
+            browserHistory.push('/TeachingResourceManagement/myResources/collection')           
         }
+        
     }
     render() {
         let {uploadNum, downloadNum, collectNum} = this.props;

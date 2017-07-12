@@ -10,17 +10,12 @@ export default class UploadButton extends React.Component {
 
 
     goToUpload() {
-        let isGuest = !global.userId || global.userId === 'guest';
-        if(!isGuest) {
-            browserHistory.push("/TeachingResourceManagement/myResources/upload");
-        } else {
-            browserHistory.push("/TeachingResourceManagement/login");
-        }
+        browserHistory.push("/TeachingResourceManagement/myResources/upload");
     }
     render() {
         return (
             <div>
-            <button className="btn btn-warning col-sm-12" onClick={this.goToUpload.bind(this)}>
+            <button className="btn btn-warning col-sm-12" onClick={this.goToUpload.bind(this)} disabled={this.props.isGuest}>
                 <i className="glyphicon glyphicon-cloud-upload upload"></i>
                 <span className="upload-text"> 上传文档</span>
             </button>

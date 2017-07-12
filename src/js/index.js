@@ -27,13 +27,15 @@ import Meeting from './meeting/meeting.scene'
 
 import "./home/home.style.less"
 import $ from "jquery"
+import {CookieUtil} from "./utils/cookieUtil"
 
 import networkAction from './utils/networkAction'
+
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isGuest: !global.userId || global.userId === 'guest'
+            isGuest: props.isGuest
         }
     }
     componentDidMount() {
@@ -42,23 +44,12 @@ class App extends Component {
             $(".link").removeClass("active");
             $(this).addClass("active");
         })
-        const userInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'})
-        userInfo.then((res) => {
-            let isGuest = true;
-            if(res.code === 0) {
-                isGuest = false;
-            }
-            this.setState({
-                // isGuest: !global.userId || global.userId === 'guest'
-                isGuest: isGuest
-            })
-        })
     }
     // goToLogin() { // 以游客身份点击某些链接时，直接跳转到登陆页面
     //     if()
     // }
     render() {
-        console.log("index global.userId: ", global.userId, " isGuest: ", this.state.isGuest)
+        console.log("isGuest: ", this.state.isGuest)
         let { isGuest } = this.state;
         return (
             <div>
@@ -71,21 +62,21 @@ class App extends Component {
                             </Navbar.Brand>
                         </Navbar.Header>
                         <ul className="nav navbar-nav">
-                            <li className="active link"><Link to="/TeachingResourceManagement/">首页</Link></li>
-                            <li className="link">
-                                <Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/myResources"}>我的资源</Link>
-                            </li>
+                            <li className="active link"><Link to="/TeachingResourceManagement/home">首页</Link></li>
+                            {isGuest ? null : <li className="link"><Link to={"/TeachingResourceManagement/myResources"}>我的资源</Link></li>}
                             <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/departmentBrowse">科室浏览</Link></li>
-                            <li className="link">
-                                <Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/resourcesStatistics"}>资源统计</Link>
-                            </li>
+                            {isGuest ? null : <li className="link"><Link to={"/TeachingResourceManagement/resourcesStatistics"}>资源统计</Link></li>}
                             <li className="link"><Link to="/TeachingResourceManagement/meeting">实训室预定</Link></li>
 				        </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1}>
-                                <Link to={isGuest ? "/TeachingResourceManagement/login" : "/TeachingResourceManagement/user"}><div className="glyphicon glyphicon-user" />个人中心 </Link>/
-                                <Link to="/TeachingResourceManagement/login"> 退出</Link>
+                                {isGuest ? <Link to="/TeachingResourceManagement/login"> 登录</Link> : 
+                                    <div>
+                                        <Link to={"/TeachingResourceManagement/user"}><div className="glyphicon glyphicon-user" />个人中心 </Link>/
+                                        <Link to="/TeachingResourceManagement/login"> 退出</Link>
+                                    </div>
+                                }
                             </NavItem>
                         </Nav>
                     </Navbar>
@@ -103,13 +94,35 @@ class Root extends React.Component{
         super(props);
         console.log("root")
         this.state = {
-            loggedIn: false
+            userId: null,
+            isGuest: true
         }
+    }
+    componentDidMount() {
+        // const userInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'});
+        // userInfo.then((res) => {
+        //     if(res.code === 0) {
+        //         this.setState({
+        //             // userId: res.data.userId
+        //             userId: '000001'
+        //         })
+        //     } else if(res.code === 1){
+        //         this.setState({
+        //             userId: 'guest'
+        //         })
+        //     }
+        // })
+        let userId = CookieUtil.get("userId");
+        console.log("cookie userId: ", userId)
+        this.setState({
+            userId: userId,
+            isGuest: userId === 'guest' || !userId
+        })
     }
     requireAuth(nextState, replace) {
         console.log("hhhhhh", this.state.loggedIn )
-        if (!this.state.loggedIn && browserHistory.getCurrentLocation().pathname.search('login') === -1) {
-            console.log("what?")
+        if (this.state.isGuest) {
+            console.log("guest")
             replace({
               pathname: '/TeachingResourceManagement/login',
               state: { nextPathname: nextState.location.pathname }
@@ -117,38 +130,48 @@ class Root extends React.Component{
             // browserHistory.push('/login');
         }
     }
-
+    handleUserIdChange(userId) {
+        this.setState({
+            userId: userId,
+            isGuest: userId === 'guest' || !userId
+        })
+    }
     render() {
+        console.log("userId: ", this.state.userId)
+        let {userId, isGuest} = this.state;
         return (
         <Router history={browserHistory}>
             {/*<Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>*/}
-            <Route path="/TeachingResourceManagement" component={App} >
-                <IndexRoute component={Home} />
-                <Route path="home" component={Home} />                
-                <Route path="login" component={Login} />
-                <Route path="myResources" component={MyResources}>
-                    <IndexRoute component={MyContribution}/>
-                    <Route path="contribution" component={MyContribution} />
-                    <Route path="collection" component={MyCollection} />
-                    <Route path="download" component={MyDownload} />
-                    <Route path="upload" component={Upload} />
-                    <Route path="uploadDone" component={UploadDone} />
+            <Route path="/TeachingResourceManagement">
+                <IndexRoute component={(props) => (<Login {...props} onChange={this.handleUserIdChange.bind(this)}/>)}/>   
+                <Route path="login" component={(props) => (<Login {...props} onChange={this.handleUserIdChange.bind(this)}/>)} />
+                <Route path="" component={(props) => (<App {...props} isGuest = {isGuest} />)} >  
+                    <IndexRoute component={(props) => (<Home {...props} isGuest = {isGuest} />)} />
+                    <Route path="home" component={(props) => (<Home {...props} isGuest = {isGuest} />)} />
+                    <Route path="myResources" component={MyResources} onEnter={this.requireAuth.bind(this)}>
+                        <IndexRoute component={MyContribution}/>
+                        <Route path="contribution" component={MyContribution} />
+                        <Route path="collection" component={MyCollection} />
+                        <Route path="download" component={MyDownload} />
+                        <Route path="upload" component={Upload} />
+                        <Route path="uploadDone" component={UploadDone} />
+                    </Route>
+                    <Route path="user" component={UserScene} onEnter={this.requireAuth.bind(this)}>
+                        <IndexRoute component={ChangeInfo}/>
+                        <Route path="myAccount" component={MyAccount} />
+                        <Route path="changePassword" component={ChangePassword} />
+                        <Route path="changePasswordDone" component={ChangePasswordDone} />
+                        <Route path="changeInfo" component={ChangeInfo} />
+                        <Route path="changeInfoDone" component={ChangeInfoDone} />
+                        <Route path="adminQuery" component={AdminQuery} />
+                    </Route>
+                    <Route path="classifyBrowse" component={ClassifyBrowse}/>
+                    <Route path="departmentBrowse" component={DepartmentBrowse}/>
+                    <Route path="search/:keywords/:resIdList" component={SearchScene}/>
+                    <Route path="resourcesStatistics" component={ResourcesStatistics} onEnter={this.requireAuth.bind(this)}/>
+                    <Route path="resource/:id" component={ResourceDetail}/>
+                    <Route path="meeting" component={(props) => (<Meeting {...props} userId={userId} isGuest={isGuest}/>)} />
                 </Route>
-                <Route path="user" component={UserScene}>
-                    <IndexRoute component={ChangeInfo}/>
-                    <Route path="myAccount" component={MyAccount} />
-                    <Route path="changePassword" component={ChangePassword} />
-                    <Route path="changePasswordDone" component={ChangePasswordDone} />
-                    <Route path="changeInfo" component={ChangeInfo} />
-                    <Route path="changeInfoDone" component={ChangeInfoDone} />
-                    <Route path="adminQuery" component={AdminQuery} />
-                </Route>
-                <Route path="classifyBrowse" component={ClassifyBrowse}/>
-                <Route path="departmentBrowse" component={DepartmentBrowse}/>
-                <Route path="search/:keywords/:resIdList" component={SearchScene}/>
-                <Route path="resourcesStatistics" component={ResourcesStatistics}/>
-                <Route path="resource/:id" component={ResourceDetail}/>
-                <Route path="meeting" component={Meeting}/>
             </Route>
         </Router>
         )

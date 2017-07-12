@@ -125,13 +125,13 @@ export class Home extends Component {
                             </div>
                         </div>
                         <div className="right-mid-mid ">
-                            <UpDownCollectNum uploadNum={uploads} downloadNum={downloads} collectNum={collections}/>
+                            <UpDownCollectNum uploadNum={uploads} downloadNum={downloads} collectNum={collections} isGuest={this.props.isGuest}/>
                         </div>
                         <div className="cutoff-line ">
                         </div>
                         <div className="col-sm-12 ">
                             <br/>
-                            <UploadButton />
+                            <UploadButton isGuest={this.props.isGuest}/>
                         </div>
                     </div>
                 </div>

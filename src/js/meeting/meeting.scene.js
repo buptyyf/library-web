@@ -219,6 +219,7 @@ export default class MeetingScene extends React.Component {
     }
 
     handleCellClick(event) {  
+        if(this.props.isGuest) return;
         let day = event.target.dataset.day;
         let hours = event.target.dataset.time.substring(0,2);
         let time = [day, hours];  // day为1-7，表示周一到周日
@@ -235,11 +236,11 @@ export default class MeetingScene extends React.Component {
             })
         }
         else{
-            let userId = global.userId;
+            let userId = this.props.userId;
             console.log("!!!!!!!userId: ", userId);
             let clickUserId = this.state.cellInfos[i][j].userId;
             console.log("!!!!!!!clickUserId: ", clickUserId);
-            if(global.userId == this.state.cellInfos[i][j].userId){
+            if(userId == this.state.cellInfos[i][j].userId){
                 this.setState({
                     clickInfo: Object.assign({}, this.state.clickInfo, {time: time, cellIndex: cellIndex}),
                     //clickInfo: Object.assign({}, this.state.clickInfo, {cellIndex: cellIndex}),
@@ -281,7 +282,7 @@ export default class MeetingScene extends React.Component {
                 return (
                     <div key={timeIndex} 
                         
-                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === global.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
+                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === this.props.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
                         onClick={this.handleCellClick.bind(this)} 
                         data-day={day} data-time={time} >
                         <div className="one-cell" data-day={day} data-time={time}>{cellInfo.userName}</div>

@@ -31,46 +31,32 @@ export default class Login extends Component {
         const result = networkAction.promiseNetwork({"url": `TeachingResourceManagement/user/login`, "method": 'POST'},{"userNum": userNum, "password": password})
         result.then((res) => {
             console.log("login-result:", res);
-            //console.log("login-result:", res.data.sessionId);
-            // global.sessionId = res.data.sessionId;
-            // this.userId = res.data.userId;
-            // console.log("this.userId:", this.userId);
             if(res.code == 0){
                 this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
-                global.userId = this.userId;
+                this.props.onChange(this.userId);
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
             }else{
                 this.setState({loginState: 2});
             }
-            console.log("global.userId:", global.userId);
         })
     }  
     guestLogin() {
         const result = networkAction.promiseNetwork({"url": `TeachingResourceManagement/user/guestLogin`, "method": 'POST'})
         result.then((res) => {
             console.log("guest-login-result:", res);
-            //console.log("login-result:", res.data.sessionId);
-            // global.sessionId = res.data.sessionId;
-            // this.userId = res.data.userId;
-            // console.log("this.userId:", this.userId);
             if(res.code == 0){
                 // this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
-                global.userId = "guest";
+                this.props.onChange('guest');
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
             }else{
                 this.setState({loginState: 2});
             }
-            //this.globalUserInfo()
-            // global.userInfo = {
-            //    userId: this.userId,
-            // }
-            console.log("userId:", global.userId);
         })
     }
     renderWrong(){
