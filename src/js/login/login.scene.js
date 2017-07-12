@@ -38,13 +38,13 @@ export default class Login extends Component {
             if(res.code == 0){
                 this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
+                global.userId = this.userId;
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
             }else{
                 this.setState({loginState: 2});
             }
-            global.userId = this.userId,
             console.log("global.userId:", global.userId);
         })
     }  
@@ -59,6 +59,7 @@ export default class Login extends Component {
             if(res.code == 0){
                 // this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
+                global.userId = "guest";
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});

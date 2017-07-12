@@ -53,7 +53,7 @@ class App extends Component {
     //     if()
     // }
     render() {
-        console.log("index global.userId: ", global.userId)
+        console.log("index global.userId: ", global.userId, " isGuest: ", this.state.isGuest)
         let { isGuest } = this.state;
         return (
             <div>
