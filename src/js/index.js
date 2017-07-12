@@ -42,10 +42,15 @@ class App extends Component {
             $(".link").removeClass("active");
             $(this).addClass("active");
         })
-        const rankInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageRankingInfo`, method: 'POST'})
-        rankInfo.then((res) => {
+        const userInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'})
+        userInfo.then((res) => {
+            let isGuest = true;
+            if(res.code === 0) {
+                isGuest = false;
+            }
             this.setState({
-                isGuest: !global.userId || global.userId === 'guest'
+                // isGuest: !global.userId || global.userId === 'guest'
+                isGuest: isGuest
             })
         })
     }
