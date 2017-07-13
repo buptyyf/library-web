@@ -113,7 +113,7 @@ export default class MyResources extends React.Component {
                         <div className="col-sm-5">
                           <div className="my-upload">
                             <div className="my-upload-top">
-                                <p className="my-upload-title">我的上传</p>
+                                <p className="my-upload-title">我的动态</p>
                             </div>
                             <br/>
                             <UpDownCollectNum uploadNum={uploads} downloadNum={downloads} collectNum={collections}/>

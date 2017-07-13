@@ -24,8 +24,8 @@ import ResourcesStatistics from './resourcesStatistics/resourcesStatistics.scene
 import ResourceDetail from './resourceDetail/resourceDetail.scene'
 import Login from "./login/login.scene"
 import Meeting from './meeting/meeting.scene'
-
 import "./home/home.style.less"
+import './index.style.less'
 import $ from "jquery"
 import {CookieUtil} from "./utils/cookieUtil"
 
@@ -48,16 +48,16 @@ class App extends Component {
         console.log("sessionStorage userId: ", userId)
         let isGuest = userId === 'guest' || !userId;
         return (
-            <div>
+            <div >
                 <Search />
-                <div className="col-sm-12 navbar-container">
-                    <Navbar>
+                <div className="col-sm-12 navbar-container ">
+                    <Navbar className="mynav-background-color">
                         <Navbar.Header>
-                            <Navbar.Brand>
-                                <a href="#">智能实训教学系统</a>
+                            <Navbar.Brand >
+                                <a href="#" className="brand-style">智能实训教学系统</a>
                             </Navbar.Brand>
                         </Navbar.Header>
-                        <ul className="nav navbar-nav">
+                        <ul className="nav navbar-nav nav-font-color">
                             <li className="active link"><Link to="/TeachingResourceManagement/home">首页</Link></li>
                             {isGuest ? null : <li className="link"><Link to={"/TeachingResourceManagement/myResources"}>我的资源</Link></li>}
                             <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
@@ -66,7 +66,7 @@ class App extends Component {
                             <li className="link"><Link to="/TeachingResourceManagement/meeting">实训室预定</Link></li>
 				        </ul>
                         <Nav pullRight>
-                            <NavItem eventKey={1}>
+                            <NavItem eventKey={1} className="nav-right-style">
                                 {isGuest ? <Link to="/TeachingResourceManagement/login"> 登录</Link> : 
                                     <div>
                                         <Link to={"/TeachingResourceManagement/user"}><div className="glyphicon glyphicon-user" />个人中心 </Link>/

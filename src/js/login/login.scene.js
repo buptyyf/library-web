@@ -83,8 +83,8 @@ export default class Login extends Component {
     render(){
         return(
             <div id="login-page">
-                 <div className="col-sm-12">
-                    <div  className=" login-left col-sm-4 col-sm-offset-3" >
+                 <div className=" login-all ">
+                    <div  className=" login-left " >
                         <form className="form-sign" onSubmit={this.handleLogin.bind(this)}>
                             <div className="head">
                                 <h3 className="form-sign-heading">欢迎登录智能实训管理平台！</h3>
@@ -108,7 +108,7 @@ export default class Login extends Component {
                         </form>
                         <div className="login-remind">{this.renderWrong()}</div> 
                     </div>
-                    <div className=" login-right col-sm-2 ">
+                    <div className=" login-right  ">
                         <h4>扫描二维码登录</h4>
                         <img src="/assets/img/login.jpg" />
                     </div>
