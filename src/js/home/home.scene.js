@@ -52,6 +52,7 @@ export class Home extends Component {
 
     render() {
         let {uploads, collections, downloads, userName} = this.state.userInfo;
+        let isGuest = !sessionStorage.getItem('userId') || sessionStorage.getItem('userId') === 'guest';
         return (
         <div>
             <div className="col-sm-12">
@@ -125,13 +126,13 @@ export class Home extends Component {
                             </div>
                         </div>
                         <div className="right-mid-mid ">
-                            <UpDownCollectNum uploadNum={uploads} downloadNum={downloads} collectNum={collections} isGuest={this.props.isGuest}/>
+                            <UpDownCollectNum uploadNum={uploads} downloadNum={downloads} collectNum={collections} isGuest={isGuest}/>
                         </div>
                         <div className="cutoff-line ">
                         </div>
                         <div className="col-sm-12 ">
                             <br/>
-                            <UploadButton isGuest={this.props.isGuest}/>
+                            <UploadButton isGuest={isGuest}/>
                         </div>
                     </div>
                 </div>

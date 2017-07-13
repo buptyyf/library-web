@@ -87,9 +87,9 @@ export class NetworkAction{
                     throw new Error(res.status + '');
                 }
                 if(res) {
-                    cookie = document.cookie;
-                    global.userId = CookieUtil.get("userId");
-                    console.log('document.cookie: ', cookie, " global.userId: ", global.userId);
+                    // cookie = document.cookie;
+                    // global.userId = CookieUtil.get("userId");
+                    // console.log('document.cookie: ', cookie, " global.userId: ", global.userId);
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
                         console.log("cookie: ", data.data.sessionId);

@@ -34,9 +34,6 @@ import networkAction from './utils/networkAction'
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isGuest: props.isGuest
-        }
     }
     componentDidMount() {
         //let nodes = document.getElementsByClassName("link");
@@ -45,12 +42,11 @@ class App extends Component {
             $(this).addClass("active");
         })
     }
-    // goToLogin() { // 以游客身份点击某些链接时，直接跳转到登陆页面
-    //     if()
-    // }
     render() {
-        console.log("isGuest: ", this.state.isGuest)
-        let { isGuest } = this.state;
+        // console.log("isGuest: ", this.props.isGuest)
+        let userId = sessionStorage.getItem('userId');
+        console.log("sessionStorage userId: ", userId)
+        let isGuest = userId === 'guest' || !userId;
         return (
             <div>
                 <Search />
@@ -93,34 +89,15 @@ class Root extends React.Component{
     constructor(props) {
         super(props);
         console.log("root")
-        this.state = {
-            userId: null,
-            isGuest: true
-        }
+        this.state = { isGuest: true };
     }
-    componentDidMount() {
-        // const userInfo = networkAction.promiseNetwork({url: `TeachingResourceManagement/homepage/homepageUserInfo`, method: 'POST'});
-        // userInfo.then((res) => {
-        //     if(res.code === 0) {
-        //         this.setState({
-        //             // userId: res.data.userId
-        //             userId: '000001'
-        //         })
-        //     } else if(res.code === 1){
-        //         this.setState({
-        //             userId: 'guest'
-        //         })
-        //     }
-        // })
-        let userId = CookieUtil.get("userId");
-        console.log("cookie userId: ", userId)
-        this.setState({
-            userId: userId,
-            isGuest: userId === 'guest' || !userId
-        })
+    componentWillMount() {
+        let userId = sessionStorage.getItem('userId');
+        console.log("|root session userId: ", sessionStorage.getItem('userId'))
+        this.setState({isGuest: userId === 'guest' || !userId});
     }
     requireAuth(nextState, replace) {
-        console.log("hhhhhh", this.state.loggedIn )
+        console.log("hhhhhh", this.state.isGuest )
         if (this.state.isGuest) {
             console.log("guest")
             replace({
@@ -131,23 +108,21 @@ class Root extends React.Component{
         }
     }
     handleUserIdChange(userId) {
+        console.log("login userId: ", !userId, userId === 'guest' || !userId);
         this.setState({
-            userId: userId,
             isGuest: userId === 'guest' || !userId
         })
     }
     render() {
-        console.log("userId: ", this.state.userId)
-        let {userId, isGuest} = this.state;
         return (
         <Router history={browserHistory}>
             {/*<Route path="/" component={App} onEnter={this.requireAuth.bind(this)}>*/}
             <Route path="/TeachingResourceManagement">
-                <IndexRoute component={(props) => (<Login {...props} onChange={this.handleUserIdChange.bind(this)}/>)}/>   
-                <Route path="login" component={(props) => (<Login {...props} onChange={this.handleUserIdChange.bind(this)}/>)} />
-                <Route path="" component={(props) => (<App {...props} isGuest = {isGuest} />)} >  
-                    <IndexRoute component={(props) => (<Home {...props} isGuest = {isGuest} />)} />
-                    <Route path="home" component={(props) => (<Home {...props} isGuest = {isGuest} />)} />
+                <IndexRoute component={() => <Login userStateOnChange={this.handleUserIdChange.bind(this)}/>}/>   
+                <Route path="login" component={() => <Login userStateOnChange={this.handleUserIdChange.bind(this)}/>} />
+                <Route path="" component={App} >  
+                    <IndexRoute component={Home} />
+                    <Route path="home" component={Home} />
                     <Route path="myResources" component={MyResources} onEnter={this.requireAuth.bind(this)}>
                         <IndexRoute component={MyContribution}/>
                         <Route path="contribution" component={MyContribution} />
@@ -170,7 +145,7 @@ class Root extends React.Component{
                     <Route path="search/:keywords/:resIdList" component={SearchScene}/>
                     <Route path="resourcesStatistics" component={ResourcesStatistics} onEnter={this.requireAuth.bind(this)}/>
                     <Route path="resource/:id" component={ResourceDetail}/>
-                    <Route path="meeting" component={(props) => (<Meeting {...props} userId={userId} isGuest={isGuest}/>)} />
+                    <Route path="meeting" component={Meeting} />
                 </Route>
             </Route>
         </Router>

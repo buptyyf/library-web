@@ -20,6 +20,7 @@ export default class Login extends Component {
         const result = networkAction.promiseNetwork({"url": `TeachingResourceManagement/user/logout`, "method": 'POST'})
         result.then((res) => {
             console.log("logout-result:", res);
+            sessionStorage.clear();
         })
     }
     handleLogin(event) {
@@ -34,7 +35,8 @@ export default class Login extends Component {
             if(res.code == 0){
                 this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
-                this.props.onChange(this.userId);
+                this.props.userStateOnChange(this.userId);
+                sessionStorage.setItem('userId', this.userId);
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
@@ -50,7 +52,8 @@ export default class Login extends Component {
             if(res.code == 0){
                 // this.userId = res.data.userId;
                 console.log("this.userId:", this.userId);
-                this.props.onChange('guest');
+                this.props.userStateOnChange('guest');
+                sessionStorage.setItem('userId', 'guest');
                 browserHistory.push('/TeachingResourceManagement/home');
             }else if(res.code == 1){
                 this.setState({loginState: 1});
@@ -100,7 +103,7 @@ export default class Login extends Component {
                             </div>
                             <div className="summit">
                                 <input className="btn btn-md btn-primary btn-block" type="submit" value="登录"/>
-                                <input className="btn btn-md btn-primary btn-block" type="button" onClick={this.guestLogin.bind(this)} value="访客登录"/>
+                                <input className="btn btn-md btn-primary btn-block" type="button" onClick={this.guestLogin.bind(this)} value="游客访问"/>
                             </div>
                         </form>
                         <div className="login-remind">{this.renderWrong()}</div> 
