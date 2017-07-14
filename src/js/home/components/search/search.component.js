@@ -20,20 +20,6 @@ export default class Search extends Component {
         };
     }
 
-    // <Form horizontal>
-    //     <FormGroup controlId="formHorizontalEmail">
-    //       <Col componentclassName={ControlLabel} sm={2}>
-    //         search
-    //       </Col>
-    //       <Col sm={10}>
-    //         <FormControl type="email" placeholder="Email" />
-    //       </Col>
-    //     </FormGroup>
-    // </Form>
-    // constructor(props) {
-    //     super(props);
-    //     this.handleClick = this.handleClick.bind(this);
-    // }
     componentWillMount(){
         const result = networkAction.promiseNetwork({url: `TeachingResourceManagement/teachingResource/classfiedBrowsingAll`, method: 'POST'})
         result.then((res) => {
@@ -55,15 +41,9 @@ export default class Search extends Component {
         })
     }
     changeChecked(position, event) {
-        //let checked = this.state.value;
-        //let selectedResId = this.state.selectedResId;
         let checked = this.state.checked;
         let changedChecked = event.target.checked; 
         
-        //console.log("checked:",checked);
-        //console.log("checked index: ", event.target, position);
-        //console.log("changedChecked:",changedChecked);
-        // event.target.value
         checked[position] = changedChecked;
         
         console.log("checked:",checked);
@@ -101,6 +81,11 @@ export default class Search extends Component {
         })
         console.log("keywords:", keywords);
         console.log("selectedResId:", selectedResId);
+        if(selectedResId.length === 0) {
+            this.firstResType.forEach((item, index) => {
+                selectedResId.push(this.firstResType[index].id);
+            })
+        }
         if(keywords !== "") {
             browserHistory.push(`/TeachingResourceManagement/search/${keywords}/${selectedResId}`)
         }

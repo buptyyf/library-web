@@ -2,6 +2,8 @@ import AdminQueryTable from './components/adminQueryTable.component'
 import CatalogueTree from '../../../components/catalogueTree/catalogueTree.component'
 import {browserHistory} from 'react-router'
 import networkAction from "../../../utils/networkAction"
+import SelectTree from "../../../components/selectTree/selectTree.component"
+import {Input} from "antd"
 
 import "./adminQuery.style.less"
 import React, {Component} from "react"
@@ -79,15 +81,13 @@ export default class AdminQuery extends React.Component {
         let {departmentData, name, tableData, pageInfo, totalUserNum, selectedDepartment} = this.state;
         return (
         <div>
-            <div className="col-sm-2">
+            {/*<div className="col-sm-2">
                 <CatalogueTree data={departmentData} onChange={this.handleTreeChange.bind(this)}/>
-            </div>
-            <div className="col-sm-10 right-area">
+            </div>*/}
+            <div className="col-sm-12 right-area">
                 <div className="form-inline">
-                    <input type="text" className="col-sm-6 form-control" 
-                        value={name} 
-                        onChange={this.handleNameChange.bind(this)}
-                        placeholder="输入教工姓名（可选）"/>
+                    <Input className="col-sm-4" value={name} placeholder="输入教工姓名（可选）" onChange={this.handleNameChange.bind(this)}/>
+                    <SelectTree data={departmentData} onChange={this.handleTreeChange.bind(this)} />
                     <div className="text-right">
                         共搜索出 {totalUserNum} 位教工
                     </div>

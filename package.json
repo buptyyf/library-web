@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/buptyyf/library-web#readme",
   "dependencies": {
+    "antd": "^2.12.0",
     "echarts-for-react": "^1.1.6",
     "jquery": "^3.1.1",
     "react": "^15.4.2",

@@ -22,7 +22,6 @@ export default class SearchScene extends React.Component {
     }
     componentWillMount() {
         console.log("resIdList: ",this.props.params.resIdList)
-        
         this.setState({
             keywords: this.props.params.keywords,
             resIdList: this.props.params.resIdList.split(","),
