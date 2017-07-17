@@ -63,8 +63,9 @@ class App extends Component {
                             <li className="link"><Link to="/TeachingResourceManagement/classifyBrowse">分类浏览</Link></li>
                             <li className="link"><Link to="/TeachingResourceManagement/departmentBrowse">科室浏览</Link></li>
                             {isGuest ? null : <li className="link"><Link to={"/TeachingResourceManagement/resourcesStatistics"}>资源统计</Link></li>}
+
                             <li className="link"><Link to="/TeachingResourceManagement/meeting">实训室预定</Link></li>
-				        </ul>
+				                </ul>
                         <Nav pullRight>
                             <NavItem eventKey={1} className="nav-right-style">
                                 {isGuest ? <Link to="/TeachingResourceManagement/login"> 登录</Link> : 
