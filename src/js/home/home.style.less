@@ -24,7 +24,7 @@
 .top-name{
     height: 48px;
     border-bottom:1px solid lightgray;
-    background: #3CB371;
+    background: #579ab5;
     color: white;
     font-size: 1.3vw;
     text-align: center;
@@ -84,6 +84,14 @@
     border: 1px solid #D0D0D0;
     border-radius: 5px;
 }
+.rank-list-text {
+    white-space:nowrap; 
+    display: inline-block;
+    width: 190px;
+    min-width: 80px;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
 .download-rank{
     //height: 150px;
     margin-bottom: 20px;
@@ -99,12 +107,17 @@
     float:right;
     color: gray;
 }
+.rank-list {
+    // min-width: 250px;
+    // text-overflow: ellipsis;
+    -webkit-line-break: 1;
+    overflow: hidden;
+    max-height: 20px;
+}
 .rank-list:hover{
     background: #d9d9d9;
 }
-.upload-button-type{
-    margin-top:30px;
-}
+
 .home-footer{
     margin-top: 20px;
     border-top: 2px solid #e0e0e0;

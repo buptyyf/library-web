@@ -5,10 +5,14 @@ import $ from 'jquery'
 import {Modal, Button} from "react-bootstrap"
 import networkAction from '../utils/networkAction'
 import {weekToDate, dateToWeek,weekToDay} from '../utils/utilFunctions'
+import {CookieUtil} from '../utils/cookieUtil'
 
 export default class MeetingScene extends React.Component {
     constructor(props) {
         super(props);
+        // console.log("Meeting userId: ", props.userId);
+        this.userId = sessionStorage.getItem('userId');
+        this.isGuest = this.userId === 'guest' || !this.userId
         this.state = {
             showReserveModal: false,
             showCancelModal: false,
@@ -219,6 +223,7 @@ export default class MeetingScene extends React.Component {
     }
 
     handleCellClick(event) {  
+        if(this.isGuest) return;
         let day = event.target.dataset.day;
         let hours = event.target.dataset.time.substring(0,2);
         let time = [day, hours];  // day为1-7，表示周一到周日
@@ -235,11 +240,11 @@ export default class MeetingScene extends React.Component {
             })
         }
         else{
-            let userId = global.userInfo.userId;
-            console.log("!!!!!!!userId: ", userId);
+            // let userId = this.props.userId;
+            console.log("!!!!!!!userId: ", this.userId);
             let clickUserId = this.state.cellInfos[i][j].userId;
             console.log("!!!!!!!clickUserId: ", clickUserId);
-            if(global.userInfo.userId == this.state.cellInfos[i][j].userId){
+            if(this.userId == this.state.cellInfos[i][j].userId){
                 this.setState({
                     clickInfo: Object.assign({}, this.state.clickInfo, {time: time, cellIndex: cellIndex}),
                     //clickInfo: Object.assign({}, this.state.clickInfo, {cellIndex: cellIndex}),
@@ -281,7 +286,7 @@ export default class MeetingScene extends React.Component {
                 return (
                     <div key={timeIndex} 
                         
-                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === global.userInfo.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
+                        className={this.state.cellInfos[dayIndex][timeIndex].userId === "" ? "cell_body" : this.state.cellInfos[dayIndex][timeIndex].userId === this.userId ? "cell_body reserve-myself" : "cell_body others-reserve"}
                         onClick={this.handleCellClick.bind(this)} 
                         data-day={day} data-time={time} >
                         <div className="one-cell" data-day={day} data-time={time}>{cellInfo.userName}</div>

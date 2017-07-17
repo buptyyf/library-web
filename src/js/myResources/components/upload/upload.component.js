@@ -10,6 +10,8 @@ export default class Upload extends React.Component {
         super(props);
     //this.handleClick = this.handleClick.bind(this);
         this.state = {
+            showUploadWrongModal: false,
+            uploadWrongInfo: "",
             subjects: [],
             objects: [],
             authorities: [],
@@ -58,6 +60,24 @@ export default class Upload extends React.Component {
     checkInput() {
 
     }
+    showUploadWrongModal(){
+        console.log("showUploadWrongModal!!");
+        return (
+            <Modal show={this.state.showUploadWrongModal} onHide={this.closeUploadWrongModal.bind(this)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.state.uploadWrongInfo}</Modal.Title>
+                </Modal.Header> 
+            </Modal>
+        )
+    }
+    closeUploadWrongModal(){
+        console.log("!!!!!!!*******!!!!!!");
+        this.setState({
+            showUploadWrongModal: false,
+            uploadWrongInfo: ""
+        })
+        window.location.reload();
+    }
 
     handleSubmit(event) {
         let file = this.fileInput.files[0];
@@ -87,12 +107,32 @@ export default class Upload extends React.Component {
                 uploadState: 1,
             })
             result.then((res) => {
-                console.log("upload res: ", res)
+                console.log("upload res: ", res);
                 if(res.code == 0) {
                     this.setState({
                         uploadState: 0,
                     })
                     browserHistory.push("/TeachingResourceManagement/myResources/uploadDone")
+                }else if(res.code == 3){
+                    this.setState({
+                        uploadWrongInfo: "文件类型不支持！",
+                        showUploadWrongModal: true,  
+                    })
+                }else if(res.code == 4){
+                    this.setState({
+                        uploadWrongInfo: "文件过大！",
+                        showUploadWrongModal: true,
+                    })
+                }else if(res.code == 6){
+                    this.setState({
+                        uploadWrongInfo: "上传过程中出现错误，请重新尝试！",
+                        showUploadWrongModal: true,    
+                    })
+                }else if(res.code == 7){
+                    this.setState({
+                        uploadWrongInfo: "文件名称过长！",
+                        showUploadWrongModal: true, 
+                    })
                 }
             }).catch(() => {
                 alert("上传失败")
@@ -139,7 +179,7 @@ export default class Upload extends React.Component {
                     </div>
                     
                     <div className="">
-                        学科：
+                        设备类别：
                         <select id="subject" className="form-control" required>
                             {this.state.subjects.map((subject) => {
                                 return (
@@ -175,7 +215,7 @@ export default class Upload extends React.Component {
                     </div>
                     <input type="submit" value="确认上传" className="btn btn-default upload-button" disabled = {this.state.uploadState} /> 
                     {this.renderWait()}
-                        
+                    {this.showUploadWrongModal()}    
                 </div>
             </form>
         );

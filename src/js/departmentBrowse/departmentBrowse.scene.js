@@ -38,7 +38,7 @@ export default class DepartmentBrowse extends React.Component {
             url: `TeachingResourceManagement/teachingResource/department`,
             method: 'POST'
         }, {
-            departmentId: Number(selectedDepartment),
+            departmentId: selectedDepartment,
             sort: sort,
             page: Number(page) > 0 ? Number(page) : 1
         })

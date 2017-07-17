@@ -7,7 +7,7 @@ export default class CatalogueTree extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tree: []
+            tree: {}
         };
         // this.originArr = [
         //     {depName: "工学", depId: "02"},
@@ -26,7 +26,7 @@ export default class CatalogueTree extends React.Component {
         let formatData = this.formatData(this.props.data);
         this.setState({
             tree: formatData
-        })
+        }, this.props.onChange("0"))
     }
     componentWillReceiveProps(nextProps) {
         console.log("CatalogueTree DATA: ", nextProps.data)
@@ -37,37 +37,49 @@ export default class CatalogueTree extends React.Component {
     }
     /**
      * 把从服务端返回的一维数组改造成目录树所需要的结构，如下所示
-     * [{
-     *      name: '',
-     *      id: '',
-     *      children: [],
-     *  },{
-     *      name: '',
-     *      id: '',
+     * {
+     *      name: '全部单位',
+     *      id: '0',
      *      children: [
      *          {
      *              name: '',
      *              id: '',
-     *              children: '',
-     *          }
+     *              children: [],
+     *          },
+     *          {
+     *              name: '',
+     *              id: '',
+     *              children: [
+     *                  {
+     *                      name: '',
+     *                      id: '',
+     *                      children: [],
+     *                  },
+     *                  ...
+     *              ],
+     *          },
+     *          ...
      *      ],
-     *  }...
-     * ]
+     *  }
      * @param {*} dataArr 
      */
     formatData(dataArr) {
         // console.log("dataArr:", dataArr)
-        let destArr = [];
+        let destObj = {
+            name: '全部单位',
+            id: '0',
+            children: [],
+        };
         dataArr.forEach((cellInfo, index) => {
             if(cellInfo.depId.length === 2)  {
-                destArr.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
+                destObj.children.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
             } else if(cellInfo.depId.length === 4) {
-                destArr[destArr.length-1].children.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
+                destObj.children[destObj.children.length-1].children.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
             } else if(cellInfo.depId.length === 6) {
-                destArr[destArr.length-1].children[destArr[destArr.length-1].children.length-1].children.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
+                destObj.children[destObj.children.length-1].children[destObj.children[destObj.children.length-1].children.length-1].children.push({name: cellInfo.depName, id: cellInfo.depId, children: []})
             }
         })
-        return destArr;
+        return destObj;
     }
     componentDidUpdate(prevProps) {
         // console.log("componentDidUpdate1!!!!!!!!!!!!!!!!!!!!");
@@ -127,11 +139,7 @@ export default class CatalogueTree extends React.Component {
         return (
             <div className="tree">
                 <ul style={{padding: 0}}>
-                    {
-                        this.state.tree.map((cell, index) => {
-                            return this.renderTree(cell, index)
-                        })
-                    }
+                    {this.renderTree(this.state.tree)}
                 </ul>
             </div>
         );

@@ -1,5 +1,5 @@
 import config from "../config.js"
-
+import {CookieUtil} from "./cookieUtil.js"
 export class NetworkAction{
     /**
      * 
@@ -31,7 +31,7 @@ export class NetworkAction{
                 let cookie = "";
                 if(NetworkAction.sessionId) {
                     cookie = encodeURIComponent("sessionId") + "=" + encodeURIComponent(NetworkAction.sessionId) + ";" + encodeURIComponent("UserInfo") + "=";
-                    console.log("cookie: ", cookie);
+                    // console.log("cookie: ", cookie);
                 }
                 let headers = {
                     //'Content-Type': contentType,
@@ -39,7 +39,7 @@ export class NetworkAction{
                     "Access-Control-Allow-Credentials": "true",
                     'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
                     'Access-Control-Allow-Headers': 'access-control-allow-origin, Origin,Accept, X-Requested-With, Content-Type, access-control-allow-methods, Access-Control-Request-Headers, access-control-allow-credentials',
-                    "Cookie": cookie
+                    // "Cookie": cookie
                 };
                 if(baseData.contentType) {
                     switch (baseData.contentType) {
@@ -87,11 +87,9 @@ export class NetworkAction{
                     throw new Error(res.status + '');
                 }
                 if(res) {
-                    let cookie = await res.headers;
-                    // cookie.forEach((name) => {
-                    //     console.log(name, ": ", cookie[name]);
-                    // })
-                    console.log(typeof(cookie), Object.keys(cookie))
+                    // cookie = document.cookie;
+                    // global.userId = CookieUtil.get("userId");
+                    // console.log('document.cookie: ', cookie, " global.userId: ", global.userId);
                     let data = await res.json();
                     if(data.data && data.data.sessionId) {
                         console.log("cookie: ", data.data.sessionId);

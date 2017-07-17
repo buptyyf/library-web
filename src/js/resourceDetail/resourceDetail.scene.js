@@ -86,19 +86,26 @@ export default class ResourceDetail extends React.Component {
         } else if(this.state.fileFormat == "mp4"){
             console.log("file path: ", this.state.file);
             return(
-                <video src={this.state.file}  controls="controls">
+                <video width="500" height="400" src={this.state.file}  controls="controls">
                 </video>
             )
         } else if( (this.state.fileFormat == "swf") || (this.state.fileFormat == "flv") ) {
             console.log("file path: ", this.state.file);
             return (
-                <embed src={this.state.file} allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+                <embed src={this.state.file} allowFullScreen="true" quality="high" width="500" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
             )
-        } else{
-            // return(
-            //     <video src={this.state.file}  controls="controls">
-            //     </video>
-            // )
+        } else if(this.state.fileFormat == "mp3"){
+            return(
+                <audio src={this.state.file} controls="controls"></audio>
+            )
+        } else if(this.state.fileFormat == "picture") {
+            return(
+                <img src={this.state.file} width={500}/>
+            )
+        } else {
+            return(
+                <p>暂时不支持该文件无法预览</p>
+            )
         }
 
     }
@@ -283,6 +290,9 @@ export default class ResourceDetail extends React.Component {
             })
         }
     }
+    isCollect(){
+
+    }
 
     render() {
         let {title, file, resId, pageIndex, pageNumber, total, date, score, viewNum, downloads, contributor, commentContent, whetherCollect } = this.state;
@@ -290,11 +300,14 @@ export default class ResourceDetail extends React.Component {
         return (
         <div className="container">
             <div className="col-sm-9">
-                <h2>{title}</h2>
-                <div className="resInfo-download-collect">
-                    <div className="res-info">
-                        <i className="glyphicon glyphicon-user" />
-                        {contributor} &nbsp;&nbsp;上传于: {date}&nbsp;&nbsp; 评分: {score}分&nbsp;&nbsp; {viewNum}人浏览&nbsp;&nbsp; {downloads}人下载
+
+                <div className="res-detail-top">
+                    <div className="res-detail-top-left">
+                        <h2>{title}</h2>
+                        <div className="res-info">
+                            <i className="glyphicon glyphicon-user" />
+                            {contributor} &nbsp;&nbsp;上传于: {date}&nbsp;&nbsp; 评分: {score}分&nbsp;&nbsp; {viewNum}人浏览&nbsp;&nbsp; {downloads}人下载
+                        </div>
                     </div>
                     <div className="download-collect">
                         <div className="download">
@@ -303,15 +316,18 @@ export default class ResourceDetail extends React.Component {
                                 {/*<input type="submit"  className="glyphicon glyphicon-download-alt" />*/}
                                 <button type="submit" className="download-collect-button"><i className="glyphicon glyphicon-download-alt download-style" /></button>
                             </form>
+                            <p>下载</p>
                         </div>
                         <div className="collect">
                             <button className="download-collect-button" onClick={this.goToCollect.bind(this)}>
                                 {whetherCollect ? <i className="glyphicon glyphicon-heart collect-style" />:<i className="glyphicon glyphicon-heart-empty not-collect-style" />}
                             </button>
+                            <p>&nbsp;&nbsp;收藏</p>
                         </div> 
                     </div>
                 </div>
-                <div className="well">
+               
+                <div className="res-detail-well">
                     <div className="pdf-container">
                         {this.filePreview()}
                     </div>
